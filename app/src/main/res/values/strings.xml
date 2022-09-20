@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AstroCoin</string>
+    <string name="recover">Recover</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+</resources>
