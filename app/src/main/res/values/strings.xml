@@ -27,4 +27,6 @@
     <string name="_0_asc">0 ASC</string>
     <string name="transfers">Transfers</string>
     <string name="orders">Orders</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
