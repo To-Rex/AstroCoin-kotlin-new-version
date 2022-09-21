@@ -1,12 +1,20 @@
 package app.app.astrocoin
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.LoginRequest
+import app.app.astrocoin.models.TokenRequest
+import com.google.gson.Gson
 
-class Password : AppCompatActivity() {
+open class Password : AppCompatActivity() {
 
     private var txtgetname: TextView? = null
     private var txtpassword: TextView? = null
@@ -28,7 +36,9 @@ class Password : AppCompatActivity() {
 
     private var imgfinger: ImageView? = null
     private var imgback: ImageView? = null
+    var sharedPreferences: SharedPreferences? = null
 
+    var username = ""
     var index = 0
     var password = ""
     var newpassword = ""
@@ -59,7 +69,11 @@ class Password : AppCompatActivity() {
 
         imgfinger = findViewById(R.id.imglog_finger)
         imgback = findViewById(R.id.imglog_back)
-        
+
+
+        sharedPreferences = getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+
+        getUserData()
         txtpas1?.setOnClickListener {
             index++
             checkindex()
@@ -123,8 +137,6 @@ class Password : AppCompatActivity() {
             4 -> {
                 viewfour?.setBackgroundResource(R.drawable.pascheck)
 
-
-
             }
         }
     }
@@ -150,5 +162,15 @@ class Password : AppCompatActivity() {
                 viewfour?.setBackgroundResource(R.drawable.passsign)
             }
         }
+    }
+    @SuppressLint("SetTextI18n")
+    private fun getUserData(){
+        val gson = Gson()
+        val json = sharedPreferences?.getString("user", "")
+        println(json)
+        val user = gson.fromJson(json, Getdata::class.java)
+        username = user.name
+        Toast.makeText(this, username, Toast.LENGTH_SHORT).show()
+        txtgetname?.text = "Hello, $username"
     }
 }
