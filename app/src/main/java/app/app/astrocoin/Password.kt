@@ -2,9 +2,12 @@ package app.app.astrocoin
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Vibrator
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -40,6 +43,7 @@ open class Password : AppCompatActivity() {
 
     var username = ""
     var index = 0
+    var pasindex = false
     var password = ""
     var writepass = ""
     var newpassword = ""
@@ -82,52 +86,62 @@ open class Password : AppCompatActivity() {
 
         getUserData()
         txtpas1?.setOnClickListener {
+            index++
             writepass += "1"
             checkindex()
         }
         txtpas2?.setOnClickListener {
+            index++
             writepass += "2"
             checkindex()
         }
         txtpas3?.setOnClickListener {
+            index++
             writepass += "3"
             checkindex()
         }
         txtpas4?.setOnClickListener {
+            index++
             writepass += "4"
             checkindex()
         }
         txtpas5?.setOnClickListener {
+            index++
             writepass += "5"
             checkindex()
         }
         txtpas6?.setOnClickListener {
+            index++
             writepass += "6"
             checkindex()
         }
         txtpas7?.setOnClickListener {
+            index++
             writepass += "7"
             checkindex()
         }
         txtpas8?.setOnClickListener {
+            index++
             writepass += "8"
             checkindex()
         }
         txtpas9?.setOnClickListener {
+            index++
             writepass += "9"
             checkindex()
         }
         txtpas0?.setOnClickListener {
+            index++
             writepass += "0"
             checkindex()
         }
         imgback?.setOnClickListener {
+            index--
             checkindexback()
         }
     }
 
     private fun checkindex() {
-        index++
         if(index > 4){
             index = 4
         }
@@ -143,14 +157,48 @@ open class Password : AppCompatActivity() {
             }
             4 -> {
                 viewfour?.setBackgroundResource(R.drawable.pascheck)
-                Toast.makeText(this, writepass, Toast.LENGTH_SHORT).show()
-                if (password == "") {
+                if (password=="" && pasindex){
+                    if(newpassword == writepass){
+                        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.vibrate(100)
+                        writepass = ""
+                        index = 0
+                        Toast.makeText(this, "Password created", Toast.LENGTH_SHORT).show()
+                    }else{
+                        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.vibrate(100)
+                        writepass = ""
+                        index = 0
+                        Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                if(password=="" && !pasindex){
                     newpassword = writepass
                     writepass = ""
                     index = 0
-                    txtpassword?.text = getString(R.string.repat_password)
-
+                    pasindex = true
+                    Handler().postDelayed({
+                        viewone?.setBackgroundResource(R.drawable.passsign)
+                        viewtwo?.setBackgroundResource(R.drawable.passsign)
+                        viewthree?.setBackgroundResource(R.drawable.passsign)
+                        viewfour?.setBackgroundResource(R.drawable.passsign)
+                        txtpassword?.text = getString(R.string.repat_password)
+                        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.vibrate(100)
+                    }, 500)
                 }
+                /*if(password!="" && writepass == password){
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibrator.vibrate(100)
+                    writepass = ""
+                    index = 0
+                }else{
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    vibrator.vibrate(100)
+                    writepass = ""
+                    index = 0
+                    Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
+                }*/
             }
         }
     }
@@ -185,11 +233,11 @@ open class Password : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun getUserData(){
         password = sharedPreferences?.getString("password", "")!!
+        Toast.makeText(this, password, Toast.LENGTH_SHORT).show()
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
         username = user.name
-        Toast.makeText(this, username, Toast.LENGTH_SHORT).show()
         txtgetname?.text = "Hello, $username"
     }
 }
