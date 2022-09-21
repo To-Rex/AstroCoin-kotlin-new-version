@@ -41,6 +41,7 @@ open class Password : AppCompatActivity() {
     var username = ""
     var index = 0
     var password = ""
+    var writepass = ""
     var newpassword = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,42 +83,52 @@ open class Password : AppCompatActivity() {
         getUserData()
         txtpas1?.setOnClickListener {
             index++
+            writepass += "1"
             checkindex()
         }
         txtpas2?.setOnClickListener {
             index++
+            writepass += "2"
             checkindex()
         }
         txtpas3?.setOnClickListener {
             index++
+            writepass += "3"
             checkindex()
         }
         txtpas4?.setOnClickListener {
             index++
+            writepass += "4"
             checkindex()
         }
         txtpas5?.setOnClickListener {
             index++
+            writepass += "5"
             checkindex()
         }
         txtpas6?.setOnClickListener {
             index++
+            writepass += "6"
             checkindex()
         }
         txtpas7?.setOnClickListener {
             index++
+            writepass += "7"
             checkindex()
         }
         txtpas8?.setOnClickListener {
             index++
+            writepass += "8"
             checkindex()
         }
         txtpas9?.setOnClickListener {
             index++
+            writepass += "9"
             checkindex()
         }
         txtpas0?.setOnClickListener {
             index++
+            writepass += "0"
             checkindex()
         }
         imgback?.setOnClickListener {
@@ -142,7 +153,10 @@ open class Password : AppCompatActivity() {
             }
             4 -> {
                 viewfour?.setBackgroundResource(R.drawable.pascheck)
+                Toast.makeText(this, writepass, Toast.LENGTH_SHORT).show()
+                if (password == "") {
 
+                }
             }
         }
     }
@@ -168,6 +182,8 @@ open class Password : AppCompatActivity() {
                 viewfour?.setBackgroundResource(R.drawable.passsign)
             }
         }
+        writepass = writepass.substring(0, writepass.length - 1)
+        
     }
     @SuppressLint("SetTextI18n")
     private fun getUserData(){
