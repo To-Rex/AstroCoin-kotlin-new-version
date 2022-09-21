@@ -73,6 +73,12 @@ open class Password : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
 
+        if (password == "") {
+            txtpassword?.text = getString(R.string.create_password)
+        } else {
+            txtpassword?.text = getString(R.string.enter_password)
+        }
+
         getUserData()
         txtpas1?.setOnClickListener {
             index++
@@ -165,9 +171,9 @@ open class Password : AppCompatActivity() {
     }
     @SuppressLint("SetTextI18n")
     private fun getUserData(){
+        password = sharedPreferences?.getString("password", "")!!
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
-        println(json)
         val user = gson.fromJson(json, Getdata::class.java)
         username = user.name
         Toast.makeText(this, username, Toast.LENGTH_SHORT).show()

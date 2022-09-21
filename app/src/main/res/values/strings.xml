@@ -18,4 +18,5 @@
     <string name="_9">9</string>
     <string name="_0">0</string>
     <string name="forgot_password">Forgot password</string>
+    <string name="create_password">Create password</string>
 </resources>
