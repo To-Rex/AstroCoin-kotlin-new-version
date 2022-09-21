@@ -142,7 +142,7 @@ open class Password : AppCompatActivity() {
     }
 
     private fun checkindex() {
-        if(index > 4){
+        if (index > 4) {
             index = 4
         }
         when (index) {
@@ -157,22 +157,45 @@ open class Password : AppCompatActivity() {
             }
             4 -> {
                 viewfour?.setBackgroundResource(R.drawable.pascheck)
-                if (password=="" && pasindex){
-                    if(newpassword == writepass){
+                if (password == "" && pasindex) {
+                    if (newpassword == writepass) {
                         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                         vibrator.vibrate(100)
                         writepass = ""
                         index = 0
+                        viewone?.setBackgroundResource(R.drawable.passoucses)
+                        viewtwo?.setBackgroundResource(R.drawable.passoucses)
+                        viewthree?.setBackgroundResource(R.drawable.passoucses)
+                        viewfour?.setBackgroundResource(R.drawable.passoucses)
+                        Handler().postDelayed({
+                            sharedPreferences?.edit()?.putString("password", newpassword)?.apply()
+                            val intent = Intent(this, Sample::class.java)
+                            startActivity(intent)
+                            finish()
+                        }, 500)
                         Toast.makeText(this, "Password created", Toast.LENGTH_SHORT).show()
-                    }else{
+                    } else {
                         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        vibrator.vibrate(100)
+                        vibrator.vibrate(700)
                         writepass = ""
                         index = 0
+                        viewone?.setBackgroundResource(R.drawable.passerror)
+                        viewtwo?.setBackgroundResource(R.drawable.passerror)
+                        viewthree?.setBackgroundResource(R.drawable.passerror)
+                        viewfour?.setBackgroundResource(R.drawable.passerror)
+                        Handler().postDelayed({
+                            viewone?.setBackgroundResource(R.drawable.passsign)
+                            viewtwo?.setBackgroundResource(R.drawable.passsign)
+                            viewthree?.setBackgroundResource(R.drawable.passsign)
+                            viewfour?.setBackgroundResource(R.drawable.passsign)
+                            txtpassword?.text = getString(R.string.repat_password)
+                            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            vibrator.vibrate(100)
+                        }, 500)
                         Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
                     }
                 }
-                if(password=="" && !pasindex){
+                if (password == "" && !pasindex) {
                     newpassword = writepass
                     writepass = ""
                     index = 0
@@ -204,7 +227,7 @@ open class Password : AppCompatActivity() {
     }
 
     private fun checkindexback() {
-        if(index>4){
+        if (index > 4) {
             index = 4
         }
         if (index < 0) {
@@ -230,8 +253,9 @@ open class Password : AppCompatActivity() {
 
 
     }
+
     @SuppressLint("SetTextI18n")
-    private fun getUserData(){
+    private fun getUserData() {
         password = sharedPreferences?.getString("password", "")!!
         Toast.makeText(this, password, Toast.LENGTH_SHORT).show()
         val gson = Gson()
