@@ -12,7 +12,6 @@ class Sample : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //hide the title bar
         supportActionBar?.hide()
         setContentView(R.layout.sample)
 
