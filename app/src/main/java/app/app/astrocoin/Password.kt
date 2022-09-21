@@ -21,6 +21,7 @@ class Password : AppCompatActivity() {
 
     private var txtgetname: TextView? = null
     private var txtpassword: TextView? = null
+    private var txtforgatpass: TextView? = null
     private var viewone: View? = null
     private var viewtwo: View? = null
     private var viewthree: View? = null
@@ -58,11 +59,13 @@ class Password : AppCompatActivity() {
 
         txtgetname = findViewById(R.id.txtlog_getname)
         txtpassword = findViewById(R.id.txtlog_pass)
+        txtforgatpass = findViewById(R.id.txtlog_forgatpass)
 
         viewone = findViewById(R.id.viewlog_one)
         viewtwo = findViewById(R.id.viewlog_two)
         viewthree = findViewById(R.id.viewlog_three)
         viewfour = findViewById(R.id.viewlog_four)
+
 
         txtpas1 = findViewById(R.id.txtlog_pas1)
         txtpas2 = findViewById(R.id.txtlog_pas2)
@@ -87,7 +90,12 @@ class Password : AppCompatActivity() {
         }
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+
+        txtforgatpass?.setOnClickListener {
+            sharedPreferences?.edit()?.clear()?.apply()
+            startActivity(Intent(this, Login::class.java))
+            finish()
+        }
         txtpas1?.setOnClickListener {
             if (click) {
                 index++
@@ -166,6 +174,7 @@ class Password : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun checkindex() {
         if (index > 4) {
             index = 4
@@ -185,7 +194,7 @@ class Password : AppCompatActivity() {
                 if (password == "" && pasindex) {
                     if (newpassword == writepass) {
                         click = false
-                        //vibrator.vibrate(100)
+                        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passoucses)
@@ -200,7 +209,7 @@ class Password : AppCompatActivity() {
                         }, 500)
                     } else {
                         click = false
-                        //vibrator.vibrate(700)
+                        vibrator?.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passerror)
@@ -214,13 +223,13 @@ class Password : AppCompatActivity() {
                             viewthree?.setBackgroundResource(R.drawable.passsign)
                             viewfour?.setBackgroundResource(R.drawable.passsign)
                             txtpassword?.text = getString(R.string.repat_password)
-                            //vibrator.vibrate(100)
                         }, 500)
                         Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
                     }
                 }
                 if (password == "" && !pasindex) {
                     click = false
+                    vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                     newpassword = writepass
                     writepass = ""
                     index = 0
@@ -232,12 +241,12 @@ class Password : AppCompatActivity() {
                         viewthree?.setBackgroundResource(R.drawable.passsign)
                         viewfour?.setBackgroundResource(R.drawable.passsign)
                         txtpassword?.text = getString(R.string.repat_password)
-                       // vibrator.vibrate(100)
                     }, 500)
                 }
                 if (password != ""&&!pasindex){
                     if (writepass == password){
                         click = false
+                        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passoucses)
@@ -252,6 +261,7 @@ class Password : AppCompatActivity() {
                     }else{
                         click = false
                         writepass = ""
+                        vibrator?.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passerror)
                         viewtwo?.setBackgroundResource(R.drawable.passerror)
@@ -263,7 +273,6 @@ class Password : AppCompatActivity() {
                             viewtwo?.setBackgroundResource(R.drawable.passsign)
                             viewthree?.setBackgroundResource(R.drawable.passsign)
                             viewfour?.setBackgroundResource(R.drawable.passsign)
-                            //vibrator.vibrate(100)
                         }, 500)
                         Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
                     }

@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Vibrator
+import android.os.*
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
@@ -23,12 +20,13 @@ import retrofit2.Response
 
 class Login : AppCompatActivity() {
 
-    var ediloginemail: EditText? = null
-    var ediloginpassword: EditText? = null
-    var btnloginrecover: Button? = null
-    var btnsignup: Button? = null
-    var btnsignin: Button? = null
-    var sharedPreferences: SharedPreferences? = null
+    private var ediloginemail: EditText? = null
+    private var ediloginpassword: EditText? = null
+    private var btnloginrecover: Button? = null
+    private var btnsignup: Button? = null
+    private var btnsignin: Button? = null
+    private var vibrator: Vibrator? = null
+    private var sharedPreferences: SharedPreferences? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +38,7 @@ class Login : AppCompatActivity() {
         )
         setContentView(R.layout.activity_login)
 
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         ediloginemail = findViewById(R.id.ediloginemail)
         ediloginpassword = findViewById(R.id.ediloginpassword)
         btnloginrecover = findViewById(R.id.btnloginrecover)
@@ -72,6 +71,7 @@ class Login : AppCompatActivity() {
             val loginResponseCall: Call<LoginRequest>? =
                 ApiClient.getUserService().uerLogin(loginRequest)
             loginResponseCall?.enqueue(object : retrofit2.Callback<LoginRequest> {
+                @SuppressLint("NewApi")
                 override fun onResponse(
                     call: Call<LoginRequest>,
                     response: Response<LoginRequest>
@@ -79,18 +79,16 @@ class Login : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val loginResponse = response.body()
                         if (loginResponse != null) {
-                            val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                            vibrator.vibrate(100)
+                            vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                             println(response.body()!!.token)
                             val editor = sharedPreferences?.edit()
                             editor?.putString("token", response.body()!!.token)
                             editor?.apply()
-                            GetUsers()
+                            getUsers()
 
                         }
                     } else {
-                        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        vibrator.vibrate(1000)
+                        vibrator?.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE))
                         ediloginemail?.error = "Email or password is incorrect"
                         ediloginpassword?.error = "Email or password is incorrect"
                         Handler(Looper.getMainLooper()).postDelayed(
@@ -108,7 +106,7 @@ class Login : AppCompatActivity() {
         }
     }
 
-    private fun GetUsers() {
+    private fun getUsers() {
         val tokenResponceCall = ApiClient.getUserService()
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
         tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
