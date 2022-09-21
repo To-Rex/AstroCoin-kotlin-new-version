@@ -17,7 +17,6 @@ import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
 
-
 class Login : AppCompatActivity() {
 
     private var ediloginemail: EditText? = null
@@ -38,7 +37,7 @@ class Login : AppCompatActivity() {
         )
         setContentView(R.layout.activity_login)
 
-        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         ediloginemail = findViewById(R.id.ediloginemail)
         ediloginpassword = findViewById(R.id.ediloginpassword)
         btnloginrecover = findViewById(R.id.btnloginrecover)
@@ -118,17 +117,15 @@ class Login : AppCompatActivity() {
                         val json = gson.toJson(loginResponse)
                         val editor = sharedPreferences?.edit()
                         editor?.putString("user", json)
-                        Toast.makeText(this@Login, json, Toast.LENGTH_SHORT).show()
                         editor?.apply()
-                        val intent = Intent(this@Login, Password::class.java)
-                        startActivity(intent)
+                        startActivity(Intent(this@Login, Password::class.java))
                         finish()
                     }
                 }
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                Toast.makeText(this@Login, t.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@Login, "Error", Toast.LENGTH_SHORT).show()
             }
         })
     }

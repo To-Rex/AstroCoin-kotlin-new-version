@@ -14,8 +14,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.fragment.app.FragmentActivity
 import app.app.astrocoin.models.Getdata
 import com.google.gson.Gson
+import java.util.concurrent.Executors
 
 class Password : AppCompatActivity() {
 
@@ -42,6 +45,11 @@ class Password : AppCompatActivity() {
     private var imgback: ImageView? = null
     private var sharedPreferences: SharedPreferences? = null
     private var vibrator: Vibrator? = null
+    private var promptInfo: BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
+        .setTitle("😫")
+        .setSubtitle("😩")
+        .setNegativeButtonText("Cancel")
+        .build()
 
     private var username = ""
     private var index = 0
@@ -65,7 +73,6 @@ class Password : AppCompatActivity() {
         viewtwo = findViewById(R.id.viewlog_two)
         viewthree = findViewById(R.id.viewlog_three)
         viewfour = findViewById(R.id.viewlog_four)
-
 
         txtpas1 = findViewById(R.id.txtlog_pas1)
         txtpas2 = findViewById(R.id.txtlog_pas2)
@@ -91,6 +98,55 @@ class Password : AppCompatActivity() {
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
+        val executor = Executors.newSingleThreadExecutor()
+        val activity: FragmentActivity = this
+        val biometricPrompt =
+            BiometricPrompt(activity, executor, object : BiometricPrompt.AuthenticationCallback() {
+
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    vibrator?.vibrate(
+                        VibrationEffect.createOneShot(
+                            200,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                    )
+                    viewone?.setBackgroundResource(R.drawable.passoucses)
+                    viewtwo?.setBackgroundResource(R.drawable.passoucses)
+                    viewthree?.setBackgroundResource(R.drawable.passoucses)
+                    viewfour?.setBackgroundResource(R.drawable.passoucses)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        click = true
+                        startActivity(Intent(applicationContext, Sample::class.java))
+                        finish()
+                    }, 500)
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    vibrator?.vibrate(
+                        VibrationEffect.createOneShot(
+                            200,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                    )
+                }
+            })
+
+         promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("◦😀◦")
+            .setSubtitle("    ")
+            .setDescription("  ")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            biometricPrompt.authenticate(promptInfo)
+        }, 500)
+        imgfinger?.setOnClickListener {
+            biometricPrompt.authenticate(promptInfo)
+        }
         txtforgatpass?.setOnClickListener {
             sharedPreferences?.edit()?.clear()?.apply()
             startActivity(Intent(this, Login::class.java))
@@ -194,7 +250,12 @@ class Password : AppCompatActivity() {
                 if (password == "" && pasindex) {
                     if (newpassword == writepass) {
                         click = false
-                        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                        vibrator?.vibrate(
+                            VibrationEffect.createOneShot(
+                                100,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passoucses)
@@ -209,7 +270,12 @@ class Password : AppCompatActivity() {
                         }, 500)
                     } else {
                         click = false
-                        vibrator?.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                        vibrator?.vibrate(
+                            VibrationEffect.createOneShot(
+                                500,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passerror)
@@ -229,7 +295,12 @@ class Password : AppCompatActivity() {
                 }
                 if (password == "" && !pasindex) {
                     click = false
-                    vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                    vibrator?.vibrate(
+                        VibrationEffect.createOneShot(
+                            100,
+                            VibrationEffect.DEFAULT_AMPLITUDE
+                        )
+                    )
                     newpassword = writepass
                     writepass = ""
                     index = 0
@@ -243,10 +314,15 @@ class Password : AppCompatActivity() {
                         txtpassword?.text = getString(R.string.repat_password)
                     }, 500)
                 }
-                if (password != ""&&!pasindex){
-                    if (writepass == password){
+                if (password != "" && !pasindex) {
+                    if (writepass == password) {
                         click = false
-                        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                        vibrator?.vibrate(
+                            VibrationEffect.createOneShot(
+                                100,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
                         writepass = ""
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passoucses)
@@ -258,10 +334,15 @@ class Password : AppCompatActivity() {
                             startActivity(Intent(this, Sample::class.java))
                             finish()
                         }, 500)
-                    }else{
+                    } else {
                         click = false
                         writepass = ""
-                        vibrator?.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                        vibrator?.vibrate(
+                            VibrationEffect.createOneShot(
+                                500,
+                                VibrationEffect.DEFAULT_AMPLITUDE
+                            )
+                        )
                         index = 0
                         viewone?.setBackgroundResource(R.drawable.passerror)
                         viewtwo?.setBackgroundResource(R.drawable.passerror)
@@ -311,11 +392,11 @@ class Password : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun getUserData() {
         password = sharedPreferences?.getString("password", "")!!
-        Toast.makeText(this, password, Toast.LENGTH_SHORT).show()
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
         username = user.name
         txtgetname?.text = "Hello, $username"
     }
+
 }
