@@ -20,4 +20,5 @@
     <color name="pink">#FFFFC0CB</color>
     <color name="transparent">#00000000</color>
     <color name="editextcol">#F1F1F1</color>
+    <color name="fon">#F1F1F1</color>
 </resources>
