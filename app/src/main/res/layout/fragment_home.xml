@@ -88,7 +88,7 @@
                     app:layout_constraintGuide_percent="0.57" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/txthomebalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_0_asc"
@@ -191,25 +191,15 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_55"
+                    app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:tabIndicatorHeight="1dp"
                     app:tabIndicatorColor="@color/purple_500"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" >
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textAlignment="center"
-                        android:contextClickable="true"
-                        android:text="@string/transfers" />
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textAlignment="center"
-                        android:contextClickable="true"
-                        android:text="@string/orders" />
                 </com.google.android.material.tabs.TabLayout>
                 <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
