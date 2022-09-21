@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
-import app.app.astrocoin.FragmentOrder
-import app.app.astrocoin.FragmentTransfers
+import app.app.astrocoin.fragments.FragmentOrder
+import app.app.astrocoin.fragments.FragmentTransfers
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
 import com.google.android.material.tabs.TabLayout

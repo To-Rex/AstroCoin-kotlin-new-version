@@ -3,9 +3,8 @@ package app.app.astrocoin.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import app.app.astrocoin.FragmentTransfers
-import app.app.astrocoin.FragmentOrder
-import app.app.astrocoin.adapters.TabAdapters
+import app.app.astrocoin.fragments.FragmentTransfers
+import app.app.astrocoin.fragments.FragmentOrder
 import java.util.ArrayList
 
 class TabAdapters(fm: FragmentManager) : FragmentPagerAdapter(fm) {

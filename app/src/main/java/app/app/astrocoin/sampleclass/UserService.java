@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface UserService {
     @POST("login")
@@ -24,8 +25,11 @@ public interface UserService {
 //    @POST("wallet/transfer")
 //    Call<Object> saveVotes(@Header("Authorization") String token,@Body SendTransferRequest transferRequest);
 //
-//    @GET("transfers")
-//    Call<Object> userCheskWallet(@Query("page") int param,@Header("Authorization") String token);
+    @GET("transfers")
+    Call<Object> userGetTransfers(@Query("page") int param, @Header("Authorization") String token);
+
+    @GET("orders")
+    Call<Object> userGetOrders(@Query("page") int param, @Header("Authorization") String token);
 //
 //    @Multipart
 //    @POST("/api/user/photo")
@@ -33,6 +37,7 @@ public interface UserService {
 //
 //    @POST("user/password")
 //    Call<Object> userChangePassword(@Header("Authorization") String token,@Body SetPassword setPassword);
+
 //    @POST("wallet")
 //    Call<Object> userWalletname(@Header("Authorization") String token,@Body CheckWallet checkWallet);
 }
