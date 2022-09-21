@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.app.astrocoin.models.Getdata
 import com.google.gson.Gson
-
 
 class Password : AppCompatActivity() {
 
@@ -40,7 +40,8 @@ class Password : AppCompatActivity() {
     private var imgfinger: ImageView? = null
     private var imgback: ImageView? = null
     private var sharedPreferences: SharedPreferences? = null
-    
+    private var vibrator: Vibrator? = null
+
     private var username = ""
     private var index = 0
     private var pasindex = false
@@ -77,7 +78,6 @@ class Password : AppCompatActivity() {
         imgfinger = findViewById(R.id.imglog_finger)
         imgback = findViewById(R.id.imglog_back)
 
-        val vibrationEffect = VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
         sharedPreferences = getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
         getUserData()
         if (password == "") {
@@ -86,6 +86,8 @@ class Password : AppCompatActivity() {
             txtpassword?.text = getString(R.string.enter_password)
         }
 
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator?.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
         txtpas1?.setOnClickListener {
             if (click) {
                 index++
