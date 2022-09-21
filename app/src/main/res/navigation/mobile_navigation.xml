@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="app.app.astrocoin.ui.dashboard.DashboardFragment"
+        android:name="app.app.astrocoin.ui.dashboard.SearchUserFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_searchuser" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="app.app.astrocoin.ui.notifications.NotificationsFragment"
+        android:name="app.app.astrocoin.ui.notifications.SettingsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_settings" />
 </navigation>
