@@ -20,4 +20,8 @@
     <string name="forgot_password">Forgot password</string>
     <string name="create_password">Create password</string>
     <string name="repat_password">Repat password</string>
+    <string name="title_activity_sample">Sample</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
