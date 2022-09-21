@@ -25,4 +25,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="_0_asc">0 ASC</string>
+    <string name="transfers">Transfers</string>
+    <string name="orders">Orders</string>
 </resources>
