@@ -118,7 +118,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         } else {
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
-
         return listitemView;
     }
 
@@ -127,31 +126,26 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
-                if (constraint == null || constraint.length() == 0) {
-                    filterResults.count = itemsModelsl.size();
-                    filterResults.values = itemsModelsl;
+                String charString = constraint.toString();
+                if (charString.isEmpty()) {
+                    itemsModelListFiltered = itemsModelsl;
                 } else {
-                    List<UserRequest> resultsModel = new ArrayList<>();
-                    String searchStr = constraint.toString().toLowerCase();
-                    for (UserRequest userRequestdata : itemsModelsl) {
-                        if (userRequestdata.getName().contains(searchStr)
-                                || userRequestdata.getStack().contains(searchStr)
-                                || userRequestdata.getLast_name().contains(searchStr)
-                                || userRequestdata.getStatus().contains(searchStr)
-                                || userRequestdata.getQwasar().contains(searchStr)) {
-                            resultsModel.add(userRequestdata);
+                    List<UserRequest> filteredList = new ArrayList<>();
+                    for (UserRequest row : itemsModelsl) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase())
+                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
                         }
-                        filterResults.count = resultsModel.size();
-                        filterResults.values = resultsModel;
                     }
+                    itemsModelListFiltered = filteredList;
                 }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = itemsModelListFiltered;
                 return filterResults;
             }
-
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                itemsModelListFiltered = (List<UserRequest>) results.values;
+                itemsModelListFiltered = (ArrayList<UserRequest>) results.values;
                 notifyDataSetChanged();
             }
         };
