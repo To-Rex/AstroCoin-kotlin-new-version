@@ -53,8 +53,7 @@
                 android:id="@+id/view5"
                 android:layout_width="@dimen/dp_35"
                 android:layout_height="@dimen/dp_35"
-                android:layout_marginEnd="@dimen/dp_3"
-                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginEnd="@dimen/dp_4"
                 android:background="@drawable/shapeback"
                 app:layout_constraintBottom_toBottomOf="@+id/usimage"
                 app:layout_constraintEnd_toEndOf="@+id/usimage" />
@@ -86,7 +85,7 @@
                 android:id="@+id/txtsetemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_5"
                 android:text="@string/connect"
                 app:layout_constraintEnd_toStartOf="@+id/guideline40"
                 app:layout_constraintStart_toStartOf="@+id/guideline39"
@@ -289,7 +288,7 @@
                 tools:ignore="SpUsage" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/txtsetqwasar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connect"
@@ -300,7 +299,7 @@
                 tools:ignore="SpUsage" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/txtsetstack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connect"
@@ -311,7 +310,7 @@
                 tools:ignore="SpUsage" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/txtsetwallets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connect"

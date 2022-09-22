@@ -19,7 +19,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="63dp"
-
+        android:background="@drawable/homecardfon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/view6"
