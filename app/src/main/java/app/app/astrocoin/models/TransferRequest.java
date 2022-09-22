@@ -1,7 +1,6 @@
 package app.app.astrocoin.models;
 
 public class TransferRequest {
-
     private String id;
     private String wallet_from;
     private String wallet_to;
@@ -15,7 +14,9 @@ public class TransferRequest {
     private String timestamp;
     private String datatransfer;
 
+
     public TransferRequest(String id, String wallet_from, String wallet_to, String fio, String amount, String title, String type, String comment, String status, String date, String timestamp, String datatransfer) {
+
         this.id = id;
         this.wallet_from = wallet_from;
         this.wallet_to = wallet_to;
