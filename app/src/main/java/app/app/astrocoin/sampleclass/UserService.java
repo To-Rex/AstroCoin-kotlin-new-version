@@ -15,14 +15,15 @@ public interface UserService {
 
     @GET("user")
     Call<TokenRequest> userTokenRequest(@Header("Authorization") String token);
-//
+
+    //
 //    @GET("orders")
 //    Call<Object> userOrderRequest(@Query("page") int param,@Header("Authorization") String orders);
 //
-//    @GET("users")
-//    Call<Object> userSearchRequest(@Header("Authorization") String users);
-//
-//    @POST("wallet/transfer")
+    @GET("users")
+    Call<Object> userSearchRequest(@Header("Authorization") String users);
+
+    //    @POST("wallet/transfer")
 //    Call<Object> saveVotes(@Header("Authorization") String token,@Body SendTransferRequest transferRequest);
 //
     @GET("transfers")
