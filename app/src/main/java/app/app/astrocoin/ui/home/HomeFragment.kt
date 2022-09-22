@@ -21,6 +21,7 @@ import app.app.astrocoin.models.Getdata
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 
+
 class HomeFragment : Fragment() {
 
     private var sharedPreferences: SharedPreferences? = null
@@ -39,6 +40,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewPager = view.findViewById(R.id.viewPager)
@@ -46,17 +48,17 @@ class HomeFragment : Fragment() {
         txthomebalance = view.findViewById(R.id.txthomebalance)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
 
-
-        sharedPreferences = requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
-
+        sharedPreferences =
+            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
         swipeRefreshLayout!!.setOnRefreshListener {
-            tols()
+            tolsAllFun()
             swipeRefreshLayout!!.isRefreshing = false
         }
-        tols()
+        tolsAllFun()
 
     }
-    private fun tols(){
+
+    private fun tolsAllFun() {
         tabAdapters = TabAdapters(childFragmentManager)
         tabAdapters?.addFragment(FragmentTransfers())
         tabAdapters?.addFragment(FragmentOrder())
@@ -76,8 +78,9 @@ class HomeFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        showToasts(user.balance)
+        txthomebalance!!.text = user.balance.toString() + " ASC"
     }
+
     private fun showToasts(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

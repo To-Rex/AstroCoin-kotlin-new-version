@@ -96,7 +96,6 @@ class FragmentTransfers : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        showToasts("Loading..."+user.balance)
         readTransfer()
     }
 
@@ -233,7 +232,6 @@ class FragmentTransfers : Fragment() {
                         tradapter?.notifyDataSetChanged()
                         call.cancel()
                     } else page = 0
-                    
                 }
 
                 override fun onFailure(call: Call<Any?>, t: Throwable) {

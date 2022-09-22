@@ -56,6 +56,11 @@
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_300">300dp</dimen>
+    <dimen name="dp_350">350dp</dimen>
+    <dimen name="dp_360">360dp</dimen>
+    <dimen name="dp_370">370dp</dimen>
+    <dimen name="dp_380">380dp</dimen>
+    <dimen name="dp_390">390dp</dimen>
     <dimen name="dp_400">400dp</dimen>
     <dimen name="dp_500">500dp</dimen>
     <dimen name="dp_600">600dp</dimen>
