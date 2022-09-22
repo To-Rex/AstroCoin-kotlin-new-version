@@ -8,13 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import app.app.astrocoin.R
 import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.TokenRequest
+import app.app.astrocoin.sampleclass.ApiClient
 import com.bumptech.glide.Glide
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Response
 
 class SettingsFragment : Fragment() {
 
@@ -52,7 +57,31 @@ class SettingsFragment : Fragment() {
         txtsetwallets = view.findViewById(R.id.txtsetwallets)
         usimage = view.findViewById(R.id.usimage)
         getUserData()
+        getUsers()
 
+    }
+    private fun getUsers() {
+        val tokenResponceCall = ApiClient.getUserService()
+            .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
+        tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+            override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        val gson = Gson()
+                        val json = gson.toJson(loginResponse)
+                        val editor = sharedPreferences?.edit()
+                        editor?.putString("user", json)
+                        editor?.apply()
+                        getUserData()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
+                showToast("Error")
+            }
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -66,5 +95,8 @@ class SettingsFragment : Fragment() {
         txtsetstack?.text = user.stack
         txtsetwallets?.text = user.wallet
         Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usimage!!)
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 }

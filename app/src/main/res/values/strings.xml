@@ -36,4 +36,6 @@
     <string name="change_password">Change password</string>
     <string name="app_password">App password</string>
     <string name="log_out">Log Out</string>
+    <string name="search_user">Search User</string>
+    <string name="settings">Settings</string>
 </resources>

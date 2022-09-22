@@ -18,8 +18,12 @@ import app.app.astrocoin.adapters.TabAdapters
 import app.app.astrocoin.fragments.FragmentOrder
 import app.app.astrocoin.fragments.FragmentTransfers
 import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.TokenRequest
+import app.app.astrocoin.sampleclass.ApiClient
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -48,10 +52,11 @@ class HomeFragment : Fragment() {
         txthomebalance = view.findViewById(R.id.txthomebalance)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
 
-        sharedPreferences =
-            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+
         swipeRefreshLayout!!.setOnRefreshListener {
             tolsAllFun()
+            getUsers()
             swipeRefreshLayout!!.isRefreshing = false
         }
         tolsAllFun()
@@ -78,7 +83,30 @@ class HomeFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        txthomebalance!!.text = user.balance.toString() + " ASC"
+        txthomebalance!!.text = user.balance + " ASC"
+    }
+    private fun getUsers() {
+        val tokenResponceCall = ApiClient.getUserService()
+            .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
+        tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+            override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        val gson = Gson()
+                        val json = gson.toJson(loginResponse)
+                        val editor = sharedPreferences?.edit()
+                        editor?.putString("user", json)
+                        editor?.apply()
+                        getUserData()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
+                showToasts("Error")
+            }
+        })
     }
 
     private fun showToasts(message: String) {
