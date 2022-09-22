@@ -112,10 +112,10 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
         String image = dataModal.getPhoto();
 
-        if (Objects.equals(dataModal.getPhoto(), "")
-                || Objects.equals(dataModal.getPhoto(), null)) {
+        if (Objects.equals(dataModal.getPhoto(), "")) {
             courseIV.setImageResource(R.drawable.usericons);
         } else {
+            dataModal.getPhoto();
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
         return listitemView;

@@ -15,6 +15,5 @@ object ApiClient {
             .client(client)
             .build()
     }
-
     val userService: UserService get() = getretrofit().create(UserService::class.java)
 }

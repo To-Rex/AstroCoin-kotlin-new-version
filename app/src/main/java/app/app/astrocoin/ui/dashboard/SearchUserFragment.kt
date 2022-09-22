@@ -64,7 +64,7 @@ class SearchUserFragment : Fragment() {
         listViewsearch?.divider = null
         listViewsearch?.dividerHeight = 20
         searchprogressBar = view.findViewById(R.id.searchprogressBar)
-        adapter = AdapterUserSearch(dataModalArrayList, context)
+        adapter = AdapterUserSearch(dataModalArrayList!!, requireActivity())
         getUserData()
         listViewsearch?.adapter = adapter
         usersearchView = view.findViewById(R.id.usersearchView)
