@@ -233,6 +233,7 @@ class FragmentTransfers : Fragment() {
                         tradapter?.notifyDataSetChanged()
                         call.cancel()
                     } else page = 0
+                    
                 }
 
                 override fun onFailure(call: Call<Any?>, t: Throwable) {
