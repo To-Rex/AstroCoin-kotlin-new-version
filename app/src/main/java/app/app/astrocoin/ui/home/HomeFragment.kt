@@ -1,27 +1,37 @@
 package app.app.astrocoin.ui.home
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import app.app.astrocoin.fragments.FragmentOrder
 import app.app.astrocoin.fragments.FragmentTransfers
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
+import app.app.astrocoin.models.Getdata
 import com.google.android.material.tabs.TabLayout
+import com.google.gson.Gson
 import java.util.*
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private var sharedPreferences: SharedPreferences? = null
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
     private var tabAdapters: TabAdapters? = null
+
+    private var txthomebalance: TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +44,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewPager = view.findViewById(R.id.viewPager)
         tabLayout = view.findViewById(R.id.tabLayout)
+        txthomebalance = view.findViewById(R.id.txthomebalance)
+
+
+        sharedPreferences =
+            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
 
         tabAdapters = TabAdapters(childFragmentManager)
         tabAdapters?.addFragment(FragmentTransfers())
@@ -46,6 +61,16 @@ class HomeFragment : Fragment() {
 
         Objects.requireNonNull(tabLayout!!.getTabAt(0))!!.text = getString(R.string.transfers)
         Objects.requireNonNull(tabLayout!!.getTabAt(1))!!.text = getString(R.string.orders)
-
+        getUserData()
+    }
+    @SuppressLint("SetTextI18n")
+    private fun getUserData() {
+        val gson = Gson()
+        val json = sharedPreferences?.getString("user", "")
+        val user = gson.fromJson(json, Getdata::class.java)
+        txthomebalance!!.text = user.balance + " ASC"
+    }
+    private fun showToasts(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

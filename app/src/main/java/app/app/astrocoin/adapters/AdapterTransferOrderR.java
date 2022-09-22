@@ -21,12 +21,12 @@ import java.util.Objects;
 import app.app.astrocoin.R;
 import app.app.astrocoin.models.TransferRequest;
 
-public class AdapterTransferR extends RecyclerView.Adapter<AdapterTransferR.ViewHolder> {
+public class AdapterTransferOrderR extends RecyclerView.Adapter<AdapterTransferOrderR.ViewHolder> {
 
     Context context;
     ArrayList<TransferRequest> transferRequestArrayList;
 
-    public AdapterTransferR(Context context, ArrayList<TransferRequest> transferRequestArrayList) {
+    public AdapterTransferOrderR(Context context, ArrayList<TransferRequest> transferRequestArrayList) {
         this.context = context;
         this.transferRequestArrayList = transferRequestArrayList;
     }

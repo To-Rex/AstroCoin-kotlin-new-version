@@ -58,19 +58,19 @@ class FragmentTransfers : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_transfers, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         samrecyclerView = view.findViewById(R.id.samrecyclerView)
-        manager = LinearLayoutManager(context);
+        manager = LinearLayoutManager(context)
         sharedPreferences =
             requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
         token = sharedPreferences!!.getString("token", "")!!
         trarray = ArrayList()
-        tradapter = AdapterTransferR(context, trarray)
-        samrecyclerView?.layoutManager = manager;
+        tradapter = context?.let { AdapterTransferR(it, trarray!!) }
+        samrecyclerView?.layoutManager = manager
         getUserData()
 
         samrecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -90,15 +90,14 @@ class FragmentTransfers : Fragment() {
                 }
             }
         })
-
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun getUserData() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
+        showToasts("Loading..."+user.balance)
         readTransfer()
     }
 
@@ -150,18 +149,8 @@ class FragmentTransfers : Fragment() {
                                     date = jsonObject1.getString("date")
                                     timestamp = jsonObject1.getString("timestamp")
                                     transferRequest = TransferRequest(
-                                        id,
-                                        wallet_from,
-                                        wallet_to,
-                                        fio,
-                                        amount,
-                                        title,
-                                        type,
-                                        comment,
-                                        status,
-                                        date,
-                                        timestamp,
-                                        trdata
+                                        id, wallet_from, wallet_to, fio, amount,
+                                        title, type, comment, status, date, timestamp, trdata
                                     )
                                     trarray!!.add(transferRequest!!)
                                     trdata = ""
@@ -186,7 +175,7 @@ class FragmentTransfers : Fragment() {
         if (page > 0) {
             val call: Call<Any> = ApiClient.getUserService().userGetTransfers(page, "Bearer $token")
             call.enqueue(object : Callback<Any?> {
-                @SuppressLint("NotifyDataSetChanged")
+                @SuppressLint("NotifyDataSetChanged", "SuspiciousIndentation")
                 override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
                     if (response.isSuccessful) {
                         page++
@@ -230,18 +219,8 @@ class FragmentTransfers : Fragment() {
                                             jsonObject1.getString("timestamp")
                                         } else "no timestamp"
                                         transferRequest = TransferRequest(
-                                            id,
-                                            wallet_from,
-                                            wallet_to,
-                                            fio,
-                                            amount,
-                                            title,
-                                            type,
-                                            comment,
-                                            status,
-                                            date,
-                                            timestamp,
-                                            trdata
+                                            id, wallet_from, wallet_to, fio, amount, title, type,
+                                            comment, status, date, timestamp, trdata
                                         )
                                         trarray!!.add(transferRequest!!)
                                         trdata = ""
