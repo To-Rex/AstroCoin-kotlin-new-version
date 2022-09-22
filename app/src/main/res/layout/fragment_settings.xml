@@ -128,8 +128,8 @@
                 android:id="@+id/view19"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_45"
-                android:background="@color/white"
                 android:layout_marginTop="@dimen/dp_3"
+                android:background="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline40"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline39"
@@ -139,8 +139,8 @@
                 android:id="@+id/view20"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_45"
-                android:background="@drawable/bottomtop"
                 android:layout_marginTop="@dimen/dp_3"
+                android:background="@drawable/bottomtop"
                 app:layout_constraintEnd_toStartOf="@+id/guideline40"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline39"
@@ -264,7 +264,96 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.1"/>
+                app:layout_constraintGuide_percent="0.1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:text="@string/student_ranks"
+                app:layout_constraintBottom_toBottomOf="@+id/view11"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toTopOf="@+id/view11"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/astrum_store"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view9"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
+                app:layout_constraintTop_toTopOf="@+id/view9"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connect"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view12"
+                app:layout_constraintStart_toEndOf="@+id/imageView13"
+                app:layout_constraintTop_toTopOf="@+id/view12"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connect"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view19"
+                app:layout_constraintStart_toEndOf="@+id/imageView14"
+                app:layout_constraintTop_toBottomOf="@+id/view12"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connect"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view20"
+                app:layout_constraintStart_toEndOf="@+id/imageView15"
+                app:layout_constraintTop_toBottomOf="@+id/view19"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view13"
+                app:layout_constraintStart_toEndOf="@+id/imageView16"
+                app:layout_constraintTop_toTopOf="@+id/view13"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_13"
+                android:text="@string/app_password"
+                app:layout_constraintBottom_toBottomOf="@+id/view21"
+                app:layout_constraintStart_toEndOf="@+id/imageView17"
+                app:layout_constraintTop_toTopOf="@+id/view21"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_out"
+                android:textColor="@color/red"
+                android:layout_marginStart="@dimen/dp_13"
+                app:layout_constraintBottom_toBottomOf="@+id/view14"
+                app:layout_constraintStart_toEndOf="@+id/imageView18"
+                app:layout_constraintTop_toTopOf="@+id/view14"
+                tools:ignore="SpUsage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

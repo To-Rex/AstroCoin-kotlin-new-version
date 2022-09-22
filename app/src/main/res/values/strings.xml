@@ -31,4 +31,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="transfer">Transfer</string>
     <string name="connect">Connect</string>
+    <string name="student_ranks">Student Ranks</string>
+    <string name="astrum_store">Astrum Store</string>
+    <string name="change_password">Change password</string>
+    <string name="app_password">App password</string>
+    <string name="log_out">Log Out</string>
 </resources>
