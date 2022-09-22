@@ -86,7 +86,7 @@ class SearchUserFragment : Fragment() {
     }
     private fun getData() {
         searchprogressBar!!.visibility = View.VISIBLE
-        val call: Call<Any> = ApiClient.getUserService().userSearchRequest("Bearer $token")
+        val call: Call<Any> = ApiClient.userService.userSearchRequest("Bearer $token")
         call.enqueue(object : Callback<Any?> {
             override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
                 if (response.isSuccessful) {

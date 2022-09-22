@@ -68,7 +68,7 @@ class Login : AppCompatActivity() {
             loginRequest.email = email
             loginRequest.password = password
             val loginResponseCall: Call<LoginRequest>? =
-                ApiClient.getUserService().uerLogin(loginRequest)
+                ApiClient.userService.uerLogin(loginRequest)
             loginResponseCall?.enqueue(object : retrofit2.Callback<LoginRequest> {
                 @SuppressLint("NewApi")
                 override fun onResponse(
@@ -106,7 +106,7 @@ class Login : AppCompatActivity() {
     }
 
     private fun getUsers() {
-        val tokenResponceCall = ApiClient.getUserService()
+        val tokenResponceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
         tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {

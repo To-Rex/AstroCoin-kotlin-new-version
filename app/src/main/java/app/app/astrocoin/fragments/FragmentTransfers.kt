@@ -94,10 +94,10 @@ class FragmentTransfers : Fragment() {
     private fun getUserData() {
         readTransfer()
     }
-    
+
     private fun readTransfer() {
         page = 1
-        val call: Call<Any> = ApiClient.getUserService().userGetTransfers(page, "Bearer $token")
+        val call: Call<Any> = ApiClient.userService.userGetTransfers(page, "Bearer $token")
         call.enqueue(object : Callback<Any?> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
@@ -159,7 +159,7 @@ class FragmentTransfers : Fragment() {
     }
     private fun scrollinfinity(){
         if (page > 0) {
-            val call: Call<Any> = ApiClient.getUserService().userGetTransfers(page, "Bearer $token")
+            val call: Call<Any> = ApiClient.userService.userGetTransfers(page, "Bearer $token")
             call.enqueue(object : Callback<Any?> {
                 @SuppressLint("NotifyDataSetChanged", "SuspiciousIndentation")
                 override fun onResponse(call: Call<Any?>, response: Response<Any?>) {

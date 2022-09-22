@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
         txthomebalance!!.text = user.balance + " ASC"
     }
     private fun getUsers() {
-        val tokenResponceCall = ApiClient.getUserService()
+        val tokenResponceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
         tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
