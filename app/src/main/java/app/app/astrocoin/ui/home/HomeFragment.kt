@@ -44,8 +44,8 @@ class HomeFragment : Fragment() {
         tabLayout!!.setTabTextColors(Color.parseColor("#C9C9C9"), Color.parseColor("#5733D1"))
         tabLayout!!.setSelectedTabIndicatorColor(Color.parseColor("#5733D1"))
 
-        Objects.requireNonNull(tabLayout!!.getTabAt(0))!!.text = "Transfer"
-        Objects.requireNonNull(tabLayout!!.getTabAt(1))!!.text = "Orders"
+        Objects.requireNonNull(tabLayout!!.getTabAt(0))!!.text = getString(R.string.transfers)
+        Objects.requireNonNull(tabLayout!!.getTabAt(1))!!.text = getString(R.string.orders)
 
     }
 }
