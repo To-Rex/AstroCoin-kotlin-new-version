@@ -30,29 +30,28 @@ class FragmentTransfers : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
 
     private var samrecyclerView: RecyclerView? = null
-    var trarray: ArrayList<TransferRequest>? = null
-    var tradapter: AdapterTransferR? = null
-    var transferRequest: TransferRequest? = null
-    var manager: LinearLayoutManager? = null
-    var currentItems: kotlin.Int = 0
-    var totalItems: kotlin.Int = 0
-    var scrollOutItems: kotlin.Int = 0
-    var isScrolling = false
-    var id: String? = null
-    var wallet_from:kotlin.String? = null
-    var wallet_to:kotlin.String? = null
-    var fio:kotlin.String? = null
-    var amount:kotlin.String? = null
-    var title:kotlin.String? = null
-    var type:kotlin.String? = null
-    var comment:kotlin.String? = null
-    var status:kotlin.String? = null
-    var date:kotlin.String? = null
-    var timestamp:kotlin.String? = null
-    var trdata:kotlin.String? = null
-    var att:kotlin.String? = null
-    var page = 0
-    var token = ""
+    private var trarray: ArrayList<TransferRequest>? = null
+    private var tradapter: AdapterTransferR? = null
+    private var transferRequest: TransferRequest? = null
+    private var manager: LinearLayoutManager? = null
+    private var currentItems: Int = 0
+    private var totalItems: Int = 0
+    private var scrollOutItems: Int = 0
+    private var isScrolling = false
+    private var id: String? = null
+    private var wallet_from:String? = null
+    private var wallet_to:String? = null
+    private var fio:String? = null
+    private var amount:String? = null
+    private var title:String? = null
+    private var type:String? = null
+    private var comment:String? = null
+    private var status:String? = null
+    private var date:String? = null
+    private var timestamp:String? = null
+    private var trdata:String? = null
+    private var page = 0
+    private var token = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
