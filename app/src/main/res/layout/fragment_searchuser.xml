@@ -12,14 +12,14 @@
         android:id="@+id/usersearchView"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_50"
-        android:queryHint="search..."
+        android:background="@drawable/homecard"
         android:contextClickable="true"
-        app:queryBackground="@color/transparent"
+        android:queryHint="search..."
         app:layout_constraintBottom_toTopOf="@+id/guideline32"
         app:layout_constraintEnd_toStartOf="@+id/guideline35"
         app:layout_constraintStart_toStartOf="@+id/guideline34"
-        android:background="@drawable/homecard"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline37"
+        app:queryBackground="@color/transparent"
         tools:ignore="MissingPrefix" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -27,21 +27,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1"/>
+        app:layout_constraintGuide_percent="0.13" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.08"/>
+        app:layout_constraintGuide_percent="0.05"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.92"/>
+        app:layout_constraintGuide_percent="0.95"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyle"
@@ -67,5 +67,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.98"/>
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:src="@drawable/splashwallet"
+        app:layout_constraintBottom_toTopOf="@+id/guideline37"
+        app:layout_constraintStart_toStartOf="@+id/guideline34"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
