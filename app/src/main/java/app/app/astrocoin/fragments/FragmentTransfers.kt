@@ -147,8 +147,8 @@ class FragmentTransfers : Fragment() {
                                     date = jsonObject1.getString("date")
                                     timestamp = jsonObject1.getString("timestamp")
                                     transferRequest = TransferRequest(
-                                        id, wallet_from, wallet_to, fio, amount, title, type,
-                                        comment, status, date, timestamp, trdata
+                                        id!!, wallet_from!!, wallet_to!!, fio!!, amount!!, title!!, type!!,
+                                        comment!!, status!!, date!!, timestamp!!, trdata!!
                                     )
                                     trarray!!.add(transferRequest!!)
                                     trdata = ""
@@ -217,8 +217,8 @@ class FragmentTransfers : Fragment() {
                                             jsonObject1.getString("timestamp")
                                         } else "no timestamp"
                                         transferRequest = TransferRequest(
-                                            id, wallet_from, wallet_to, fio, amount, title, type,
-                                            comment, status, date, timestamp, trdata
+                                            id!!, wallet_from!!, wallet_to!!, fio!!, amount!!, title!!, type!!,
+                                            comment!!, status!!, date!!, timestamp!!, trdata!!
                                         )
                                         trarray!!.add(transferRequest!!)
                                         trdata = ""
