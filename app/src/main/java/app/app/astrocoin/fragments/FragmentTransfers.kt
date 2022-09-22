@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +37,6 @@ class FragmentTransfers : Fragment() {
     var currentItems: kotlin.Int = 0
     var totalItems: kotlin.Int = 0
     var scrollOutItems: kotlin.Int = 0
-    var at: kotlin.Int = 0
     var isScrolling = false
     var id: String? = null
     var wallet_from:kotlin.String? = null
@@ -73,6 +73,25 @@ class FragmentTransfers : Fragment() {
         tradapter = AdapterTransferR(context, trarray)
         samrecyclerView?.layoutManager = manager;
         getUserData()
+
+        samrecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrolling = true
+                }
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                currentItems = manager!!.childCount
+                totalItems = manager!!.itemCount
+                scrollOutItems = manager!!.findFirstVisibleItemPosition()
+                if (isScrolling && currentItems + scrollOutItems == totalItems) {
+                    scrollinfinity()
+                    isScrolling = false
+                }
+            }
+        })
+
     }
 
 
@@ -161,8 +180,90 @@ class FragmentTransfers : Fragment() {
             override fun onFailure(call: Call<Any?>, t: Throwable) {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                 page = 0
-                call.cancel()
             }
         })
+    }
+    private fun scrollinfinity(){
+        if (page > 0) {
+            val call: Call<Any> = ApiClient.getUserService().userGetTransfers(page, "Bearer $token")
+            call.enqueue(object : Callback<Any?> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
+                    if (response.isSuccessful) {
+                        page++
+                        var parts3: Array<String>
+                        val gson = Gson()
+                        val json = gson.toJson(response.body())
+                        assert(response.body() != null)
+                        val jsonArray = response.body().toString().replace("[", "")
+                        for (s in jsonArray.split("],").toTypedArray()) {
+                            parts3 = s.split(",").toTypedArray()
+                            if (parts3.isNotEmpty()) {
+                                val parts = parts3[0].split("=").toTypedArray()
+                                trdata = parts[0].substring(1)
+                                try {
+                                    val jsonObject = JSONObject(json)
+                                    val jsonArray1 = jsonObject.getJSONArray(parts[0].substring(1))
+                                    for (i in 0 until jsonArray1.length()) {
+                                        val jsonObject1 = jsonArray1.getJSONObject(i)
+                                        comment = if (jsonObject1.has("comment")) {
+                                            jsonObject1.getString("comment")
+                                        } else "no comment"
+                                        if (jsonObject1.has("id")) id = jsonObject1.getString("id")
+                                        if (jsonObject1.has("wallet_from")) wallet_from =
+                                            jsonObject1.getString("wallet_from")
+                                        if (jsonObject1.has("wallet_to")) wallet_to =
+                                            jsonObject1.getString("wallet_to")
+                                        if (jsonObject1.has("fio")) fio =
+                                            jsonObject1.getString("fio")
+                                        val parts2 = jsonObject1.getString("amount").split("\\.")
+                                            .toTypedArray()
+                                        amount = parts2[0]
+                                        if (jsonObject1.has("title")) title =
+                                            jsonObject1.getString("title")
+                                        if (jsonObject1.has("type")) type =
+                                            jsonObject1.getString("type")
+                                        if (jsonObject1.has("status")) status =
+                                            jsonObject1.getString("status")
+                                        if (jsonObject1.has("date")) date =
+                                            jsonObject1.getString("date")
+                                        timestamp = if (jsonObject1.has("timestamp")) {
+                                            jsonObject1.getString("timestamp")
+                                        } else "no timestamp"
+                                        transferRequest = TransferRequest(
+                                            id,
+                                            wallet_from,
+                                            wallet_to,
+                                            fio,
+                                            amount,
+                                            title,
+                                            type,
+                                            comment,
+                                            status,
+                                            date,
+                                            timestamp,
+                                            trdata
+                                        )
+                                        trarray!!.add(transferRequest!!)
+                                        trdata = ""
+                                                tradapter?.notifyDataSetChanged()
+                                    }
+                                } catch (e: JSONException) {
+                                    e.printStackTrace()
+                                }
+                            }
+                        }
+                        tradapter?.notifyDataSetChanged()
+                        call.cancel()
+                    } else page = 0
+                }
+
+                override fun onFailure(call: Call<Any?>, t: Throwable) {
+                    Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    page = 0
+                    call.cancel()
+                }
+            })
+        }
     }
 }
