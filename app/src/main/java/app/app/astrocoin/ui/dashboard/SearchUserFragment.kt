@@ -111,7 +111,7 @@ class SearchUserFragment : Fragment() {
                         wallet = `object`["wallet"].asString
                         dataModalArrayList!!.add(
                             UserRequest(
-                                id, name, last_name, stack, photo, qwasar, status, balance, wallet
+                                id, name!!, last_name!!, stack!!, photo!!, qwasar!!, status!!, balance!!, wallet!!
                             )
                         )
                     }
