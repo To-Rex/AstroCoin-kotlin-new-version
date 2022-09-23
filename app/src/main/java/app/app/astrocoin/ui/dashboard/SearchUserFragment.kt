@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.AdapterUserSearch
-import app.app.astrocoin.models.Getdata
 import app.app.astrocoin.models.UserRequest
 import app.app.astrocoin.sampleclass.ApiClient
 import com.google.gson.Gson
@@ -39,12 +38,12 @@ class SearchUserFragment : Fragment() {
     var dataModalArrayList: ArrayList<UserRequest>? = null
     var adapter: AdapterUserSearch? = null
     var listViewsearch: ListView? = null
-    var searchprogressBar: ProgressBar? = null
-    var usersearchView: SearchView? = null
+    var searchProgressBar: ProgressBar? = null
+    private var usersearchView: SearchView? = null
     var id =
         ""
     var name: String? = ""
-    var last_name: String? = ""
+    var lastname: String? = ""
     var stack: String? = ""
     var photo: String? = ""
     var qwasar: String? = ""
@@ -52,9 +51,6 @@ class SearchUserFragment : Fragment() {
     var verify: String? = ""
     var balance: String? = ""
     var wallet: String? = ""
-    var imagesetting: ImageView? = null
-    var imgsample: ImageView? = null
-    var imgsearch: ImageView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +60,7 @@ class SearchUserFragment : Fragment() {
         listViewsearch = view.findViewById(R.id.listViewsearch)
         listViewsearch?.divider = null
         listViewsearch?.dividerHeight = 20
-        searchprogressBar = view.findViewById(R.id.searchprogressBar)
+        searchProgressBar = view.findViewById(R.id.searchprogressBar)
         adapter = AdapterUserSearch(dataModalArrayList!!, requireActivity())
         getUserData()
         listViewsearch?.adapter = adapter
@@ -86,7 +82,7 @@ class SearchUserFragment : Fragment() {
         getData()
     }
     private fun getData() {
-        searchprogressBar!!.visibility = View.VISIBLE
+        searchProgressBar!!.visibility = View.VISIBLE
         val call: Call<Any> = ApiClient.userService.userSearchRequest("Bearer $token")
         call.enqueue(object : Callback<Any?> {
             override fun onResponse(call: Call<Any?>, response: Response<Any?>) {
@@ -99,7 +95,7 @@ class SearchUserFragment : Fragment() {
                         val `object` = element.asJsonObject
                         id = `object`["id"].asString
                         name = `object`["name"].asString
-                        last_name = `object`["last_name"].asString
+                        lastname = `object`["last_name"].asString
                         stack = `object`["stack"].asString
                         photo = if (`object`["photo"] != null) {
                             `object`["photo"].asString
@@ -111,13 +107,12 @@ class SearchUserFragment : Fragment() {
                         verify = `object`["verify"].asString
                         balance = `object`["balance"].asString
                         wallet = `object`["wallet"].asString
-                        dataModalArrayList!!.add(UserRequest(id, name!!, last_name!!, stack!!,
+                        dataModalArrayList!!.add(UserRequest(id, name!!, lastname!!, stack!!,
                             photo!!, qwasar!!, status!!,verify!!, balance!!, wallet!!)
                         )
                     }
                     listViewsearch!!.adapter = adapter
-                    searchprogressBar!!.visibility = View.GONE
-                    call.cancel()
+                    searchProgressBar!!.visibility = View.GONE
                 }
             }
 
@@ -127,4 +122,5 @@ class SearchUserFragment : Fragment() {
             }
         })
     }
+
 }

@@ -46,8 +46,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     private static final int DRAG = 1;
     private static final int ZOOM = 2;
     private int mode = NONE;
-    private PointF start = new PointF();
-    private PointF mid = new PointF();
+    private final PointF start = new PointF();
+    private final PointF mid = new PointF();
     float oldDist = 1f;
     private float xCoOrdinate, yCoOrdinate;
 
@@ -136,7 +136,11 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     List<UserRequest> filteredList = new ArrayList<>();
                     for (UserRequest row : itemsModelsl) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase())) {
+                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase())||
+                                row.getStack().toLowerCase().contains(charString.toLowerCase())
+                                || row.getQwasar().toLowerCase().contains(charString.toLowerCase())
+                                || row.getStatus().toLowerCase().contains(charString.toLowerCase())
+                                || row.getVerify().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
