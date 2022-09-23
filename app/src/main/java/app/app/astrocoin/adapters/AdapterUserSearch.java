@@ -36,6 +36,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     String token = "";
     private ClipboardManager clipboard;
     ImageView photoview2;
+    ImageView imggall;
     float[] lastEvent = null;
     float d = 0f;
     float newRot = 0f;
@@ -78,20 +79,22 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
         TextView nameTV = listitemView.findViewById(R.id.ustransfer);
         TextView idtxt = listitemView.findViewById(R.id.uscoin);
+        imggall = listitemView.findViewById(R.id.imggall);
+
         ShapeableImageView courseIV = listitemView.findViewById(R.id.usimage);
+        if(dataModal.getVerify().equals("1.0")){
+            imggall.setVisibility(View.VISIBLE);
+        }else {
+            imggall.setVisibility(View.INVISIBLE);
+        }
 
         if (dataModal.getName().length() > 12 || dataModal.getLast_name().length() > 12) {
-            //String nae = dataModal.getName() + " " + dataModal.getLast_name();
             assert nameTV != null;
-            // nameTV.setText(nae.substring(0, 22) + "...");
             nameTV.setText(dataModal.getName());
-            //Toast.makeText(context, ""+nae, Toast.LENGTH_SHORT).show();
         } else {
             assert nameTV != null;
-            //nameTV.setText(dataModal.getName() + " " + dataModal.getLast_name());
             nameTV.setText(dataModal.getName());
         }
-        //nameTV.setText(dataModal.getName() + " " + dataModal.getLast_name());
         String ccoin = dataModal.getBalance().split("\\.0")[0];
 
         if (ccoin.length() > 0) {

@@ -49,6 +49,7 @@ class SearchUserFragment : Fragment() {
     var photo: String? = ""
     var qwasar: String? = ""
     var status: String? = ""
+    var verify: String? = ""
     var balance: String? = ""
     var wallet: String? = ""
     var imagesetting: ImageView? = null
@@ -107,12 +108,11 @@ class SearchUserFragment : Fragment() {
                         }
                         qwasar = `object`["qwasar"].asString
                         status = `object`["status"].asString
+                        verify = `object`["verify"].asString
                         balance = `object`["balance"].asString
                         wallet = `object`["wallet"].asString
-                        dataModalArrayList!!.add(
-                            UserRequest(
-                                id, name!!, last_name!!, stack!!, photo!!, qwasar!!, status!!, balance!!, wallet!!
-                            )
+                        dataModalArrayList!!.add(UserRequest(id, name!!, last_name!!, stack!!,
+                            photo!!, qwasar!!, status!!,verify!!, balance!!, wallet!!)
                         )
                     }
                     listViewsearch!!.adapter = adapter
