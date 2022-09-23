@@ -35,7 +35,7 @@ class AdapterTransferR(
         holder.tranferdata.text = transferRequest.datatransfer
         holder.trtransfer.text = transferRequest.title
         holder.trcoin.text = transferRequest.amount
-        if (transferRequest.datatransfer == "" || transferRequest.datatransfer == null) {
+        if (transferRequest.datatransfer == "") {
             holder.tranferdata.visibility = View.GONE
         } else {
             holder.tranferdata.visibility = View.VISIBLE
