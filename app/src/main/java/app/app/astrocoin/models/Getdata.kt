@@ -1,16 +1,19 @@
 package app.app.astrocoin.models
 
 class Getdata(
-    var id: String,
-    var balance: String,
-    var email: String,
-    var last_name: String,
-    var name: String,
-    var number: String,
-    var photo: String,
-    var qwasar: String,
-    var role: String,
-    var stack: String,
-    var status: String,
-    var wallet: String
+    val id: String,
+    val name: String,
+    val last_name: String,
+    val qwasar: String,
+    val email: String,
+    val number: String,
+    val stack: String,
+    val role: String,
+    val status: String,
+    val verify: String,
+    val photo: String,
+    val m_photo: String,
+    val balance: String,
+    val wallet: String
+
 )

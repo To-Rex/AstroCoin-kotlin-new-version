@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class SettingsFragment : Fragment() {
     private var txtsetqwasar: TextView? = null
     private var txtsetstack: TextView? = null
     private var txtsetwallets: TextView? = null
+    private var imgsetgall: ImageView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,6 +58,7 @@ class SettingsFragment : Fragment() {
         txtsetstack = view.findViewById(R.id.txtsetstack)
         txtsetwallets = view.findViewById(R.id.txtsetwallets)
         usimage = view.findViewById(R.id.usimage)
+        imgsetgall = view.findViewById(R.id.imgsetgall)
         getUserData()
         getUsers()
 
@@ -94,6 +97,13 @@ class SettingsFragment : Fragment() {
         txtsetqwasar?.text = user.qwasar
         txtsetstack?.text = user.stack
         txtsetwallets?.text = user.wallet
+        println(json)
+        Toast.makeText(requireContext(), json, Toast.LENGTH_SHORT).show()
+        if (user.verify == "1.0") {
+            imgsetgall?.visibility = View.VISIBLE
+        } else {
+            imgsetgall?.visibility = View.GONE
+        }
         Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usimage!!)
     }
     private fun showToast(message: String) {
