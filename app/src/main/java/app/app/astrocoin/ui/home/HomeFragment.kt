@@ -6,7 +6,6 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -14,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.util.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -42,6 +40,7 @@ class HomeFragment : Fragment() {
 
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
+    var bottomSheetDialogcamqr: BottomSheetDialog? = null
 
 
     private var tabLayout: TabLayout? = null
@@ -214,72 +213,56 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showBottomSheetDialogCamQr() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+         bottomSheetDialogcamqr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
-        bottomSheetDialog.setContentView(view)
+        bottomSheetDialogcamqr?.setContentView(view)
         //your code
-        surfaceView = view.findViewById(R.id.surfaceView)
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
+        surfaceView = view.findViewById(R.id.cameraSurfaceView)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ackForCameraPermission()
         } else {
             setUpControls()
         }
-        bottomSheetDialog.show()
+        bottomSheetDialogcamqr?.show()
     }
 
     private fun setUpControls(){
-        detector = BarcodeDetector.Builder(requireActivity()).build()
-        cameraSource = CameraSource.Builder(requireActivity(), detector)
+        detector = BarcodeDetector.Builder(requireContext()).build()
+        cameraSource = CameraSource.Builder(requireContext(), detector)
             .setRequestedPreviewSize(640, 480)
             .setAutoFocusEnabled(true)
             .build()
-        surfaceView?.holder?.addCallback(surgaceCallback)
+        surfaceView?.holder?.addCallback(surfaceCallBack)
         detector.setProcessor(processor)
     }
     private fun ackForCameraPermission() {
         ActivityCompat.requestPermissions(
             requireActivity(),
             arrayOf(Manifest.permission.CAMERA),
-            1
+            requestCodeCameraPermission
         )
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith(
-        "super.onRequestPermissionsResult(requestCode, permissions, grantResults)",
-        "androidx.fragment.app.Fragment"
-    )
-    )
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<out String>, grantResults: IntArray) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
                 setUpControls()
             } else {
                 Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private val surgaceCallback = object : SurfaceHolder.Callback {
+    private val surfaceCallBack = object : SurfaceHolder.Callback {
         override fun surfaceCreated(holder: SurfaceHolder) {
             try {
-                if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ackForCameraPermission()
+                if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }
-                surfaceView?.holder?.let { cameraSource.start(it) }
+                cameraSource.start(surfaceView?.holder!!)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -298,16 +281,12 @@ class HomeFragment : Fragment() {
 
         }
 
+        @SuppressLint("ServiceCast")
         override fun receiveDetections(detections: Detector.Detections<Barcode>) {
-            if(detections.detectedItems.isNotEmpty()){
-                val qrCodes: SparseArray<Barcode> = detections.detectedItems
-                val code = qrCodes.valueAt(0)
-                Toast.makeText(requireContext(), code.rawValue, Toast.LENGTH_SHORT).show()
-                Toast.makeText(requireContext(), code.displayValue, Toast.LENGTH_SHORT).show()
-                showBottomSheetDialogSend()
-                txtHomeBalance?.text = code.rawValue
-            }else{
-                Toast.makeText(requireContext(), "No QR code detected", Toast.LENGTH_SHORT).show()
+            val qrCodes = detections.detectedItems
+            if (qrCodes.size() != 0) {
+                bottomSheetDialogcamqr?.dismiss()
+                println(qrCodes.valueAt(0).displayValue)
             }
         }
     }
