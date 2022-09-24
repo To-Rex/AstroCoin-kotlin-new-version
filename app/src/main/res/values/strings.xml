@@ -38,4 +38,6 @@
     <string name="log_out">Log Out</string>
     <string name="search_user">Search User</string>
     <string name="settings">Settings</string>
+    <string name="recieve">Recieve</string>
+    <string name="wallet_address">Wallet address</string>
 </resources>
