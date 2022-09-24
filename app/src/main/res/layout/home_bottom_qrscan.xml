@@ -50,24 +50,12 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95" />
 
-        <Button
-            android:id="@+id/btnflashon"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            android:background="@drawable/backsignin"
-            android:text="@string/flash_on"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/guideline48"
-            app:layout_constraintStart_toStartOf="@+id/guideline47"
-            app:layout_constraintTop_toBottomOf="@+id/view11" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_150"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnflashon" />
+            app:layout_constraintTop_toBottomOf="@+id/view11" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

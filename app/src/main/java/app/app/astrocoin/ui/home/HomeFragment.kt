@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -14,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -43,7 +41,6 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var bottomSheetDialogcamqr: BottomSheetDialog? = null
-    private var flashLightStatus: Boolean = false
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -220,18 +217,9 @@ class HomeFragment : Fragment() {
         bottomSheetDialogcamqr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
         bottomSheetDialogcamqr?.setContentView(view)
-        //your code
-        val btnflashon = view.findViewById<Button>(R.id.btnflashon)
-        btnflashon.setOnClickListener {
-            val cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
-            val cameraId = cameraManager.cameraIdList[0]
-            cameraManager.setTorchMode(cameraId, !flashLightStatus)
-            flashLightStatus = !flashLightStatus
-        }
+
         surfaceView = view.findViewById(R.id.cameraSurfaceView)
-        if (ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
         ) {
             ackForCameraPermission()
         } else {
@@ -268,6 +256,7 @@ class HomeFragment : Fragment() {
     }
 
     private val surfaceCallBack = object : SurfaceHolder.Callback {
+        @SuppressLint("MissingPermission")
         override fun surfaceCreated(holder: SurfaceHolder) {
             try {
                 if (ActivityCompat.checkSelfPermission(requireContext(),
