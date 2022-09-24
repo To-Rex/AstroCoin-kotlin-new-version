@@ -129,6 +129,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showBottomSheetDialogSend() {
+        showBottomSheetDialogCamQr()
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
         bottomSheetDialog.setContentView(view)
