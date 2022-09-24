@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
 
     private var txthomebalance: TextView? = null
     private var imghomereadqr: ImageView? = null
+    var imghomesendwallet: ImageView? = null
 
     var wallet = ""
     override fun onCreateView(
@@ -62,6 +63,7 @@ class HomeFragment : Fragment() {
         txthomebalance = view.findViewById(R.id.txthomebalance)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         imghomereadqr = view.findViewById(R.id.imghomereadqr)
+        imghomesendwallet = view.findViewById(R.id.imghomesendwallet)
 
         sharedPreferences =
             requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
@@ -74,6 +76,9 @@ class HomeFragment : Fragment() {
 
         imghomereadqr!!.setOnClickListener {
             showBottomSheetDialogReadQr()
+        }
+        imghomesendwallet!!.setOnClickListener {
+            showBottomSheetDialogSend()
         }
     }
 
@@ -183,9 +188,8 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun showBottomSheetDialogSend() {
-        showBottomSheetDialogCamQr()
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
-        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        val view = layoutInflater.inflate(R.layout.home_bottom_send, null)
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
     }
