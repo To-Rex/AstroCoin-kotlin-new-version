@@ -103,8 +103,8 @@
 
             <ImageView
                 android:id="@+id/imageView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
                 android:src="@drawable/buttonsend"
                 android:elevation="@dimen/dp_3"
                 app:layout_constraintBottom_toBottomOf="@+id/btnreadqrbottom"
