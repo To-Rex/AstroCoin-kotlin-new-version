@@ -1,16 +1,18 @@
 package app.app.astrocoin.ui.home
 
+import android.R.attr.label
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.*
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -24,6 +26,7 @@ import app.app.astrocoin.sampleclass.ApiClient
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
+import com.google.zxing.qrcode.QRCodeWriter
 import retrofit2.Call
 import retrofit2.Response
 
@@ -40,6 +43,8 @@ class HomeFragment : Fragment() {
 
     private var txthomebalance: TextView? = null
     private var imghomereadqr: ImageView? = null
+
+    var wallet = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -93,6 +98,7 @@ class HomeFragment : Fragment() {
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
         txthomebalance!!.text = user.balance + " ASC"
+        wallet = user.wallet
     }
 
     private fun getUsers() {
@@ -119,12 +125,60 @@ class HomeFragment : Fragment() {
         })
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "MissingInflatedId")
     private fun showBottomSheetDialogReadQr() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
         bottomSheetDialog.setContentView(view)
-        bottomSheetDialog.show()
+        val imgreadqrbottom = view.findViewById<ImageView>(R.id.imgreadqrbottom)
+        val txtreadqrbottom = view.findViewById<TextView>(R.id.txtreadqrbottom)
+        val imgreadqrbottomicon = view.findViewById<ImageView>(R.id.imgreadqrbottomicon)
+        val btnreadqrbottom = view.findViewById<Button>(R.id.btnreadqrbottom)
+        if (wallet.isNotEmpty()) {
+            txtreadqrbottom.text = wallet
+
+            imgreadqrbottomicon.setOnClickListener {
+                val clipboard =
+                    requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("label", wallet)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show()
+            }
+
+            btnreadqrbottom.setOnClickListener {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, wallet)
+                startActivity(Intent.createChooser(intent, "Share via"))
+            }
+
+            val writter = QRCodeWriter()
+            val bitMatrix = writter.encode(
+                wallet,
+                com.google.zxing.BarcodeFormat.QR_CODE,
+                512,
+                512
+            )
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            val bmp = android.graphics.Bitmap.createBitmap(
+                width,
+                height,
+                android.graphics.Bitmap.Config.RGB_565
+            )
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            imgreadqrbottom.setImageBitmap(bmp)
+            bottomSheetDialog.show()
+
+        } else {
+            Toast.makeText(requireContext(), "Wallet is empty", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
+        }
+
     }
 
     @SuppressLint("InflateParams")

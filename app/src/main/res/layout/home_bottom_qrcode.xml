@@ -63,7 +63,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/txtreadqrbottom"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_20"
@@ -77,18 +77,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/view8" />
 
             <ImageView
-                android:id="@+id/imageView10"
+                android:id="@+id/imgreadqrbottomicon"
                 android:layout_width="@dimen/dp_25"
                 android:layout_height="@dimen/dp_25"
                 android:layout_marginEnd="@dimen/dp_10"
-                app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                app:layout_constraintBottom_toBottomOf="@+id/txtreadqrbottom"
                 app:layout_constraintEnd_toStartOf="@+id/guideline42"
-                app:layout_constraintTop_toTopOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/txtreadqrbottom"
                 app:srcCompat="@drawable/pasticon"
                 tools:ignore="ContentDescription" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnreadqrbottom"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline42"
                 app:layout_constraintStart_toStartOf="@+id/guideline38"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/txtreadqrbottom" />
 
             <ImageView
                 android:id="@+id/imageView19"
@@ -107,9 +107,9 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/buttonsend"
                 android:elevation="@dimen/dp_3"
-                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintBottom_toBottomOf="@+id/btnreadqrbottom"
                 app:layout_constraintStart_toStartOf="@+id/guideline44"
-                app:layout_constraintTop_toTopOf="@+id/button"
+                app:layout_constraintTop_toTopOf="@+id/btnreadqrbottom"
                 app:srcCompat="@drawable/buttonsend"
                 tools:ignore="ContentDescription" />
 
@@ -125,16 +125,16 @@
                 android:layout_height="@dimen/dp_50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintTop_toBottomOf="@+id/btnreadqrbottom" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/imgreadqrbottom"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/dp_35"
-                android:layout_marginTop="@dimen/dp_30"
-                android:layout_marginEnd="@dimen/dp_35"
-                android:layout_marginBottom="@dimen/dp_30"
+                android:layout_marginStart="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_25"
+                android:layout_marginBottom="@dimen/dp_20"
                 app:layout_constraintBottom_toBottomOf="@+id/view8"
                 app:layout_constraintEnd_toStartOf="@+id/guideline42"
                 app:layout_constraintStart_toStartOf="@+id/guideline38"
