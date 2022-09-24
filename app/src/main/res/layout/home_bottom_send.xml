@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bottomsheetback"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,12 +60,12 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_20"
-                android:paddingStart="@dimen/dp_10"
-                android:paddingEnd="@dimen/dp_10"
                 android:background="@drawable/homecard"
                 android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="@string/wallet_address"
+                android:inputType="textPersonName"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_10"
                 app:layout_constraintEnd_toStartOf="@+id/guideline45"
                 app:layout_constraintStart_toStartOf="@+id/guideline43"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -85,9 +86,9 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_10"
-                android:inputType="numberDecimal"
                 android:background="@drawable/homecard"
                 android:hint="@string/_0_asc"
+                android:inputType="numberDecimal"
                 android:paddingStart="@dimen/dp_10"
                 android:paddingEnd="@dimen/dp_10"
                 app:layout_constraintEnd_toStartOf="@+id/guideline45"
@@ -100,14 +101,14 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_200"
                 android:layout_marginTop="@dimen/dp_20"
-                app:counterMaxLength="297"
-                app:counterEnabled="true"
-                android:paddingTop="@dimen/dp_15"
-                app:hintEnabled="false"
                 android:background="@drawable/homecard"
+                android:paddingTop="@dimen/dp_15"
+                app:counterEnabled="true"
+                app:counterMaxLength="297"
+                app:hintEnabled="false"
                 app:layout_constraintEnd_toStartOf="@+id/guideline45"
                 app:layout_constraintStart_toStartOf="@+id/guideline43"
-                app:layout_constraintTop_toBottomOf="@+id/editText" >
+                app:layout_constraintTop_toBottomOf="@+id/editText">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -116,8 +117,8 @@
                     android:elevation="0.1dp"
                     android:gravity="top"
                     android:hint="@string/comment"
-                    android:maxEms="10"
                     android:inputType="textMultiLine"
+                    android:maxEms="10"
                     android:maxLength="297"
                     android:maxLines="7"
                     android:minLines="3"
@@ -165,9 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.56"/>
+                app:layout_constraintGuide_percent="0.56" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
-
 </LinearLayout>
