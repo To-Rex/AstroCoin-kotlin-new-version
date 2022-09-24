@@ -102,7 +102,7 @@
                     tools:ignore="SpUsage" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/imghomereadqr"
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_50"
                     android:src="@drawable/homeplus"
