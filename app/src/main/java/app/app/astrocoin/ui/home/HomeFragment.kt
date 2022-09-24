@@ -60,7 +60,6 @@ class HomeFragment : Fragment() {
 
         sharedPreferences =
             requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         swipeRefreshLayout!!.setOnRefreshListener {
             tolsAllFun()
             getUsers()
@@ -69,9 +68,7 @@ class HomeFragment : Fragment() {
         tolsAllFun()
 
         imghomereadqr!!.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
-            bottomSheetDialog.setContentView(view)
-            bottomSheetDialog.show()
+            showBottomSheetDialog()
         }
     }
 
@@ -117,12 +114,16 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                showToasts("Error")
+                Toast.makeText(requireContext(),"Error", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun showToasts(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    @SuppressLint("InflateParams")
+    private fun showBottomSheetDialog() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 }
