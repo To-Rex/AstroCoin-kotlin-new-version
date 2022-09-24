@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
         tolsAllFun()
 
         imghomereadqr!!.setOnClickListener {
-            showBottomSheetDialog()
+            showBottomSheetDialogReadQr()
         }
     }
 
@@ -114,13 +114,29 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                Toast.makeText(requireContext(),"Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
     @SuppressLint("InflateParams")
-    private fun showBottomSheetDialog() {
+    private fun showBottomSheetDialogReadQr() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showBottomSheetDialogSend() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showBottomSheetDialogCamQr() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
         bottomSheetDialog.setContentView(view)
