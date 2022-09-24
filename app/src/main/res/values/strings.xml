@@ -41,4 +41,5 @@
     <string name="recieve">Recieve</string>
     <string name="wallet_address">Wallet address</string>
     <string name="share">Share</string>
+    <string name="astrocoin">astrocoin</string>
 </resources>

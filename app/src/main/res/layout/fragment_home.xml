@@ -123,7 +123,7 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/imghomescanqr"
                     android:layout_width="@dimen/dp_50"
                     android:layout_height="@dimen/dp_50"
                     android:src="@drawable/homeqrscanner"

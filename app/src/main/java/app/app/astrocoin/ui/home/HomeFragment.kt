@@ -1,6 +1,5 @@
 package app.app.astrocoin.ui.home
 
-import android.R.attr.label
 import android.annotation.SuppressLint
 import android.content.*
 import android.graphics.Color
@@ -12,7 +11,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -41,9 +39,10 @@ class HomeFragment : Fragment() {
     private var viewPager: ViewPager? = null
     private var tabAdapters: TabAdapters? = null
 
-    private var txthomebalance: TextView? = null
-    private var imghomereadqr: ImageView? = null
-    var imghomesendwallet: ImageView? = null
+    private var txtHomeBalance: TextView? = null
+    private var imgHomeReadQr: ImageView? = null
+    private var imgHomeSendWallet: ImageView? = null
+    private var imgHomeScanQr: ImageView? = null
 
     var wallet = ""
     override fun onCreateView(
@@ -60,29 +59,32 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewPager = view.findViewById(R.id.viewPager)
         tabLayout = view.findViewById(R.id.tabLayout)
-        txthomebalance = view.findViewById(R.id.txthomebalance)
+        txtHomeBalance = view.findViewById(R.id.txthomebalance)
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-        imghomereadqr = view.findViewById(R.id.imghomereadqr)
-        imghomesendwallet = view.findViewById(R.id.imghomesendwallet)
+        imgHomeReadQr = view.findViewById(R.id.imghomereadqr)
+        imgHomeSendWallet = view.findViewById(R.id.imghomesendwallet)
 
         sharedPreferences =
-            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
         swipeRefreshLayout!!.setOnRefreshListener {
-            tolsAllFun()
+            toLsAllFun()
             getUsers()
             swipeRefreshLayout!!.isRefreshing = false
         }
-        tolsAllFun()
+        toLsAllFun()
 
-        imghomereadqr!!.setOnClickListener {
+        imgHomeReadQr!!.setOnClickListener {
             showBottomSheetDialogReadQr()
         }
-        imghomesendwallet!!.setOnClickListener {
+        imgHomeSendWallet!!.setOnClickListener {
             showBottomSheetDialogSend()
+        }
+        imgHomeScanQr!!.setOnClickListener {
+            showBottomSheetDialogCamQr()
         }
     }
 
-    private fun tolsAllFun() {
+    private fun toLsAllFun() {
         tabAdapters = TabAdapters(childFragmentManager)
         tabAdapters?.addFragment(FragmentTransfers())
         tabAdapters?.addFragment(FragmentOrder())
@@ -102,14 +104,14 @@ class HomeFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        txthomebalance!!.text = user.balance + " ASC"
+        txtHomeBalance!!.text = user.balance + " ASC"
         wallet = user.wallet
     }
 
     private fun getUsers() {
-        val tokenResponceCall = ApiClient.userService
+        val tokenResPonceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
-        tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+        tokenResPonceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
@@ -135,14 +137,14 @@ class HomeFragment : Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
         bottomSheetDialog.setContentView(view)
-        val imgreadqrbottom = view.findViewById<ImageView>(R.id.imgreadqrbottom)
-        val txtreadqrbottom = view.findViewById<TextView>(R.id.txtreadqrbottom)
-        val imgreadqrbottomicon = view.findViewById<ImageView>(R.id.imgreadqrbottomicon)
-        val btnreadqrbottom = view.findViewById<Button>(R.id.btnreadqrbottom)
+        val imgReadQrBottom = view.findViewById<ImageView>(R.id.imgreadqrbottom)
+        val txtReadQrBottom = view.findViewById<TextView>(R.id.txtreadqrbottom)
+        val imgReadQrBottomIcon = view.findViewById<ImageView>(R.id.imgreadqrbottomicon)
+        val btnReadQrBottom = view.findViewById<Button>(R.id.btnreadqrbottom)
         if (wallet.isNotEmpty()) {
-            txtreadqrbottom.text = wallet
+            txtReadQrBottom.text = wallet
 
-            imgreadqrbottomicon.setOnClickListener {
+            imgReadQrBottomIcon.setOnClickListener {
                 val clipboard =
                     requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText("label", wallet)
@@ -150,15 +152,15 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show()
             }
 
-            btnreadqrbottom.setOnClickListener {
+            btnReadQrBottom.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
                 intent.putExtra(Intent.EXTRA_TEXT, wallet)
                 startActivity(Intent.createChooser(intent, "Share via"))
             }
 
-            val writter = QRCodeWriter()
-            val bitMatrix = writter.encode(
+            val writTer = QRCodeWriter()
+            val bitMatrix = writTer.encode(
                 wallet,
                 com.google.zxing.BarcodeFormat.QR_CODE,
                 512,
@@ -176,7 +178,7 @@ class HomeFragment : Fragment() {
                     bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
                 }
             }
-            imgreadqrbottom.setImageBitmap(bmp)
+            imgReadQrBottom.setImageBitmap(bmp)
             bottomSheetDialog.show()
 
         } else {
