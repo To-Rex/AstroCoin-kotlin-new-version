@@ -147,10 +147,14 @@ class Password : AppCompatActivity() {
 
 
         Handler(Looper.getMainLooper()).postDelayed({
-            biometricPrompt.authenticate(promptInfo)
+            if (password != "") {
+                biometricPrompt.authenticate(promptInfo)
+            }
         }, 500)
         imgfinger?.setOnClickListener {
-            biometricPrompt.authenticate(promptInfo)
+            if (password != "") {
+                biometricPrompt.authenticate(promptInfo)
+            }
         }
         txtforgatpass?.setOnClickListener {
             sharedPreferences?.edit()?.clear()?.apply()
