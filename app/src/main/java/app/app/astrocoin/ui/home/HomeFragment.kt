@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
+
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
     private var tabAdapters: TabAdapters? = null
@@ -57,8 +58,9 @@ class HomeFragment : Fragment() {
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         imghomereadqr = view.findViewById(R.id.imghomereadqr)
 
-        sharedPreferences = requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
-
+        sharedPreferences =
+            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         swipeRefreshLayout!!.setOnRefreshListener {
             tolsAllFun()
             getUsers()
@@ -67,11 +69,9 @@ class HomeFragment : Fragment() {
         tolsAllFun()
 
         imghomereadqr!!.setOnClickListener {
-            val bottomSheetDialog = BottomSheetDialog(requireContext())
             val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
             bottomSheetDialog.setContentView(view)
             bottomSheetDialog.show()
-
         }
     }
 
@@ -97,6 +97,7 @@ class HomeFragment : Fragment() {
         val user = gson.fromJson(json, Getdata::class.java)
         txthomebalance!!.text = user.balance + " ASC"
     }
+
     private fun getUsers() {
         val tokenResponceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
