@@ -14,6 +14,7 @@ class TokenRequest {
     var stack: String? = null
     var role: String? = null
     var status: String? = null
+    var verify: String? = null
     var photo: String? = null
     var balance: String? = null
     var wallet: String? = null

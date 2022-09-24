@@ -97,12 +97,11 @@ class SettingsFragment : Fragment() {
         txtsetqwasar?.text = user.qwasar
         txtsetstack?.text = user.stack
         txtsetwallets?.text = user.wallet
-        user.verify?.let {
-            if (it == "1.0") {
-                imgsetgall?.visibility = View.VISIBLE
-            } else {
-                imgsetgall?.visibility = View.GONE
-            }
+        println(user.verify)
+        if (user.verify == "1"){
+            imgsetgall?.visibility = View.VISIBLE
+        }else{
+            imgsetgall?.visibility = View.GONE
         }
         Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usimage!!)
     }
