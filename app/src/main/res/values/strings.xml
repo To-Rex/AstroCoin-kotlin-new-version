@@ -44,4 +44,6 @@
     <string name="astrocoin">astrocoin</string>
     <string name="send">Send</string>
     <string name="comment">Comment</string>
+    <string name="flash_on">Flash on</string>
+    <string name="flash_off">Flash off</string>
 </resources>

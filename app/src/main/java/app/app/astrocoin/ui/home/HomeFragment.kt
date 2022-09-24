@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.hardware.camera2.CameraManager
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -13,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var bottomSheetDialogcamqr: BottomSheetDialog? = null
-
+    private var flashLightStatus: Boolean = false
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -57,7 +59,6 @@ class HomeFragment : Fragment() {
     private var requestCodeCameraPermission = 1001
     private lateinit var cameraSource: CameraSource
     private lateinit var detector: BarcodeDetector
-    private var isFlashOn = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,7 +81,10 @@ class HomeFragment : Fragment() {
         imgHomeScanQr = view.findViewById(R.id.imghomescanqr)
 
         sharedPreferences =
-            requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(
+                getString(R.string.astrocoin),
+                Context.MODE_PRIVATE
+            )
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
@@ -211,14 +215,24 @@ class HomeFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "MissingInflatedId", "ServiceCast")
     private fun showBottomSheetDialogCamQr() {
-         bottomSheetDialogcamqr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        bottomSheetDialogcamqr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
         bottomSheetDialogcamqr?.setContentView(view)
         //your code
+        val btnflashon = view.findViewById<Button>(R.id.btnflashon)
+        btnflashon.setOnClickListener {
+            val cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
+            val cameraId = cameraManager.cameraIdList[0]
+            cameraManager.setTorchMode(cameraId, !flashLightStatus)
+            flashLightStatus = !flashLightStatus
+        }
         surfaceView = view.findViewById(R.id.cameraSurfaceView)
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             ackForCameraPermission()
         } else {
             setUpControls()
@@ -226,7 +240,7 @@ class HomeFragment : Fragment() {
         bottomSheetDialogcamqr?.show()
     }
 
-    private fun setUpControls(){
+    private fun setUpControls() {
         detector = BarcodeDetector.Builder(requireContext()).build()
         cameraSource = CameraSource.Builder(requireContext(), detector)
             .setRequestedPreviewSize(640, 480)
@@ -235,18 +249,14 @@ class HomeFragment : Fragment() {
         surfaceView?.holder?.addCallback(surfaceCallBack)
         detector.setProcessor(processor)
     }
+
     private fun ackForCameraPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.CAMERA),
-            requestCodeCameraPermission
-        )
+        ActivityCompat.requestPermissions(requireActivity(),
+            arrayOf(Manifest.permission.CAMERA), requestCodeCameraPermission)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<out String>, grantResults: IntArray) {
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -256,10 +266,12 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     private val surfaceCallBack = object : SurfaceHolder.Callback {
         override fun surfaceCreated(holder: SurfaceHolder) {
             try {
-                if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(requireContext(),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }
                 cameraSource.start(surfaceView?.holder!!)
@@ -269,16 +281,13 @@ class HomeFragment : Fragment() {
         }
 
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-
         }
-
         override fun surfaceDestroyed(holder: SurfaceHolder) {
             cameraSource.stop()
         }
     }
     private val processor = object : Detector.Processor<Barcode> {
         override fun release() {
-
         }
 
         @SuppressLint("ServiceCast")
