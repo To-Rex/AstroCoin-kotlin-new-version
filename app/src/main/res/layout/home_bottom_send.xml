@@ -8,7 +8,7 @@
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:ignore="ScrollViewSize">
 
         <View
@@ -62,8 +62,61 @@
             android:hint="@string/wallet_address"
             app:layout_constraintEnd_toStartOf="@+id/guideline45"
             app:layout_constraintStart_toStartOf="@+id/guideline43"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            tools:ignore="Autofill,MissingPrefix" />
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/connect"
+            app:layout_constraintStart_toStartOf="@+id/guideline43"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/homecard"
+            android:hint="@string/_0_asc"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintEnd_toStartOf="@+id/guideline45"
+            app:layout_constraintStart_toStartOf="@+id/guideline43"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:ignore="Autofill,TextFields" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_200"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/homecard"
+            app:layout_constraintEnd_toStartOf="@+id/guideline45"
+            app:layout_constraintStart_toStartOf="@+id/guideline43"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/backsignin"
+            android:text="@string/send"
+            app:layout_constraintEnd_toStartOf="@+id/guideline45"
+            app:layout_constraintStart_toStartOf="@+id/guideline43"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

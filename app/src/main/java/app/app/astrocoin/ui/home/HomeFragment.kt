@@ -63,6 +63,7 @@ class HomeFragment : Fragment() {
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         imgHomeReadQr = view.findViewById(R.id.imghomereadqr)
         imgHomeSendWallet = view.findViewById(R.id.imghomesendwallet)
+        imgHomeScanQr = view.findViewById(R.id.imghomescanqr)
 
         sharedPreferences =
             requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
