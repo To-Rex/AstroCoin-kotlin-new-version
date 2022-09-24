@@ -1,16 +1,20 @@
 package app.app.astrocoin.ui.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.*
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.SparseArray
+import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.util.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -21,12 +25,17 @@ import app.app.astrocoin.fragments.FragmentTransfers
 import app.app.astrocoin.models.Getdata
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
+import com.google.android.gms.vision.CameraSource
+import com.google.android.gms.vision.Detector
+import com.google.android.gms.vision.barcode.Barcode
+import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.google.zxing.qrcode.QRCodeWriter
 import retrofit2.Call
 import retrofit2.Response
+import java.io.IOException
 
 
 class HomeFragment : Fragment() {
@@ -43,8 +52,14 @@ class HomeFragment : Fragment() {
     private var imgHomeReadQr: ImageView? = null
     private var imgHomeSendWallet: ImageView? = null
     private var imgHomeScanQr: ImageView? = null
+    private var surfaceView: SurfaceView? = null
 
     var wallet = ""
+    private var requestCodeCameraPermission = 1001
+    private lateinit var cameraSource: CameraSource
+    private lateinit var detector: BarcodeDetector
+    private var isFlashOn = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -200,8 +215,100 @@ class HomeFragment : Fragment() {
     @SuppressLint("InflateParams")
     private fun showBottomSheetDialogCamQr() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
-        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
         bottomSheetDialog.setContentView(view)
+        //your code
+        surfaceView = view.findViewById(R.id.surfaceView)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ackForCameraPermission()
+        } else {
+            setUpControls()
+        }
         bottomSheetDialog.show()
+    }
+
+    private fun setUpControls(){
+        detector = BarcodeDetector.Builder(requireActivity()).build()
+        cameraSource = CameraSource.Builder(requireActivity(), detector)
+            .setRequestedPreviewSize(640, 480)
+            .setAutoFocusEnabled(true)
+            .build()
+        surfaceView?.holder?.addCallback(surgaceCallback)
+        detector.setProcessor(processor)
+    }
+    private fun ackForCameraPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CAMERA),
+            1
+        )
+    }
+
+    @Deprecated("Deprecated in Java", ReplaceWith(
+        "super.onRequestPermissionsResult(requestCode, permissions, grantResults)",
+        "androidx.fragment.app.Fragment"
+    )
+    )
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
+                setUpControls()
+            } else {
+                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private val surgaceCallback = object : SurfaceHolder.Callback {
+        override fun surfaceCreated(holder: SurfaceHolder) {
+            try {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ackForCameraPermission()
+                    return
+                }
+                surfaceView?.holder?.let { cameraSource.start(it) }
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+        override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+
+        }
+
+        override fun surfaceDestroyed(holder: SurfaceHolder) {
+            cameraSource.stop()
+        }
+    }
+    private val processor = object : Detector.Processor<Barcode> {
+        override fun release() {
+
+        }
+
+        override fun receiveDetections(detections: Detector.Detections<Barcode>) {
+            if(detections.detectedItems.isNotEmpty()){
+                val qrCodes: SparseArray<Barcode> = detections.detectedItems
+                val code = qrCodes.valueAt(0)
+                Toast.makeText(requireContext(), code.rawValue, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), code.displayValue, Toast.LENGTH_SHORT).show()
+                showBottomSheetDialogSend()
+                txtHomeBalance?.text = code.rawValue
+            }else{
+                Toast.makeText(requireContext(), "No QR code detected", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

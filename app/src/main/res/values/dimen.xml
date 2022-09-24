@@ -69,6 +69,7 @@
     <dimen name="dp_380">380dp</dimen>
     <dimen name="dp_390">390dp</dimen>
     <dimen name="dp_400">400dp</dimen>
+    <dimen name="dp_450">450dp</dimen>
     <dimen name="dp_500">500dp</dimen>
     <dimen name="dp_600">600dp</dimen>
     <dimen name="dp_700">700dp</dimen>
