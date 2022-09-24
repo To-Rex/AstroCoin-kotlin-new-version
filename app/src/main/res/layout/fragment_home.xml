@@ -92,6 +92,7 @@
                     android:id="@+id/txthomebalance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/fredoka_fonts"
                     android:text="@string/_0_asc"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dp_20"
@@ -195,6 +196,7 @@
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:tabIndicatorHeight="1dp"
+                    android:fontFamily="@font/fredoka_fonts"
                     app:tabIndicatorColor="@color/purple_500"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" >

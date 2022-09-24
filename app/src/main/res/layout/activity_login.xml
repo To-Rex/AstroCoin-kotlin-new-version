@@ -11,6 +11,7 @@
         android:layout_width="@dimen/dp_300"
         android:layout_height="@dimen/dp_50"
         android:background="@drawable/backedittext"
+        android:fontFamily="@font/fredoka_fonts"
         android:ems="10"
         android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
@@ -28,13 +29,14 @@
         android:background="@drawable/backedittext"
         android:ems="10"
         android:hint="@string/password"
-        android:inputType="textEmailAddress"
+        android:fontFamily="@font/fredoka_fonts"
+        android:inputType="textPassword"
         android:paddingStart="@dimen/dp_15"
         android:paddingEnd="@dimen/dp_15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
-        tools:ignore="Autofill" />
+        tools:ignore="Autofill,TextFields" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -54,6 +56,7 @@
         android:id="@+id/btnloginrecover"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/fredoka_fonts"
         android:layout_height="wrap_content"
         android:text="@string/recover"
         android:textColor="@color/blue"
@@ -78,6 +81,7 @@
         android:id="@+id/btnsignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_fonts"
         android:background="@drawable/backsignup"
         android:text="@string/sign_up"
         android:textColor="@color/purple_500"
@@ -90,6 +94,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/backsignin"
         android:text="@string/sign_in"
+        android:fontFamily="@font/fredoka_fonts"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="@+id/ediloginpassword" />

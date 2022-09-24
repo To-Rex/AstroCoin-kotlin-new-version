@@ -14,6 +14,8 @@
         android:background="@drawable/homecard"
         android:submitBackground="@drawable/homecard"
         android:iconifiedByDefault="false"
+        android:fontFamily="@font/fredoka_fonts"
+        app:fontFamily="@font/fredoka_fonts"
         android:layout_marginTop="@dimen/dp_10"
         android:contextClickable="true"
         android:queryHint="search..."

@@ -10,6 +10,7 @@
     <TextView
         android:id="@+id/tranferdata"
         android:layout_width="match_parent"
+        android:fontFamily="@font/fredoka_fonts"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -41,6 +42,7 @@
         android:id="@+id/trtransfer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_fonts"
         android:layout_alignTop="@+id/trimage"
         android:layout_toEndOf="@id/trimage"
         android:padding="3dp"
@@ -55,6 +57,7 @@
         android:id="@+id/trcoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/fredoka_fonts"
         android:text="@string/connect"
         android:textSize="13sp"
         android:textStyle="bold"

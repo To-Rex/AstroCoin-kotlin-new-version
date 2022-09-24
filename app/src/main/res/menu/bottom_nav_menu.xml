@@ -4,16 +4,19 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/bottomhome"
+        android:fontFamily="@font/fredoka_fonts"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/bottomsearchuser"
+        android:fontFamily="@font/fredoka_fonts"
         android:title="@string/search_user" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/bottomsettings"
+        android:fontFamily="@font/fredoka_fonts"
         android:title="@string/settings" />
 
 </menu>
