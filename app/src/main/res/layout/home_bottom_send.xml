@@ -57,7 +57,7 @@
                 app:layout_constraintGuide_percent="0.95" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/edibotsendwaladress"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_20"
@@ -74,7 +74,7 @@
                 tools:ignore="Autofill,MissingPrefix,SpUsage" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/txtbotsendfio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_10"
@@ -82,11 +82,11 @@
                 android:text="@string/connect"
                 android:textSize="@dimen/dp_15"
                 app:layout_constraintStart_toStartOf="@+id/guideline43"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+                app:layout_constraintTop_toBottomOf="@+id/edibotsendwaladress"
                 tools:ignore="SpUsage" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edibotsendwallet"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_10"
@@ -98,7 +98,7 @@
                 android:paddingEnd="@dimen/dp_10"
                 app:layout_constraintEnd_toStartOf="@+id/guideline45"
                 app:layout_constraintStart_toStartOf="@+id/guideline43"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/txtbotsendfio"
                 tools:ignore="Autofill,SpUsage,TextFields" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -113,15 +113,15 @@
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toStartOf="@+id/guideline45"
                 app:layout_constraintStart_toStartOf="@+id/guideline43"
-                app:layout_constraintTop_toBottomOf="@+id/editText">
+                app:layout_constraintTop_toBottomOf="@+id/edibotsendwallet">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edibotdendcoment"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_150"
                     android:background="@drawable/homecard"
                     android:elevation="0.1dp"
                     android:gravity="top"
-                    android:textSize="@dimen/dp_15"
                     android:hint="@string/comment"
                     android:inputType="textMultiLine"
                     android:maxEms="10"
@@ -132,12 +132,13 @@
                     android:paddingEnd="@dimen/dp_10"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/black"
+                    android:textSize="@dimen/dp_15"
                     tools:ignore="SpUsage" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnbotsend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_20"
@@ -157,9 +158,9 @@
                 android:layout_height="@dimen/dp_20"
                 android:layout_weight="1"
                 android:elevation="@dimen/dp_2"
-                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintBottom_toBottomOf="@+id/btnbotsend"
                 app:layout_constraintStart_toStartOf="@+id/guideline46"
-                app:layout_constraintTop_toTopOf="@+id/button"
+                app:layout_constraintTop_toTopOf="@+id/btnbotsend"
                 app:srcCompat="@drawable/btnsendicon"
                 tools:ignore="ContentDescription" />
 
@@ -168,7 +169,7 @@
                 android:layout_height="@dimen/dp_50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintTop_toBottomOf="@+id/btnbotsend" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline46"
