@@ -57,20 +57,28 @@
             app:layout_constraintStart_toStartOf="@+id/guideline38"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName"
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp_50"
             android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/homecard"
+            android:gravity="center_vertical"
+            android:hint="@string/connect"
             android:paddingStart="@dimen/dp_10"
             android:paddingEnd="@dimen/dp_10"
-            android:background="@drawable/homecard"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/wallet_address"
             app:layout_constraintEnd_toStartOf="@+id/guideline42"
             app:layout_constraintStart_toStartOf="@+id/guideline38"
-            app:layout_constraintTop_toBottomOf="@+id/view8"
-            tools:ignore="Autofill" />
+            app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginEnd="@dimen/dp_10"
+            app:layout_constraintBottom_toBottomOf="@+id/textView3"
+            app:layout_constraintEnd_toStartOf="@+id/guideline42"
+            app:layout_constraintTop_toTopOf="@+id/textView3"
+            app:srcCompat="@drawable/pasticon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
