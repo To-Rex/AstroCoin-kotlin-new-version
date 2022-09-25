@@ -9,6 +9,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import app.app.astrocoin.models.Getdata
@@ -32,12 +33,13 @@ class AdapterTransferR(
     private var wallet = ""
 
 
-    @SuppressLint("SetTextI18n", "InflateParams")
+    @SuppressLint("SetTextI18n", "InflateParams", "MissingInflatedId")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transferRequest = transferRequestArrayList[position]
         holder.tranferdata.text = transferRequest.datatransfer
         holder.trtransfer.text = transferRequest.title
         holder.trcoin.text = transferRequest.amount
+        var imgindex = 0
 
 
         if (transferRequest.datatransfer == "") {
@@ -54,6 +56,7 @@ class AdapterTransferR(
             if (transferRequest.amount==""){
                 holder.trcoin.visibility = View.VISIBLE
             }else{
+                imgindex = 1
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionsend)
             }
@@ -65,6 +68,7 @@ class AdapterTransferR(
             if (transferRequest.amount==""){
                 holder.trcoin.visibility = View.VISIBLE
             }else{
+                imgindex = 2
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionfeild)
             }
@@ -74,6 +78,7 @@ class AdapterTransferR(
                 holder.trcoin.visibility = View.VISIBLE
 
             }else{
+                imgindex = 3
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionsoucses)
             }
@@ -84,6 +89,7 @@ class AdapterTransferR(
                 holder.trcoin.visibility = View.VISIBLE
 
             }else{
+                imgindex = 4
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transferfeilde)
             }
@@ -94,6 +100,44 @@ class AdapterTransferR(
             val bottomSheetDialog = BottomSheetDialog(context, R.style.custombottomsheet)
             val view = LayoutInflater.from(context).inflate(R.layout.home_bottom_transaction, null)
             bottomSheetDialog.setContentView(view)
+
+            val imgbottrtitle = view.findViewById<ImageView>(R.id.imgbottrtitle)
+            val txtbottrtransfer = view.findViewById<TextView>(R.id.txtbottrtransfer)
+            val txtbottrdate = view.findViewById<TextView>(R.id.txtbottrdate)
+            val txtbottrfio = view.findViewById<TextView>(R.id.txtbottrfio)
+            val txtbottrwallet = view.findViewById<TextView>(R.id.txtbottrwallet)
+            val txtbottrcoment = view.findViewById<TextView>(R.id.txtbottrcoment)
+            val txtbottrstatus = view.findViewById<TextView>(R.id.txtbottrstatus)
+
+            if(imgindex == 0){
+                imgbottrtitle.setImageResource(R.drawable.transactionfeild)
+            }
+            if(imgindex == 1){
+                imgbottrtitle.setImageResource(R.drawable.transactionsend)
+            }
+            if(imgindex == 2){
+                imgbottrtitle.setImageResource(R.drawable.transactionfeild)
+            }
+            if(imgindex == 3){
+                imgbottrtitle.setImageResource(R.drawable.transactionsoucses)
+            }
+            if(imgindex == 4){
+                imgbottrtitle.setImageResource(R.drawable.transferfeilde)
+            }
+
+            txtbottrtransfer.text = transferRequest.title
+            txtbottrdate.text = transferRequest.datatransfer.replace(".","/")
+            txtbottrfio.text = transferRequest.fio
+            txtbottrwallet.text = transferRequest.wallet_to
+            txtbottrcoment.text = transferRequest.comment
+            if (transferRequest.status == "success"){
+                txtbottrstatus.setTextColor(context.resources.getColor(R.color.green))
+            }else{
+                txtbottrstatus.setTextColor(context.resources.getColor(R.color.red))
+            }
+            txtbottrstatus.text = transferRequest.status
+
+
             bottomSheetDialog.show()
         }
     }
