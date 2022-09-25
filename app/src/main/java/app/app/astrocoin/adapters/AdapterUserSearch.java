@@ -1,6 +1,7 @@
 package app.app.astrocoin.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,6 +11,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.Editable;
@@ -18,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,14 +58,11 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     private final List<UserRequest> itemsModelsl;
     private List<UserRequest> itemsModelListFiltered;
     private final Context context;
-    String token = "";
     private ClipboardManager clipboard;
-    ImageView photoview2;
-    ImageView imggall;
+    ImageView imgGall;
     float[] lastEvent = null;
     float d = 0f;
     float newRot = 0f;
-    private boolean isZoomAndRotate;
     private boolean isOutSide;
     private static final int NONE = 0;
     private static final int DRAG = 1;
@@ -94,7 +94,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         return position;
     }
 
-    @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
+    @SuppressLint({"SetTextI18n", "StringFormatInvalid", "ClickableViewAccessibility"})
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View listItemView = convertView;
@@ -105,16 +105,46 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
         TextView nameTV = listItemView.findViewById(R.id.ustransfer);
         TextView idtxt = listItemView.findViewById(R.id.uscoin);
-        imggall = listItemView.findViewById(R.id.imggall);
+        imgGall = listItemView.findViewById(R.id.imggall);
 
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE);
 
         ShapeableImageView courseIV = listItemView.findViewById(R.id.usimage);
         if (dataModal.getVerify().equals("1.0")) {
-            imggall.setVisibility(View.VISIBLE);
+            imgGall.setVisibility(View.VISIBLE);
         } else {
-            imggall.setVisibility(View.INVISIBLE);
+            imgGall.setVisibility(View.INVISIBLE);
         }
+
+        courseIV.setOnClickListener(v -> {
+            Dialog dialog01 = new Dialog(context);
+            dialog01.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog01.setContentView(R.layout.pop_up_search);
+            dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog01.setCancelable(true);
+
+            ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
+
+            TextView qwText = dialog01.findViewById(R.id.textView901);
+            qwText.setOnLongClickListener(v23 -> {
+                downloadImageNew("temp", "https://api.astrocoin.uz" + dataModal.getPhoto());
+                return false;
+            });
+            setshapimguser.setOnTouchListener((v22, event) -> {
+                ImageView view1 = (ImageView) v22;
+                view1.bringToFront();
+                viewTransformation(view1, event);
+                return true;
+            });
+            if (Objects.equals(dataModal.getPhoto(), "")) {
+                setshapimguser.setImageResource(R.drawable.usericons);
+            } else {
+                dataModal.getPhoto();
+                Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(setshapimguser);
+            }
+            qwText.setText(dataModal.getQwasar());
+            dialog01.show();
+        });
 
         if (dataModal.getName().length() > 12 || dataModal.getLast_name().length() > 12) {
             assert nameTV != null;
@@ -151,6 +181,15 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
         //user sellected bottom sheet
 
+        listItemView.setOnLongClickListener(v -> {
+            try {
+                showBottomSheetDialogReadQr(dataModal.getWallet());
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+            return false;
+        });
+
         listItemView.setOnClickListener(v -> {
             bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
             @SuppressLint("InflateParams")
@@ -186,6 +225,36 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");
             txtSeaQwName.setText(dataModal.getQwasar());
             txtSeaWallets.setText(dataModal.getWallet());
+
+            imgShapeSea.setOnClickListener(v1 -> {
+                Dialog dialog01 = new Dialog(context);
+                dialog01.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog01.setContentView(R.layout.pop_up_search);
+                dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog01.setCancelable(true);
+
+                ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
+
+                TextView qwText = dialog01.findViewById(R.id.textView901);
+                qwText.setOnLongClickListener(v23 -> {
+                    downloadImageNew("temp", "https://api.astrocoin.uz" + dataModal.getPhoto());
+                    return false;
+                });
+                setshapimguser.setOnTouchListener((v22, event) -> {
+                    ImageView view1 = (ImageView) v22;
+                    view1.bringToFront();
+                    viewTransformation(view1, event);
+                    return true;
+                });
+                if (Objects.equals(dataModal.getPhoto(), "")) {
+                    setshapimguser.setImageResource(R.drawable.usericons);
+                } else {
+                    dataModal.getPhoto();
+                    Glide.with(context).load("https://api.astrocoin.uz" + image).into(setshapimguser);
+                }
+                qwText.setText(dataModal.getQwasar());
+                dialog01.show();
+            });
 
             viewSeaSendCoin.setOnClickListener(v2-> showBottomSheetDialogSend(dataModal.getWallet()));
             txtSeaWallets.setOnLongClickListener(v1 -> {
@@ -287,15 +356,15 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 d = rotation(event);
                 break;
             case MotionEvent.ACTION_UP:
-                isZoomAndRotate = false;
+                boolean isZoomAndRotate = false;
                 if (mode == DRAG) {
-                    float x = event.getX();
-                    float y = event.getY();
+                    if (isOutSide) {
+                        view.setX(0);
+                        view.setY(0);
+                    }
                 }
             case MotionEvent.ACTION_OUTSIDE:
                 isOutSide = true;
-                mode = NONE;
-                lastEvent = null;
             case MotionEvent.ACTION_POINTER_UP:
                 mode = NONE;
                 lastEvent = null;
