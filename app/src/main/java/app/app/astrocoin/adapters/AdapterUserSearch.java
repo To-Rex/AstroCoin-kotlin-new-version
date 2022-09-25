@@ -23,21 +23,17 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import app.app.astrocoin.R;
 import app.app.astrocoin.models.CheckWallet;
-import app.app.astrocoin.models.Getdata;
 import app.app.astrocoin.models.SendTransferRequest;
 import app.app.astrocoin.models.UserRequest;
 import app.app.astrocoin.sampleclass.ApiClient;
@@ -145,6 +141,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
 
+        //user sellected bottom sheet
+
         listItemView.setOnClickListener(v -> {
             bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
             @SuppressLint("InflateParams")
@@ -153,15 +151,19 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             //your code here
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
             TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
-                    txtSeaSendCoin = view.findViewById(R.id.txtSeaSendCoin),
                     txtSetStack = view.findViewById(R.id.txtSeaStack),
                     txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
                     txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
                     txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
             ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
             ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+
+            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+            View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin);
 
             if (dataModal.getVerify().equals("1.0")) {
                 imgSeaGalley.setVisibility(View.VISIBLE);
@@ -177,10 +179,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             txtSeaQwName.setText(dataModal.getQwasar());
             txtSeaWallets.setText(dataModal.getWallet());
 
-            txtSeaSendCoin.setOnClickListener(v2->{
-                showBottomSheetDialogSend(dataModal.getWallet());
-            });
-
+            viewSeaSendCoin.setOnClickListener(v2-> showBottomSheetDialogSend(dataModal.getWallet()));
             txtSeaWallets.setOnLongClickListener(v1 -> {
                 clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("label", txtSeaWallets.getText().toString());
@@ -301,117 +300,13 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         }
                         if (lastEvent != null) {
                             newRot = rotation(event);
-                            view.setRotation((float) (view.getRotation() + (newRot - d)));
+                            view.setRotation(view.getRotation() + (newRot - d));
                         }
                     }
                 }
                 break;
         }
     }
-   /* @SuppressLint("InflateParams")
-    private fun showBottomSheetDialogSend(wallet: String) {
-        bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
-        val view = layoutInflater.inflate(R.layout.home_bottom_send, null)
-        bottomSheetDialogCamQr?.setContentView(view)
-
-        val ediBotSendWalAdrEss = view.findViewById<EditText>(R.id.edibotsendwaladress)
-                val txtBotSendFio = view.findViewById<TextView>(R.id.txtbotsendfio)
-                val ediBotSendWallet = view.findViewById<EditText>(R.id.edibotsendwallet)
-                val ediBotEndComEnt = view.findViewById<TextInputEditText>(R.id.edibotdendcoment)
-                val btnBotSend = view.findViewById<Button>(R.id.btnbotsend)
-                val imgBotSendPaste = view.findViewById<ImageView>(R.id.imgbotsendpast)
-
-                ediBotSendWalAdrEss.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().isNotEmpty() && s.toString().length > 29) {
-                    val checkWallet = CheckWallet(s.toString())
-                    val walletUserNameCall = userService.userWalletname(
-                            "Bearer " + sharedPreferences?.getString(
-                            "token",
-                            ""
-                    ), checkWallet
-                    )
-                    walletUserNameCall.enqueue(object : retrofit2.Callback<Any> {
-                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                            if (response.isSuccessful) {
-                                val walletName = response.body()
-                                if (walletName != null) {
-                                    txtBotSendFio.text =
-                                            walletName.toString().split("=")[1].replace("}", "")
-                                }
-                            }
-                        }
-
-                        override fun onFailure(call: Call<Any>, t: Throwable) {
-                            if (s.toString().length > 31) {
-                                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    })
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-
-            }
-
-        })
-        ediBotSendWalAdrEss.setText(wallet)
-        imgBotSendPaste.setOnClickListener {
-            val clipboard =
-                    requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = clipboard.primaryClip
-            if (clip != null) {
-                val item = clip.getItemAt(0)
-                ediBotSendWalAdrEss.setText(item.text.toString())
-            }
-        }
-        btnBotSend.setOnClickListener {
-            val walletAdEss = ediBotSendWalAdrEss.text.toString()
-            val wallets = ediBotSendWallet.text.toString()
-            val comment = ediBotEndComEnt.text.toString()
-            if (walletAdEss.isEmpty()) {
-                ediBotSendWalAdrEss.error = "Enter wallet address"
-                return@setOnClickListener
-            }
-            if (wallets.isEmpty()) {
-                ediBotSendWallet.error = "Enter amount"
-                return@setOnClickListener
-            }
-            if (wallets.toInt() > balance.toInt()) {
-                ediBotSendWallet.error = "Enter amount less than balance"
-            }
-
-            val sendTransferRequest = SendTransferRequest()
-            sendTransferRequest.wallet_to = walletAdEss
-            val amount: Double = wallets.toDouble()
-            sendTransferRequest.amount = amount
-            sendTransferRequest.comment = comment
-            sendTransferRequest.type = ""
-            sendTransferRequest.title = ""
-            val call: Call<Any> = userService.sendTransfers(
-                    "Bearer " + sharedPreferences?.getString("token", ""), sendTransferRequest
-            )
-            call.enqueue(object : retrofit2.Callback<Any> {
-                override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
-                        bottomSheetDialogCamQr?.dismiss()
-                    } else {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<Any>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
-        bottomSheetDialogCamQr?.show()
-    }*/
 
     private void showBottomSheetDialogSend(String wallet) {
         bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
@@ -429,7 +324,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         ediBotSendWalAdrEss.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -439,7 +333,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     Call<Object> walletUserNameCall = ApiClient.INSTANCE.getUserService().userWalletname("Bearer " + sharedPreferences.getString("token", ""), checkWallet);
                     walletUserNameCall.enqueue(new Callback<Object>() {
                         @Override
-                        public void onResponse(Call<Object> call, Response<Object> response) {
+                        public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                             if (response.isSuccessful()) {
                                 Object walletName = response.body();
                                 if (walletName != null) {
@@ -447,17 +341,15 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                                 }
                             }
                         }
-
                         @Override
-                        public void onFailure(Call<Object> call, Throwable t) {
+                        public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                             if (s.toString().length() > 31) {
-                                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Error transfer", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -476,7 +368,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         btnBotSend.setOnClickListener(v -> {
             String walletAdEss = ediBotSendWalAdrEss.getText().toString();
             String wallets = ediBotSendWallet.getText().toString();
-            String comment = ediBotEndComEnt.getText().toString();
+            String comment = Objects.requireNonNull(ediBotEndComEnt.getText()).toString();
             if (walletAdEss.isEmpty()) {
                 ediBotSendWalAdrEss.setError("Enter wallet address");
                 return;
@@ -496,7 +388,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             Call<Object> call = ApiClient.INSTANCE.getUserService().sendTransfers("Bearer " + sharedPreferences.getString("token", ""), sendTransferRequest);
             call.enqueue(new Callback<Object>() {
                 @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
+                public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
                         bottomSheetDialogCamQr.dismiss();
@@ -504,9 +396,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
-                public void onFailure(Call<Object> call, Throwable t) {
+                public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 }
             });

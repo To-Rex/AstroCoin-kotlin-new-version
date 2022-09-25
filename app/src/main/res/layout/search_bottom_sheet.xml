@@ -80,7 +80,7 @@
                 app:layout_constraintGuide_percent="0.95" />
 
             <View
-                android:id="@+id/view15"
+                android:id="@+id/viewSeaSendCoin"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_50"
                 android:layout_marginTop="@dimen/dp_25"
@@ -98,7 +98,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/guideline52"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline51"
-                app:layout_constraintTop_toBottomOf="@+id/view15" />
+                app:layout_constraintTop_toBottomOf="@+id/viewSeaSendCoin" />
 
             <View
                 android:id="@+id/view16"
@@ -134,9 +134,9 @@
                 android:layout_width="@dimen/dp_35"
                 android:layout_height="@dimen/dp_35"
                 android:layout_marginStart="@dimen/dp_10"
-                app:layout_constraintBottom_toBottomOf="@+id/view15"
-                app:layout_constraintStart_toStartOf="@+id/view15"
-                app:layout_constraintTop_toTopOf="@+id/view15"
+                app:layout_constraintBottom_toBottomOf="@+id/viewSeaSendCoin"
+                app:layout_constraintStart_toStartOf="@+id/viewSeaSendCoin"
+                app:layout_constraintTop_toTopOf="@+id/viewSeaSendCoin"
                 app:srcCompat="@drawable/sendicon"
                 tools:ignore="ContentDescription" />
 
@@ -181,9 +181,9 @@
                 android:fontFamily="@font/fredoka_fonts"
                 android:text="@string/send_coin"
                 android:textSize="@dimen/dp_20"
-                app:layout_constraintBottom_toBottomOf="@+id/view15"
+                app:layout_constraintBottom_toBottomOf="@+id/viewSeaSendCoin"
                 app:layout_constraintStart_toEndOf="@+id/imageView8"
-                app:layout_constraintTop_toTopOf="@+id/view15"
+                app:layout_constraintTop_toTopOf="@+id/viewSeaSendCoin"
                 tools:ignore="SpUsage" />
 
             <TextView
