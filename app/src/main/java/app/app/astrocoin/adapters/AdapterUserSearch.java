@@ -125,6 +125,9 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dataModal.getPhoto();
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
+        listitemView.setOnClickListener(v -> {
+
+        });
         return listitemView;
     }
 
