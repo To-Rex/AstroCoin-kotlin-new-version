@@ -38,7 +38,6 @@ class AdapterTransferR(
         val transferRequest = transferRequestArrayList[position]
         holder.tranFerData.text = transferRequest.datatransfer
         holder.trTransfer.text = transferRequest.title
-        holder.trCoin.text = transferRequest.amount
         var imgIndex = 0
 
 
@@ -60,7 +59,7 @@ class AdapterTransferR(
                 holder.trCoin.visibility = View.VISIBLE
             } else {
                 imgIndex = 1
-                holder.trCoin.text = transferRequest.amount + " ASC"
+                holder.trCoin.text = transferRequest.amount.replace(".0", "") + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionsend)
             }
         }
@@ -70,7 +69,7 @@ class AdapterTransferR(
                 holder.trCoin.visibility = View.VISIBLE
             } else {
                 imgIndex = 2
-                holder.trCoin.text = transferRequest.amount + " ASC"
+                holder.trCoin.text = transferRequest.amount.replace(".0", "")  + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionfeild)
             }
         }
@@ -80,7 +79,7 @@ class AdapterTransferR(
                 holder.trCoin.visibility = View.VISIBLE
             } else {
                 imgIndex = 3
-                holder.trCoin.text = transferRequest.amount + " ASC"
+                holder.trCoin.text = "+"+transferRequest.amount.replace(".0", "")  + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionsoucses)
             }
 
@@ -91,7 +90,7 @@ class AdapterTransferR(
                 holder.trCoin.visibility = View.VISIBLE
             } else {
                 imgIndex = 4
-                holder.trCoin.text = transferRequest.amount + " ASC"
+                holder.trCoin.text = "-"+transferRequest.amount.replace(".0", "")  + " ASC"
                 holder.trImage.setImageResource(R.drawable.transferfeilde)
             }
         }
@@ -126,8 +125,7 @@ class AdapterTransferR(
             }
 
             txtBotTrTransfer.text = transferRequest.title
-            txtBotTrDate.text =
-                transferRequest.date.replace("-", "/").
+            txtBotTrDate.text = transferRequest.date.replace("-", "/").
                 replace("T", " - ").split(".")[0]
             txtBotTrFio.text = transferRequest.fio
             txtBotTrWallet.text = transferRequest.wallet_to

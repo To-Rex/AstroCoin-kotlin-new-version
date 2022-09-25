@@ -144,7 +144,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
             ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
-            
+
             if (dataModal.getVerify().equals("1.0")) {
                 imgSeaGalley.setVisibility(View.VISIBLE);
             } else {
