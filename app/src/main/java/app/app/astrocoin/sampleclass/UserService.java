@@ -1,6 +1,8 @@
 package app.app.astrocoin.sampleclass;
 
+import app.app.astrocoin.models.CheckWallet;
 import app.app.astrocoin.models.LoginRequest;
+import app.app.astrocoin.models.SendTransferRequest;
 import app.app.astrocoin.models.TokenRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,15 +18,15 @@ public interface UserService {
     @GET("user")
     Call<TokenRequest> userTokenRequest(@Header("Authorization") String token);
 
-//    @GET("orders")
+    //    @GET("orders")
 //    Call<Object> userOrderRequest(@Query("page") int param,@Header("Authorization") String orders);
 //
     @GET("users")
     Call<Object> userSearchRequest(@Header("Authorization") String users);
 
-    //    @POST("wallet/transfer")
-//    Call<Object> saveVotes(@Header("Authorization") String token,@Body SendTransferRequest transferRequest);
-//
+    @POST("wallet/transfer")
+    Call<Object> sendTransfers(@Header("Authorization") String token, @Body SendTransferRequest transferRequest);
+
     @GET("transfers")
     Call<Object> userGetTransfers(@Query("page") int param, @Header("Authorization") String token);
 
@@ -38,6 +40,6 @@ public interface UserService {
 //    @POST("user/password")
 //    Call<Object> userChangePassword(@Header("Authorization") String token,@Body SetPassword setPassword);
 
-//    @POST("wallet")
-//    Call<Object> userWalletname(@Header("Authorization") String token,@Body CheckWallet checkWallet);
+    @POST("wallet")
+    Call<Object> userWalletname(@Header("Authorization") String token, @Body CheckWallet checkWallet);
 }

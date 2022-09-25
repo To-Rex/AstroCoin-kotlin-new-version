@@ -6,11 +6,10 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -20,15 +19,19 @@ import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
 import app.app.astrocoin.fragments.FragmentOrder
 import app.app.astrocoin.fragments.FragmentTransfers
+import app.app.astrocoin.models.CheckWallet
 import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.SendTransferRequest
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
+import app.app.astrocoin.sampleclass.ApiClient.userService
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.zxing.qrcode.QRCodeWriter
 import retrofit2.Call
@@ -204,11 +207,102 @@ class HomeFragment : Fragment() {
 
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "MissingInflatedId")
     private fun showBottomSheetDialogSend() {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_send, null)
         bottomSheetDialog.setContentView(view)
+
+        val edibotsendwaladress = view.findViewById<EditText>(R.id.edibotsendwaladress)
+        val txtbotsendfio = view.findViewById<TextView>(R.id.txtbotsendfio)
+        val edibotsendwallet = view.findViewById<EditText>(R.id.edibotsendwallet)
+        val edibotdendcoment = view.findViewById<TextInputEditText>(R.id.edibotdendcoment)
+        val btnbotsend = view.findViewById<Button>(R.id.btnbotsend)
+        val imgbotsendpaste = view.findViewById<ImageView>(R.id.imgbotsendpast)
+
+        edibotsendwaladress.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().isNotEmpty() && s.toString().length > 29) {
+                    val checkWallet = CheckWallet(s.toString())
+                    val walletUserNameCall = ApiClient.userService.userWalletname(
+                        "Bearer " + sharedPreferences?.getString(
+                            "token",
+                            ""
+                        ), checkWallet
+                    )
+                    walletUserNameCall.enqueue(object : retrofit2.Callback<Any> {
+                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                            if (response.isSuccessful) {
+                                val walletName = response.body()
+                                if (walletName != null) {
+                                    txtbotsendfio.text =
+                                        walletName.toString().split("=")[1].replace("}", "")
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Any>, t: Throwable) {
+                            if (s.toString().length > 31) {
+                                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+        imgbotsendpaste.setOnClickListener {
+            val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = clipboard.primaryClip
+            if (clip != null) {
+                val item = clip.getItemAt(0)
+                edibotsendwaladress.setText(item.text.toString())
+            }
+        }
+        btnbotsend.setOnClickListener {
+            val walletadress = edibotsendwaladress.text.toString()
+            val wallet = edibotsendwallet.text.toString()
+            val comment = edibotdendcoment.text.toString()
+            if (walletadress.isEmpty()){
+                edibotsendwaladress.error = "Enter wallet address"
+                return@setOnClickListener
+            }
+            if (wallet.isEmpty()){
+                edibotsendwallet.error = "Enter amount"
+                return@setOnClickListener
+            }
+
+            val sendTransferRequest = SendTransferRequest()
+            sendTransferRequest.wallet_to = walletadress
+            val amount: Double = wallet.toDouble()
+            sendTransferRequest.amount = amount
+            sendTransferRequest.comment = comment
+            sendTransferRequest.type = ""
+            sendTransferRequest.title = ""
+            val call: Call<Any> = userService.sendTransfers(
+                "Bearer " + sharedPreferences?.getString("token", ""), sendTransferRequest)
+            call.enqueue(object : retrofit2.Callback<Any> {
+                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                        bottomSheetDialog.dismiss()
+                    } else {
+                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Any>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
         bottomSheetDialog.show()
     }
 
@@ -219,7 +313,10 @@ class HomeFragment : Fragment() {
         bottomSheetDialogcamqr?.setContentView(view)
 
         surfaceView = view.findViewById(R.id.cameraSurfaceView)
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             ackForCameraPermission()
         } else {
@@ -228,6 +325,7 @@ class HomeFragment : Fragment() {
         bottomSheetDialogcamqr?.show()
     }
 
+    //qr scan code
     private fun setUpControls() {
         detector = BarcodeDetector.Builder(requireContext()).build()
         cameraSource = CameraSource.Builder(requireContext(), detector)
@@ -239,12 +337,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun ackForCameraPermission() {
-        ActivityCompat.requestPermissions(requireActivity(),
-            arrayOf(Manifest.permission.CAMERA), requestCodeCameraPermission)
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CAMERA), requestCodeCameraPermission
+        )
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -259,8 +363,11 @@ class HomeFragment : Fragment() {
         @SuppressLint("MissingPermission")
         override fun surfaceCreated(holder: SurfaceHolder) {
             try {
-                if (ActivityCompat.checkSelfPermission(requireContext(),
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
                     return
                 }
                 cameraSource.start(surfaceView?.holder!!)
@@ -271,6 +378,7 @@ class HomeFragment : Fragment() {
 
         override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         }
+
         override fun surfaceDestroyed(holder: SurfaceHolder) {
             cameraSource.stop()
         }
