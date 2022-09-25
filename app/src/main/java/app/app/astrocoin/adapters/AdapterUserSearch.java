@@ -127,6 +127,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dataModal.getPhoto();
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
+
         listitemView.setOnClickListener(v -> {
             bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
             @SuppressLint("InflateParams")
@@ -134,11 +135,18 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             bottomSheetDialogCamQr.setContentView(view);
             //your code here
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            TextView txtSetFio = view.findViewById(R.id.txtSetFio),
-                    txtSetStack = view.findViewById(R.id.txtSetStack),
+            TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
+                    txtSetStack = view.findViewById(R.id.txtSeaStack),
                     txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
                     txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
                     txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+            ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+            ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+            if (!dataModal.getPhoto().equals("")) {
+                Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(imgShapeSea);
+            }
             txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
             txtSetStack.setText(dataModal.getStack());
             txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");

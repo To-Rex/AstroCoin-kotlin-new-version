@@ -26,7 +26,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/shapeableImageViewss"
+                android:id="@+id/imgShapeSea"
                 android:layout_width="@dimen/dp_150"
                 android:layout_height="@dimen/dp_150"
                 android:layout_marginTop="@dimen/dp_30"
@@ -39,7 +39,7 @@
                 app:srcCompat="@drawable/usericons" />
 
             <TextView
-                android:id="@+id/txtSetFio"
+                android:id="@+id/txtSeaFio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_20"
@@ -49,11 +49,11 @@
                 android:textSize="@dimen/dp_25"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewss"
+                app:layout_constraintTop_toBottomOf="@+id/imgShapeSea"
                 tools:ignore="SpUsage" />
 
             <TextView
-                android:id="@+id/txtSetStack"
+                android:id="@+id/txtSeaStack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_10"
@@ -62,7 +62,7 @@
                 android:textSize="@dimen/dp_20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSetFio"
+                app:layout_constraintTop_toBottomOf="@+id/txtSeaFio"
                 tools:ignore="SpUsage" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -87,7 +87,7 @@
                 android:background="@drawable/homecard"
                 app:layout_constraintEnd_toStartOf="@+id/guideline52"
                 app:layout_constraintStart_toStartOf="@+id/guideline51"
-                app:layout_constraintTop_toBottomOf="@+id/txtSetStack" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSeaStack" />
 
             <View
                 android:id="@+id/view14"
@@ -178,6 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_15"
+                android:fontFamily="@font/fredoka_fonts"
                 android:text="@string/send_coin"
                 android:textSize="@dimen/dp_20"
                 app:layout_constraintBottom_toBottomOf="@+id/view15"
@@ -191,6 +192,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/connect"
                 android:layout_marginStart="@dimen/dp_15"
+                android:fontFamily="@font/fredoka_fonts"
                 android:textSize="@dimen/dp_20"
                 app:layout_constraintBottom_toBottomOf="@+id/view14"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
@@ -202,6 +204,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/connect"
+                android:fontFamily="@font/fredoka_fonts"
                 android:layout_marginStart="@dimen/dp_15"
                 android:textSize="@dimen/dp_20"
                 app:layout_constraintBottom_toBottomOf="@+id/view16"
@@ -211,15 +214,30 @@
 
             <TextView
                 android:id="@+id/txtSeaWallets"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/connect"
-                android:textSize="@dimen/dp_20"
                 android:layout_marginStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_10"
+                android:fontFamily="@font/fredoka_fonts"
+                android:text="@string/connect"
+                android:maxLines="1"
+                android:textSize="@dimen/dp_16"
                 app:layout_constraintBottom_toBottomOf="@+id/view17"
+                app:layout_constraintEnd_toStartOf="@+id/guideline52"
                 app:layout_constraintStart_toEndOf="@+id/imageView21"
                 app:layout_constraintTop_toBottomOf="@+id/view16"
-                tools:ignore="SpUsage" />
+                tools:ignore="RtlSymmetry,SpUsage" />
+
+            <ImageView
+                android:id="@+id/imgSeaGall"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginStart="@dimen/dp_10"
+                app:layout_constraintBottom_toBottomOf="@+id/txtSeaFio"
+                app:layout_constraintStart_toEndOf="@+id/txtSeaFio"
+                app:layout_constraintTop_toTopOf="@+id/txtSeaFio"
+                app:srcCompat="@drawable/icongal"
+                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
