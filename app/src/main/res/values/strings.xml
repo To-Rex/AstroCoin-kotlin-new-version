@@ -46,4 +46,9 @@
     <string name="comment">Comment</string>
     <string name="flash_on">Flash on</string>
     <string name="flash_off">Flash off</string>
+    <string name="date_and_time">Date and time</string>
+    <string name="receiver_s_name">Receiver`s Name</string>
+    <string name="receiver_s_wallet">Receiver\'s wallet</string>
+    <string name="status">Status</string>
+    <string name="service">Service</string>
 </resources>

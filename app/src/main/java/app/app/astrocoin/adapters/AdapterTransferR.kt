@@ -10,7 +10,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import app.app.astrocoin.models.Getdata
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 import java.util.ArrayList
@@ -18,6 +20,7 @@ import java.util.ArrayList
 class AdapterTransferR(
     var context: Context,
     var transferRequestArrayList: ArrayList<TransferRequest>
+
 
 ) : RecyclerView.Adapter<AdapterTransferR.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,6 +38,8 @@ class AdapterTransferR(
         holder.tranferdata.text = transferRequest.datatransfer
         holder.trtransfer.text = transferRequest.title
         holder.trcoin.text = transferRequest.amount
+
+
         if (transferRequest.datatransfer == "") {
             holder.tranferdata.visibility = View.GONE
         } else {
@@ -52,8 +57,9 @@ class AdapterTransferR(
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionsend)
             }
-            return
         }
+
+
 
         if(transferRequest.status == "failed"&&transferRequest.wallet_to != wallet){
             if (transferRequest.amount==""){
@@ -62,7 +68,6 @@ class AdapterTransferR(
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionfeild)
             }
-            return
         }
         if(transferRequest.status == "success"&&transferRequest.wallet_to == wallet){
             if (transferRequest.amount==""){
@@ -72,7 +77,7 @@ class AdapterTransferR(
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transactionsoucses)
             }
-            return
+
         }
         if (transferRequest.status == "success"&&transferRequest.wallet_to != wallet){
             if (transferRequest.amount==""){
@@ -82,9 +87,15 @@ class AdapterTransferR(
                 holder.trcoin.text = transferRequest.amount+" ASC"
                 holder.trimage.setImageResource(R.drawable.transferfeilde)
             }
-            return
+
         }
 
+        holder.itemView.setOnClickListener {
+            val bottomSheetDialog = BottomSheetDialog(context, R.style.custombottomsheet)
+            val view = LayoutInflater.from(context).inflate(R.layout.home_bottom_transaction, null)
+            bottomSheetDialog.setContentView(view)
+            bottomSheetDialog.show()
+        }
     }
 
     override fun getItemCount(): Int {
