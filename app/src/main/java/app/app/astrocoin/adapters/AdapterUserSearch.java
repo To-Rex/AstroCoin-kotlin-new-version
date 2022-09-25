@@ -56,18 +56,22 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         this.itemsModelListFiltered = itemsModelsl;
         this.context = context;
     }
+
     @Override
     public int getCount() {
         return itemsModelListFiltered.size();
     }
+
     @Override
     public Object getItem(int position) {
         return itemsModelListFiltered.get(position);
     }
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -82,9 +86,9 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         imggall = listitemView.findViewById(R.id.imggall);
 
         ShapeableImageView courseIV = listitemView.findViewById(R.id.usimage);
-        if(dataModal.getVerify().equals("1.0")){
+        if (dataModal.getVerify().equals("1.0")) {
             imggall.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             imggall.setVisibility(View.INVISIBLE);
         }
 
@@ -121,7 +125,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dataModal.getPhoto();
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
-
         return listitemView;
     }
 
@@ -137,7 +140,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     List<UserRequest> filteredList = new ArrayList<>();
                     for (UserRequest row : itemsModelsl) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase())||
+                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
                                 row.getStack().toLowerCase().contains(charString.toLowerCase())
                                 || row.getQwasar().toLowerCase().contains(charString.toLowerCase())
                                 || row.getStatus().toLowerCase().contains(charString.toLowerCase())
@@ -151,6 +154,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 filterResults.values = itemsModelListFiltered;
                 return filterResults;
             }
+
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 itemsModelListFiltered = (ArrayList<UserRequest>) results.values;
@@ -176,6 +180,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             Toast.makeText(context, "Image download failed.", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void viewTransformation(View view, MotionEvent event) {
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
