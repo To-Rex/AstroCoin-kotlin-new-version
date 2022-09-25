@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
 
     private var wallet = ""
     private var balance = ""
-    private var chesk = false
+    private var cHsk = false
     private var requestCodeCameraPermission = 1001
     private lateinit var cameraSource: CameraSource
     private lateinit var detector: BarcodeDetector
@@ -294,23 +294,23 @@ class HomeFragment : Fragment() {
         }
         btnBotSend.setOnClickListener {
             val walletAdEss = ediBotSendWalAdrEss.text.toString()
-            val wallet = ediBotSendWallet.text.toString()
+            val wallets = ediBotSendWallet.text.toString()
             val comment = ediBotEndComEnt.text.toString()
             if (walletAdEss.isEmpty()) {
                 ediBotSendWalAdrEss.error = "Enter wallet address"
                 return@setOnClickListener
             }
-            if (wallet.isEmpty()) {
+            if (wallets.isEmpty()) {
                 ediBotSendWallet.error = "Enter amount"
                 return@setOnClickListener
             }
-            if (wallet.toInt() > balance.toInt()) {
+            if (wallets.toInt() > balance.toInt()) {
                 ediBotSendWallet.error = "Enter amount less than balance"
             }
 
             val sendTransferRequest = SendTransferRequest()
             sendTransferRequest.wallet_to = walletAdEss
-            val amount: Double = wallet.toDouble()
+            val amount: Double = wallets.toDouble()
             sendTransferRequest.amount = amount
             sendTransferRequest.comment = comment
             sendTransferRequest.type = ""
@@ -410,13 +410,13 @@ class HomeFragment : Fragment() {
         override fun receiveDetections(detections: Detector.Detections<Barcode>) {
             val qrCodes = detections.detectedItems
             if (qrCodes.size() != 0) {
-                if (!chesk) {
-                    chesk = true
+                if (!cHsk) {
+                    cHsk = true
                     bottomSheetDialogCamQr?.dismiss()
                     Handler(Looper.getMainLooper()).postDelayed({
                         val qrCode = qrCodes.valueAt(0).displayValue
                         showBottomSheetDialogSend(qrCode)
-                        chesk = false
+                        cHsk = false
                     }, 500)
                 }
             }

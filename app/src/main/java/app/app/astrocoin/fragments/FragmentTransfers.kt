@@ -26,7 +26,6 @@ import retrofit2.Response
 class FragmentTransfers : Fragment() {
 
     private var sharedPreferences: SharedPreferences? = null
-
     private var samrecyclerview: RecyclerView? = null
     private var trarray: ArrayList<TransferRequest>? = null
     private var tradapter: AdapterTransferR? = null
