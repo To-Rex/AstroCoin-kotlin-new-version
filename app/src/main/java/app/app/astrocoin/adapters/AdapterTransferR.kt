@@ -49,51 +49,51 @@ class AdapterTransferR(
             holder.tranFerData.text = transferRequest.datatransfer
         }
 
-        sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE)
+        sharedPreferences = context.getSharedPreferences(
+            context.getString(R.string.astrocoin),
+            Context.MODE_PRIVATE
+        )
         getUserData()
 
-        if(transferRequest.status == "failed"&&transferRequest.wallet_to == wallet){
-            if (transferRequest.amount==""){
+        if (transferRequest.status == "failed" && transferRequest.wallet_to == wallet) {
+            if (transferRequest.amount == "") {
                 holder.trCoin.visibility = View.VISIBLE
-            }else{
+            } else {
                 imgIndex = 1
-                holder.trCoin.text = transferRequest.amount+" ASC"
+                holder.trCoin.text = transferRequest.amount + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionsend)
             }
         }
 
-
-
-        if(transferRequest.status == "failed"&&transferRequest.wallet_to != wallet){
-            if (transferRequest.amount==""){
+        if (transferRequest.status == "failed" && transferRequest.wallet_to != wallet) {
+            if (transferRequest.amount == "") {
                 holder.trCoin.visibility = View.VISIBLE
-            }else{
+            } else {
                 imgIndex = 2
-                holder.trCoin.text = transferRequest.amount+" ASC"
+                holder.trCoin.text = transferRequest.amount + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionfeild)
             }
         }
-        if(transferRequest.status == "success"&&transferRequest.wallet_to == wallet){
-            if (transferRequest.amount==""){
-                holder.trCoin.visibility = View.VISIBLE
 
-            }else{
+        if (transferRequest.status == "success" && transferRequest.wallet_to == wallet) {
+            if (transferRequest.amount == "") {
+                holder.trCoin.visibility = View.VISIBLE
+            } else {
                 imgIndex = 3
-                holder.trCoin.text = transferRequest.amount+" ASC"
+                holder.trCoin.text = transferRequest.amount + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionsoucses)
             }
 
         }
-        if (transferRequest.status == "success"&&transferRequest.wallet_to != wallet){
-            if (transferRequest.amount==""){
-                holder.trCoin.visibility = View.VISIBLE
 
-            }else{
+        if (transferRequest.status == "success" && transferRequest.wallet_to != wallet) {
+            if (transferRequest.amount == "") {
+                holder.trCoin.visibility = View.VISIBLE
+            } else {
                 imgIndex = 4
-                holder.trCoin.text = transferRequest.amount+" ASC"
+                holder.trCoin.text = transferRequest.amount + " ASC"
                 holder.trImage.setImageResource(R.drawable.transferfeilde)
             }
-
         }
 
         holder.itemView.setOnClickListener {
@@ -109,31 +109,31 @@ class AdapterTransferR(
             val txtBotTrComEnt = view.findViewById<TextView>(R.id.txtbottrcoment)
             val txtOtTrStatus = view.findViewById<TextView>(R.id.txtbottrstatus)
 
-            if(imgIndex == 0){
+            if (imgIndex == 0) {
                 imgBotTrTitle.setImageResource(R.drawable.transactionfeild)
             }
-            if(imgIndex == 1){
+            if (imgIndex == 1) {
                 imgBotTrTitle.setImageResource(R.drawable.transactionsend)
             }
-            if(imgIndex == 2){
+            if (imgIndex == 2) {
                 imgBotTrTitle.setImageResource(R.drawable.transactionfeild)
             }
-            if(imgIndex == 3){
+            if (imgIndex == 3) {
                 imgBotTrTitle.setImageResource(R.drawable.transactionsoucses)
             }
-            if(imgIndex == 4){
+            if (imgIndex == 4) {
                 imgBotTrTitle.setImageResource(R.drawable.transferfeilde)
             }
 
             txtBotTrTransfer.text = transferRequest.title
-            txtBotTrDate.text = transferRequest.date.replace("-","/").
-            replace("T"," - ").split(".")[0]
+            txtBotTrDate.text =
+                transferRequest.date.replace("-", "/").replace("T", " - ").split(".")[0]
             txtBotTrFio.text = transferRequest.fio
             txtBotTrWallet.text = transferRequest.wallet_to
             txtBotTrComEnt.text = transferRequest.comment
-            if (transferRequest.status == "success"){
+            if (transferRequest.status == "success") {
                 txtOtTrStatus.setTextColor(Color.parseColor("#00C853"))
-            }else{
+            } else {
                 txtOtTrStatus.setTextColor(Color.parseColor("#FF0000"))
             }
             txtOtTrStatus.text = transferRequest.status
@@ -160,6 +160,7 @@ class AdapterTransferR(
             trImage = itemView.findViewById(R.id.trimage)
         }
     }
+
     @SuppressLint("SetTextI18n")
     private fun getUserData() {
         val gson = Gson()
