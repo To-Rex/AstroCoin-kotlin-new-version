@@ -5,7 +5,10 @@ import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Environment;
@@ -28,6 +31,11 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -187,6 +195,13 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 Toast.makeText(context, "copy wallet id", Toast.LENGTH_SHORT).show();
                 return false;
             });
+            txtSeaWallets.setOnClickListener(v1 -> {
+                try {
+                    showBottomSheetDialogReadQr(dataModal.getWallet());
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+            });
 
             bottomSheetDialogCamQr.show();
         });
@@ -306,6 +321,61 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 }
                 break;
         }
+    }
+
+    private void showBottomSheetDialogReadQr(String wallet) throws WriterException {
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.custombottomsheet);
+        @SuppressLint("InflateParams")
+        View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_qrcode, null);
+        bottomSheetDialog.setContentView(view);
+        ImageView imgReadQrBottom = view.findViewById(R.id.imgreadqrbottom);
+        TextView txtReadQrBottom = view.findViewById(R.id.txtreadqrbottom);
+        ImageView imgReadQrBottomIcon = view.findViewById(R.id.imgreadqrbottomicon);
+        Button btnReadQrBottom = view.findViewById(R.id.btnreadqrbottom);
+        if (!wallet.isEmpty()) {
+            txtReadQrBottom.setText(wallet);
+
+            imgReadQrBottomIcon.setOnClickListener(v -> {
+                ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("label", wallet);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show();
+            });
+
+            btnReadQrBottom.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, wallet);
+                context.startActivity(Intent.createChooser(intent, "Share via"));
+            });
+
+            QRCodeWriter writTer = new QRCodeWriter();
+            BitMatrix bitMatrix = writTer.encode(
+                    wallet,
+                    BarcodeFormat.QR_CODE,
+                    512,
+                    512
+            );
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+            Bitmap bmp = Bitmap.createBitmap(
+                    width,
+                    height,
+                    Bitmap.Config.RGB_565
+            );
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            imgReadQrBottom.setImageBitmap(bmp);
+            bottomSheetDialog.show();
+
+        } else {
+            Toast.makeText(context, "Wallet is empty", Toast.LENGTH_SHORT).show();
+            bottomSheetDialog.dismiss();
+        }
+
     }
 
     private void showBottomSheetDialogSend(String wallet) {
