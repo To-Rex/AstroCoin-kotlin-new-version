@@ -6,6 +6,8 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -23,7 +25,6 @@ import app.app.astrocoin.models.CheckWallet
 import app.app.astrocoin.models.Getdata
 import app.app.astrocoin.models.SendTransferRequest
 import app.app.astrocoin.models.TokenRequest
-import app.app.astrocoin.sampleclass.ApiClient
 import app.app.astrocoin.sampleclass.ApiClient.userService
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
@@ -43,7 +44,7 @@ class HomeFragment : Fragment() {
 
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
-    var bottomSheetDialogcamqr: BottomSheetDialog? = null
+    var bottomSheetDialogCamQr: BottomSheetDialog? = null
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -55,7 +56,9 @@ class HomeFragment : Fragment() {
     private var imgHomeScanQr: ImageView? = null
     private var surfaceView: SurfaceView? = null
 
-    var wallet = ""
+    private var wallet = ""
+    private var balance = ""
+    private var chesk = false
     private var requestCodeCameraPermission = 1001
     private lateinit var cameraSource: CameraSource
     private lateinit var detector: BarcodeDetector
@@ -96,7 +99,7 @@ class HomeFragment : Fragment() {
             showBottomSheetDialogReadQr()
         }
         imgHomeSendWallet!!.setOnClickListener {
-            showBottomSheetDialogSend()
+            showBottomSheetDialogSend("")
         }
         imgHomeScanQr!!.setOnClickListener {
             showBottomSheetDialogCamQr()
@@ -125,10 +128,11 @@ class HomeFragment : Fragment() {
         val user = gson.fromJson(json, Getdata::class.java)
         txtHomeBalance!!.text = user.balance + " ASC"
         wallet = user.wallet
+        balance = user.balance
     }
 
     private fun getUsers() {
-        val tokenResPonceCall = ApiClient.userService
+        val tokenResPonceCall = userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
         tokenResPonceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
@@ -207,27 +211,47 @@ class HomeFragment : Fragment() {
 
     }
 
-    @SuppressLint("InflateParams", "MissingInflatedId")
-    private fun showBottomSheetDialogSend() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+
+    @SuppressLint("InflateParams")
+    private fun showBottomSheetDialogCamQr() {
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
+        bottomSheetDialogCamQr?.setContentView(view)
+
+        surfaceView = view.findViewById(R.id.cameraSurfaceView)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ackForCameraPermission()
+        } else {
+            setUpControls()
+        }
+        bottomSheetDialogCamQr?.show()
+    }
+
+    @SuppressLint("InflateParams")
+    private fun showBottomSheetDialogSend(wallet: String) {
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_send, null)
-        bottomSheetDialog.setContentView(view)
+        bottomSheetDialogCamQr?.setContentView(view)
 
-        val edibotsendwaladress = view.findViewById<EditText>(R.id.edibotsendwaladress)
-        val txtbotsendfio = view.findViewById<TextView>(R.id.txtbotsendfio)
-        val edibotsendwallet = view.findViewById<EditText>(R.id.edibotsendwallet)
-        val edibotdendcoment = view.findViewById<TextInputEditText>(R.id.edibotdendcoment)
-        val btnbotsend = view.findViewById<Button>(R.id.btnbotsend)
-        val imgbotsendpaste = view.findViewById<ImageView>(R.id.imgbotsendpast)
+        val ediBotSendWalAdrEss = view.findViewById<EditText>(R.id.edibotsendwaladress)
+        val txtBotSendFio = view.findViewById<TextView>(R.id.txtbotsendfio)
+        val ediBotSendWallet = view.findViewById<EditText>(R.id.edibotsendwallet)
+        val ediBotEndComEnt = view.findViewById<TextInputEditText>(R.id.edibotdendcoment)
+        val btnBotSend = view.findViewById<Button>(R.id.btnbotsend)
+        val imgBotSendPaste = view.findViewById<ImageView>(R.id.imgbotsendpast)
 
-        edibotsendwaladress.addTextChangedListener(object : TextWatcher {
+        ediBotSendWalAdrEss.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty() && s.toString().length > 29) {
                     val checkWallet = CheckWallet(s.toString())
-                    val walletUserNameCall = ApiClient.userService.userWalletname(
+                    val walletUserNameCall = userService.userWalletname(
                         "Bearer " + sharedPreferences?.getString(
                             "token",
                             ""
@@ -238,7 +262,7 @@ class HomeFragment : Fragment() {
                             if (response.isSuccessful) {
                                 val walletName = response.body()
                                 if (walletName != null) {
-                                    txtbotsendfio.text =
+                                    txtBotSendFio.text =
                                         walletName.toString().split("=")[1].replace("}", "")
                                 }
                             }
@@ -258,41 +282,47 @@ class HomeFragment : Fragment() {
             }
 
         })
-        imgbotsendpaste.setOnClickListener {
-            val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        ediBotSendWalAdrEss.setText(wallet)
+        imgBotSendPaste.setOnClickListener {
+            val clipboard =
+                requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = clipboard.primaryClip
             if (clip != null) {
                 val item = clip.getItemAt(0)
-                edibotsendwaladress.setText(item.text.toString())
+                ediBotSendWalAdrEss.setText(item.text.toString())
             }
         }
-        btnbotsend.setOnClickListener {
-            val walletadress = edibotsendwaladress.text.toString()
-            val wallet = edibotsendwallet.text.toString()
-            val comment = edibotdendcoment.text.toString()
-            if (walletadress.isEmpty()){
-                edibotsendwaladress.error = "Enter wallet address"
+        btnBotSend.setOnClickListener {
+            val walletAdEss = ediBotSendWalAdrEss.text.toString()
+            val wallet = ediBotSendWallet.text.toString()
+            val comment = ediBotEndComEnt.text.toString()
+            if (walletAdEss.isEmpty()) {
+                ediBotSendWalAdrEss.error = "Enter wallet address"
                 return@setOnClickListener
             }
-            if (wallet.isEmpty()){
-                edibotsendwallet.error = "Enter amount"
+            if (wallet.isEmpty()) {
+                ediBotSendWallet.error = "Enter amount"
                 return@setOnClickListener
+            }
+            if (wallet.toInt() > balance.toInt()) {
+                ediBotSendWallet.error = "Enter amount less than balance"
             }
 
             val sendTransferRequest = SendTransferRequest()
-            sendTransferRequest.wallet_to = walletadress
+            sendTransferRequest.wallet_to = walletAdEss
             val amount: Double = wallet.toDouble()
             sendTransferRequest.amount = amount
             sendTransferRequest.comment = comment
             sendTransferRequest.type = ""
             sendTransferRequest.title = ""
             val call: Call<Any> = userService.sendTransfers(
-                "Bearer " + sharedPreferences?.getString("token", ""), sendTransferRequest)
+                "Bearer " + sharedPreferences?.getString("token", ""), sendTransferRequest
+            )
             call.enqueue(object : retrofit2.Callback<Any> {
                 override fun onResponse(call: Call<Any>, response: Response<Any>) {
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
-                        bottomSheetDialog.dismiss()
+                        bottomSheetDialogCamQr?.dismiss()
                     } else {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
@@ -303,26 +333,7 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-        bottomSheetDialog.show()
-    }
-
-    @SuppressLint("InflateParams", "MissingInflatedId", "ServiceCast")
-    private fun showBottomSheetDialogCamQr() {
-        bottomSheetDialogcamqr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
-        val view = layoutInflater.inflate(R.layout.home_bottom_qrscan, null)
-        bottomSheetDialogcamqr?.setContentView(view)
-
-        surfaceView = view.findViewById(R.id.cameraSurfaceView)
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ackForCameraPermission()
-        } else {
-            setUpControls()
-        }
-        bottomSheetDialogcamqr?.show()
+        bottomSheetDialogCamQr?.show()
     }
 
     //qr scan code
@@ -349,7 +360,15 @@ class HomeFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        /*super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                setUpControls()
+            } else {
+                Toast.makeText(requireContext(), "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }*/
+
         if (requestCode == requestCodeCameraPermission && grantResults.isNotEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setUpControls()
@@ -391,8 +410,15 @@ class HomeFragment : Fragment() {
         override fun receiveDetections(detections: Detector.Detections<Barcode>) {
             val qrCodes = detections.detectedItems
             if (qrCodes.size() != 0) {
-                bottomSheetDialogcamqr?.dismiss()
-                println(qrCodes.valueAt(0).displayValue)
+                if (!chesk) {
+                    chesk = true
+                    bottomSheetDialogCamQr?.dismiss()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val qrCode = qrCodes.valueAt(0).displayValue
+                        showBottomSheetDialogSend(qrCode)
+                        chesk = false
+                    }, 500)
+                }
             }
         }
     }
