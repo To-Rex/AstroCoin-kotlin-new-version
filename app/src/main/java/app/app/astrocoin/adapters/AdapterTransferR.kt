@@ -127,7 +127,8 @@ class AdapterTransferR(
 
             txtBotTrTransfer.text = transferRequest.title
             txtBotTrDate.text =
-                transferRequest.date.replace("-", "/").replace("T", " - ").split(".")[0]
+                transferRequest.date.replace("-", "/").
+                replace("T", " - ").split(".")[0]
             txtBotTrFio.text = transferRequest.fio
             txtBotTrWallet.text = transferRequest.wallet_to
             txtBotTrComEnt.text = transferRequest.comment

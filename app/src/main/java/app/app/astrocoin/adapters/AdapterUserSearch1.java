@@ -29,7 +29,7 @@ import java.util.Objects;
 import app.app.astrocoin.R;
 import app.app.astrocoin.models.UserRequest;
 
-public class AdapterUserSearch extends BaseAdapter implements Filterable {
+public class AdapterUserSearch1 extends BaseAdapter implements Filterable {
     private final List<UserRequest> itemsModelsl;
     private List<UserRequest> itemsModelListFiltered;
     private final Context context;
@@ -51,7 +51,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     float oldDist = 1f;
     private float xCoOrdinate, yCoOrdinate;
 
-    public AdapterUserSearch(List<UserRequest> itemsModelsl, Context context) {
+    public AdapterUserSearch1(List<UserRequest> itemsModelsl, Context context) {
         this.itemsModelsl = itemsModelsl;
         this.itemsModelListFiltered = itemsModelsl;
         this.context = context;
