@@ -135,9 +135,15 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             //your code here
             @SuppressLint({"MissingInflatedId", "LocalSuppress"})
             TextView txtSetFio = view.findViewById(R.id.txtSetFio),
-             txtSetStack = view.findViewById(R.id.txtSetStack);
+                    txtSetStack = view.findViewById(R.id.txtSetStack),
+                    txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
+                    txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
+                    txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
             txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
             txtSetStack.setText(dataModal.getStack());
+            txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");
+            txtSeaQwName.setText(dataModal.getQwasar());
+            txtSeaWallets.setText(dataModal.getWallet());
 
             bottomSheetDialogCamQr.show();
         });
