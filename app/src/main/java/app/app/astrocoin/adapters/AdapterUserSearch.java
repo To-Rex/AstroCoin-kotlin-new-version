@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.File;
@@ -30,6 +31,7 @@ import app.app.astrocoin.R;
 import app.app.astrocoin.models.UserRequest;
 
 public class AdapterUserSearch extends BaseAdapter implements Filterable {
+    BottomSheetDialog bottomSheetDialogCamQr;
     private final List<UserRequest> itemsModelsl;
     private List<UserRequest> itemsModelListFiltered;
     private final Context context;
@@ -126,7 +128,18 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
         listitemView.setOnClickListener(v -> {
+            bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
+            @SuppressLint("InflateParams")
+            View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
+            bottomSheetDialogCamQr.setContentView(view);
+            //your code here
+            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+            TextView txtSetFio = view.findViewById(R.id.txtSetFio),
+             txtSetStack = view.findViewById(R.id.txtSetStack);
+            txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
+            txtSetStack.setText(dataModal.getStack());
 
+            bottomSheetDialogCamQr.show();
         });
         return listitemView;
     }
