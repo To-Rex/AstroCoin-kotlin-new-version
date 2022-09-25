@@ -51,4 +51,5 @@
     <string name="receiver_s_wallet">Receiver\'s wallet</string>
     <string name="status">Status</string>
     <string name="service">Service</string>
+    <string name="send_coin">Send Coin</string>
 </resources>

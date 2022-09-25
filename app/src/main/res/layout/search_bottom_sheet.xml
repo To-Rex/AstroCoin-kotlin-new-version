@@ -23,9 +23,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="@dimen/dp_115"
-            android:layout_height="@dimen/dp_115"
+            android:id="@+id/shapeableImageViewss"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
             android:layout_marginTop="@dimen/dp_30"
             android:padding="3dp"
             android:scaleType="centerCrop"
@@ -39,13 +39,14 @@
             android:id="@+id/txtSetFio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/dp_25"
             android:layout_marginTop="@dimen/dp_20"
+            android:fontFamily="@font/fredoka_fonts"
             android:text="@string/connect"
             android:textColor="@color/black"
+            android:textSize="@dimen/dp_25"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toBottomOf="@+id/shapeableImageViewss"
             tools:ignore="SpUsage" />
 
         <TextView
@@ -53,8 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/dp_20"
+            android:fontFamily="@font/fredoka_fonts"
             android:text="@string/connect"
+            android:textSize="@dimen/dp_20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSetFio"
@@ -65,14 +67,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05"/>
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline52"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95"/>
+            app:layout_constraintGuide_percent="0.95" />
 
         <View
             android:id="@+id/view15"
@@ -167,6 +169,54 @@
             app:layout_constraintTop_toBottomOf="@+id/view16"
             app:srcCompat="@drawable/setwallet"
             tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_15"
+            android:text="@string/send_coin"
+            android:textSize="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/view15"
+            app:layout_constraintStart_toEndOf="@+id/imageView8"
+            app:layout_constraintTop_toTopOf="@+id/view15"
+            tools:ignore="SpUsage" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:layout_marginStart="@dimen/dp_15"
+            android:textSize="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/view14"
+            app:layout_constraintStart_toEndOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/view14"
+            tools:ignore="SpUsage" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:layout_marginStart="@dimen/dp_15"
+            android:textSize="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/view16"
+            app:layout_constraintStart_toEndOf="@+id/imageView20"
+            app:layout_constraintTop_toBottomOf="@+id/view14"
+            tools:ignore="SpUsage" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:textSize="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_15"
+            app:layout_constraintBottom_toBottomOf="@+id/view17"
+            app:layout_constraintStart_toEndOf="@+id/imageView21"
+            app:layout_constraintTop_toBottomOf="@+id/view16"
+            tools:ignore="SpUsage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
