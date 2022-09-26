@@ -193,6 +193,7 @@
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_55"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:tabIndicatorHeight="1dp"

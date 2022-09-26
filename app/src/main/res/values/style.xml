@@ -8,20 +8,25 @@
     </style>
     <style name="shapess" parent="">
         <item name="cornerSize">10%</item>
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
     <style name="raidiusimage" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
         <item name="color">@color/white</item>
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
     <style name="radiused">
         <item name="cornerSize">30%</item>
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
     <style name="custombottomsheet" parent = "Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
@@ -35,6 +40,7 @@
     </style>
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget"
         tools:ignore="PrivateResource">
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
         <item name="tabMaxWidth">0dp</item>
         <item name="tabIndicatorColor">?attr/colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>

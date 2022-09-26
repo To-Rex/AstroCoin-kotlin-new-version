@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import android.view.*
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -82,16 +84,14 @@ class HomeFragment : Fragment() {
         imgHomeSendWallet = view.findViewById(R.id.imghomesendwallet)
         imgHomeScanQr = view.findViewById(R.id.imghomescanqr)
 
-        sharedPreferences =
-            requireActivity().getSharedPreferences(
-                getString(R.string.astrocoin),
-                Context.MODE_PRIVATE
-            )
+        sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
+
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
-            swipeRefreshLayout!!.isRefreshing = false
+
         }
+        swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY,Color.RED,Color.BLACK);
         toLsAllFun()
 
         imgHomeReadQr!!.setOnClickListener {
@@ -115,9 +115,28 @@ class HomeFragment : Fragment() {
         tabLayout!!.setTabTextColors(Color.parseColor("#C9C9C9"), Color.parseColor("#5733D1"))
         tabLayout!!.setSelectedTabIndicatorColor(Color.parseColor("#5733D1"))
 
-        tabLayout?.getTabAt(0)!!.text = getString(R.string.transfers)
-        tabLayout?.getTabAt(1)!!.text = getString(R.string.orders)
+        val selectedTab = tabLayout!!.getTabAt(0)
+        val selectedTab1 = tabLayout!!.getTabAt(1)
+
+        tabLayout!!.getTabAt(0)!!.text = getString(R.string.transfers)
+        tabLayout!!.getTabAt(1)!!.text = getString(R.string.orders)
+
+        if (selectedTab != null) {
+            ResourcesCompat.getFont(requireContext(), R.font.fredoka_fonts)
+                ?.let { setTabTypeface(selectedTab, it) }
+        }
+        if (selectedTab1 != null) {
+            ResourcesCompat.getFont(requireContext(), R.font.fredoka_fonts)
+                ?.let { setTabTypeface(selectedTab1, it) }
+        }
+
         getUserData()
+    }
+    private fun setTabTypeface(tab: TabLayout.Tab, typeface: Typeface) {
+        for (i in 0 until tab.view.childCount) {
+            val tabViewChild = tab.view.getChildAt(i)
+            if (tabViewChild is TextView) tabViewChild.typeface = typeface
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -128,6 +147,7 @@ class HomeFragment : Fragment() {
         txtHomeBalance!!.text = user.balance + " ASC"
         wallet = user.wallet
         balance = user.balance
+        swipeRefreshLayout!!.isRefreshing = false
     }
 
     private fun getUsers() {
@@ -150,6 +170,12 @@ class HomeFragment : Fragment() {
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed(
+                    {
+                        swipeRefreshLayout!!.isRefreshing = false
+                    }, 2500
+                )
+
             }
         })
     }
