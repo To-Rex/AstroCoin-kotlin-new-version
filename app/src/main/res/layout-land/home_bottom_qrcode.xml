@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@drawable/bottomsheetback"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessLeaf,UselessParent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/view7"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/homecard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:fontFamily="@font/fredoka_fonts"
+                android:text="@string/recieve"
+                android:textColor="@color/black"
+                android:textSize="@dimen/dp_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view7"
+                tools:ignore="SpUsage" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <View
+                android:id="@+id/view8"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_300"
+                android:background="@drawable/homecard"
+                android:layout_marginTop="@dimen/dp_10"
+                app:layout_constraintEnd_toStartOf="@+id/guideline54"
+                app:layout_constraintStart_toStartOf="@+id/guideline38"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/txtreadqrbottom"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_50"
+                android:background="@drawable/homecard"
+                android:fontFamily="@font/fredoka_fonts"
+                android:layout_marginStart="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:hint="@string/connect"
+                android:layout_marginBottom="@dimen/dp_60"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_10"
+                app:layout_constraintBottom_toBottomOf="@+id/imgreadqrbottom"
+                app:layout_constraintEnd_toStartOf="@+id/guideline42"
+                app:layout_constraintStart_toEndOf="@+id/view8"
+                app:layout_constraintTop_toTopOf="@+id/view8" />
+
+            <ImageView
+                android:id="@+id/imgreadqrbottomicon"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginEnd="@dimen/dp_10"
+                app:layout_constraintBottom_toBottomOf="@+id/txtreadqrbottom"
+                app:layout_constraintEnd_toStartOf="@+id/guideline42"
+                app:layout_constraintTop_toTopOf="@+id/txtreadqrbottom"
+                app:srcCompat="@drawable/pasticon"
+                tools:ignore="ContentDescription" />
+
+            <Button
+                android:id="@+id/btnreadqrbottom"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/backsignin"
+                android:fontFamily="@font/fredoka_fonts"
+                android:text="@string/share"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/guideline42"
+                app:layout_constraintStart_toEndOf="@+id/view8"
+                app:layout_constraintTop_toBottomOf="@+id/txtreadqrbottom" />
+
+            <ImageView
+                android:id="@+id/imageView19"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:elevation="@dimen/dp_3"
+                android:layout_marginEnd="@dimen/dp_130"
+                android:src="@drawable/buttonsend"
+                app:layout_constraintBottom_toBottomOf="@+id/btnreadqrbottom"
+                app:layout_constraintEnd_toStartOf="@+id/guideline42"
+                app:layout_constraintTop_toTopOf="@+id/btnreadqrbottom"
+                app:srcCompat="@drawable/buttonsend"
+                tools:ignore="ContentDescription" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+            <ImageView
+                android:id="@+id/imgreadqrbottom"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_25"
+                app:layout_constraintBottom_toBottomOf="@+id/view8"
+                app:layout_constraintEnd_toEndOf="@+id/view8"
+                app:layout_constraintStart_toStartOf="@+id/guideline38"
+                app:layout_constraintTop_toTopOf="@+id/view8"
+                app:srcCompat="@drawable/passsign"
+                tools:ignore="ContentDescription" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline54"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.43"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>
