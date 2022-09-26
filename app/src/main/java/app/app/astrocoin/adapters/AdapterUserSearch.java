@@ -207,22 +207,39 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
                     bottomSheetDialogCamQr.setContentView(view);
                     //your code here
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView txtSetFio = view.findViewById(R.id.txtSeaFio), txtSetStack = view.findViewById(R.id.txtSeaStack), txtSeaCoins = view.findViewById(R.id.txtSeaCoins), txtSeaQwName = view.findViewById(R.id.txtSeaQwName), txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
+                            txtSetStack = view.findViewById(R.id.txtSeaStack),
+                            txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
+                            txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
+                            txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin),
+                            viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus);
+
+                    if (!dataModal.getStatus().equals("verified")) {
+                        viewSeaSendStatus.setBackgroundResource(R.drawable.passerror);
+                    } else {
+                        viewSeaSendStatus.setBackgroundResource(R.drawable.passsign);
+                    }
 
                     if (dataModal.getVerify().equals("1.0")) {
                         imgSeaGalley.setVisibility(View.VISIBLE);
                     } else {
                         imgSeaGalley.setVisibility(View.INVISIBLE);
                     }
+
                     if (!dataModal.getPhoto().equals("")) {
                         Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(imgShapeSea);
                     }
+
                     txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
                     txtSetStack.setText(dataModal.getStack());
                     txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");
