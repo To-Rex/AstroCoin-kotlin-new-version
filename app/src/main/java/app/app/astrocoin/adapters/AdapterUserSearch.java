@@ -59,7 +59,7 @@ import retrofit2.Response;
 public class AdapterUserSearch extends BaseAdapter implements Filterable {
     SharedPreferences sharedPreferences;
     BottomSheetDialog bottomSheetDialogCamQr;
-    private final List<UserRequest> itemsModelsl;
+    private final List<UserRequest> itemsModelSl;
     private List<UserRequest> itemsModelListFiltered;
     private final Context context;
     private ClipboardManager clipboard;
@@ -76,11 +76,11 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     private final PointF mid = new PointF();
     float oldDist = 1f;
     private float xCoOrdinate, yCoOrdinate;
-    private int doubleclick = 0;
+    private int doubleClick = 0;
 
-    public AdapterUserSearch(List<UserRequest> itemsModelsl, Context context) {
-        this.itemsModelsl = itemsModelsl;
-        this.itemsModelListFiltered = itemsModelsl;
+    public AdapterUserSearch(List<UserRequest> itemsModelSl, Context context) {
+        this.itemsModelSl = itemsModelSl;
+        this.itemsModelListFiltered = itemsModelSl;
         this.context = context;
     }
 
@@ -109,7 +109,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         UserRequest dataModal = (UserRequest) getItem(position);
 
         TextView nameTV = listItemView.findViewById(R.id.ustransfer);
-        TextView idtxt = listItemView.findViewById(R.id.uscoin);
+        TextView idTxt = listItemView.findViewById(R.id.uscoin);
         imgGall = listItemView.findViewById(R.id.imggall);
 
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE);
@@ -135,24 +135,24 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog01.setCancelable(true);
 
-            ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setShapImgUser01);
+            ShapeableImageView setSHapImgUser = dialog01.findViewById(R.id.setShapImgUser01);
 
             TextView qwText = dialog01.findViewById(R.id.textView901);
             qwText.setOnLongClickListener(v23 -> {
                 downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
                 return false;
             });
-            setshapimguser.setOnTouchListener((v22, event) -> {
+            setSHapImgUser.setOnTouchListener((v22, event) -> {
                 ImageView view1 = (ImageView) v22;
                 view1.bringToFront();
                 viewTransformation(view1, event);
                 return true;
             });
             if (Objects.equals(dataModal.getPhoto(), "")) {
-                setshapimguser.setImageResource(R.drawable.usericons);
+                setSHapImgUser.setImageResource(R.drawable.usericons);
             } else {
                 dataModal.getPhoto();
-                Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(setshapimguser);
+                Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(setSHapImgUser);
             }
             qwText.setText(dataModal.getQwasar());
             dialog01.show();
@@ -165,21 +165,21 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             assert nameTV != null;
             nameTV.setText(dataModal.getName());
         }
-        String ccoin = dataModal.getBalance().split("\\.0")[0];
+        String cCoin = dataModal.getBalance().split("\\.0")[0];
 
-        if (ccoin.length() > 0) {
-            int coiint = Integer.parseInt(ccoin);
-            if (coiint < 0) {
-                idtxt.setText("-" + dataModal.getBalance().split("\\.0")[0] + " ASC");
+        if (cCoin.length() > 0) {
+            int coiInt = Integer.parseInt(cCoin);
+            if (coiInt < 0) {
+                idTxt.setText("-" + dataModal.getBalance().split("\\.0")[0] + " ASC");
             } else {
-                if (coiint == 0) {
-                    idtxt.setText("0" + " ASC");
+                if (coiInt == 0) {
+                    idTxt.setText("0" + " ASC");
                 } else {
-                    idtxt.setText("+" + dataModal.getBalance().split("\\.0")[0] + " ASC");
+                    idTxt.setText("+" + dataModal.getBalance().split("\\.0")[0] + " ASC");
                 }
             }
         } else {
-            idtxt.setText("0" + " ASC");
+            idTxt.setText("0" + " ASC");
         }
 
         String image = dataModal.getPhoto();
@@ -200,9 +200,9 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         });
 
         listItemView.setOnClickListener(v -> {
-            doubleclick++;
+            doubleClick++;
             new Handler().postDelayed(() -> {
-                if (doubleclick == 1) {
+                if (doubleClick == 1) {
                     bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
                     @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
                     bottomSheetDialogCamQr.setContentView(view);
@@ -253,7 +253,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog01.setCancelable(true);
 
-                        ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setShapImgUser01);
+                        ShapeableImageView setSHapImgUser = dialog01.findViewById(R.id.setShapImgUser01);
 
                         TextView qwText = dialog01.findViewById(R.id.textView901);
                         qwText.setText(dataModal.getQwasar());
@@ -261,17 +261,17 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                             downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
                             return false;
                         });
-                        setshapimguser.setOnTouchListener((v22, event) -> {
+                        setSHapImgUser.setOnTouchListener((v22, event) -> {
                             ImageView view1 = (ImageView) v22;
                             view1.bringToFront();
                             viewTransformation(view1, event);
                             return true;
                         });
                         if (Objects.equals(dataModal.getPhoto(), "")) {
-                            setshapimguser.setImageResource(R.drawable.usericons);
+                            setSHapImgUser.setImageResource(R.drawable.usericons);
                         } else {
                             dataModal.getPhoto();
-                            Glide.with(context).load("https://api.astrocoin.uz" + image).into(setshapimguser);
+                            Glide.with(context).load("https://api.astrocoin.uz" + image).into(setSHapImgUser);
                         }
 
                         dialog01.show();
@@ -293,10 +293,10 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         }
                     });
                     bottomSheetDialogCamQr.show();
-                    doubleclick = 0;
+                    doubleClick = 0;
                 } else {
-                    if (doubleclick >= 2) {
-                        doubleclick = 0;
+                    if (doubleClick >= 2) {
+                        doubleClick = 0;
                         showBottomSheetDialogSend(dataModal.getWallet());
                     }
 
@@ -314,10 +314,10 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
                 if (charString.isEmpty()) {
-                    itemsModelListFiltered = itemsModelsl;
+                    itemsModelListFiltered = itemsModelSl;
                 } else {
                     List<UserRequest> filteredList = new ArrayList<>();
-                    for (UserRequest row : itemsModelsl) {
+                    for (UserRequest row : itemsModelSl) {
                         if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
                                 row.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
                                 row.getStack().toLowerCase().contains(charString.toLowerCase()) ||
@@ -348,9 +348,9 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             Uri downloadUri = Uri.parse(downloadUrlOfImage);
             DownloadManager.Request request = new DownloadManager.Request(downloadUri);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
-                            DownloadManager.Request.NETWORK_MOBILE).setAllowedOverRoaming(false).setTitle("o`qimang").
+                            DownloadManager.Request.NETWORK_MOBILE).setAllowedOverRoaming(false).setTitle(context.getString(R.string.astrocoin)).
                     setMimeType("image/jpeg").setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).
-                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + "o`qimang" + ".jpg");
+                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + context.getString(R.string.astrocoin) + ".jpg");
             dm.enqueue(request);
             Toast.makeText(context, "Image download started.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
