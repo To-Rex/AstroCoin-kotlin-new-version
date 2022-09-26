@@ -135,7 +135,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog01.setCancelable(true);
 
-            ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
+            ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setShapImgUser01);
 
             TextView qwText = dialog01.findViewById(R.id.textView901);
             qwText.setOnLongClickListener(v23 -> {
@@ -253,7 +253,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         dialog01.setCancelable(true);
 
-                        ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
+                        ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setShapImgUser01);
 
                         TextView qwText = dialog01.findViewById(R.id.textView901);
                         qwText.setText(dataModal.getQwasar());
