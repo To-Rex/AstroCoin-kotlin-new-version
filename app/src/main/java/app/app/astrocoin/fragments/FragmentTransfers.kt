@@ -26,9 +26,9 @@ import retrofit2.Response
 class FragmentTransfers : Fragment() {
 
     private var sharedPreferences: SharedPreferences? = null
-    private var samrecyclerview: RecyclerView? = null
-    private var trarray: ArrayList<TransferRequest>? = null
-    private var tradapter: AdapterTransferR? = null
+    private var samRecyclerView: RecyclerView? = null
+    private var trArray: ArrayList<TransferRequest>? = null
+    private var traAapTer: AdapterTransferR? = null
     private var transferRequest: TransferRequest? = null
     private var manager: LinearLayoutManager? = null
     private var currentItems: Int = 0
@@ -36,8 +36,8 @@ class FragmentTransfers : Fragment() {
     private var scrollOutItems: Int = 0
     private var isScrolling = false
     private var id: String? = null
-    private var walletfrom:String? = null
-    private var walletto:String? = null
+    private var walletFrom:String? = null
+    private var walletTo:String? = null
     private var fio:String? = null
     private var amount:String? = null
     private var title:String? = null
@@ -46,7 +46,7 @@ class FragmentTransfers : Fragment() {
     private var status:String? = null
     private var date:String? = null
     private var timestamp:String? = null
-    private var trdata:String? = null
+    private var trData:String? = null
     private var page = 0
     private var token = ""
     override fun onCreateView(
@@ -60,17 +60,17 @@ class FragmentTransfers : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        samrecyclerview = view.findViewById(R.id.samrecyclerView)
+        samRecyclerView = view.findViewById(R.id.samrecyclerView)
         manager = LinearLayoutManager(context)
         sharedPreferences =
-            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(requireContext().getString(R.string.astrocoin), Context.MODE_PRIVATE)
         token = sharedPreferences!!.getString("token", "")!!
-        trarray = ArrayList()
-        tradapter = context?.let { AdapterTransferR(it, trarray!!) }
-        samrecyclerview?.layoutManager = manager
+        trArray = ArrayList()
+        traAapTer = context?.let { AdapterTransferR(it, trArray!!) }
+        samRecyclerView?.layoutManager = manager
         getUserData()
 
-        samrecyclerview?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        samRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     isScrolling = true
@@ -82,7 +82,7 @@ class FragmentTransfers : Fragment() {
                 totalItems = manager!!.itemCount
                 scrollOutItems = manager!!.findFirstVisibleItemPosition()
                 if (isScrolling && currentItems + scrollOutItems == totalItems) {
-                    scrollinfinity()
+                    scrollInfinity()
                     isScrolling = false
                 }
             }
@@ -110,7 +110,7 @@ class FragmentTransfers : Fragment() {
                         parts3 = s.split(",").toTypedArray()
                         if (parts3.isNotEmpty()) {
                             val parts = parts3[0].split("=").toTypedArray()
-                            trdata = parts[0].substring(1)
+                            trData = parts[0].substring(1)
                             try {
                                 val jsonObject = JSONObject(json)
                                 val jsonArray1 = jsonObject.getJSONArray(parts[0].substring(1))
@@ -122,8 +122,8 @@ class FragmentTransfers : Fragment() {
                                         "no comment"
                                     }
                                     id = jsonObject1.getString("id")
-                                    walletfrom = jsonObject1.getString("wallet_from")
-                                    walletto = jsonObject1.getString("wallet_to")
+                                    walletFrom = jsonObject1.getString("wallet_from")
+                                    walletTo = jsonObject1.getString("wallet_to")
                                     fio = jsonObject1.getString("fio")
                                     val parts2 =
                                         jsonObject1.getString("amount").split("\\.").toTypedArray()
@@ -134,18 +134,18 @@ class FragmentTransfers : Fragment() {
                                     date = jsonObject1.getString("date")
                                     timestamp = jsonObject1.getString("timestamp")
                                     transferRequest = TransferRequest(
-                                        id!!, walletfrom!!, walletto!!, fio!!, amount!!, title!!, type!!,
-                                        comment!!, status!!, date!!, timestamp!!, trdata!!
+                                        id!!, walletFrom!!, walletTo!!, fio!!, amount!!, title!!, type!!,
+                                        comment!!, status!!, date!!, timestamp!!, trData!!
                                     )
-                                    trarray!!.add(transferRequest!!)
-                                    trdata = ""
+                                    trArray!!.add(transferRequest!!)
+                                    trData = ""
                                 }
                             } catch (e: JSONException) {
                                 e.printStackTrace()
                             }
                         }
                     }
-                    samrecyclerview!!.adapter = tradapter
+                    samRecyclerView!!.adapter = traAapTer
                     page++
                 }
             }
@@ -156,7 +156,7 @@ class FragmentTransfers : Fragment() {
             }
         })
     }
-    private fun scrollinfinity(){
+    private fun scrollInfinity(){
         if (page > 0) {
             val call: Call<Any> = ApiClient.userService.userGetTransfers(page, "Bearer $token")
             call.enqueue(object : Callback<Any?> {
@@ -173,7 +173,7 @@ class FragmentTransfers : Fragment() {
                             parts3 = s.split(",").toTypedArray()
                             if (parts3.isNotEmpty()) {
                                 val parts = parts3[0].split("=").toTypedArray()
-                                trdata = parts[0].substring(1)
+                                trData = parts[0].substring(1)
                                 try {
                                     val jsonObject = JSONObject(json)
                                     val jsonArray1 = jsonObject.getJSONArray(parts[0].substring(1))
@@ -183,9 +183,9 @@ class FragmentTransfers : Fragment() {
                                             jsonObject1.getString("comment")
                                         } else "no comment"
                                         if (jsonObject1.has("id")) id = jsonObject1.getString("id")
-                                        if (jsonObject1.has("wallet_from")) walletfrom =
+                                        if (jsonObject1.has("wallet_from")) walletFrom =
                                             jsonObject1.getString("wallet_from")
-                                        if (jsonObject1.has("wallet_to")) walletto =
+                                        if (jsonObject1.has("wallet_to")) walletTo =
                                             jsonObject1.getString("wallet_to")
                                         if (jsonObject1.has("fio")) fio =
                                             jsonObject1.getString("fio")
@@ -204,19 +204,19 @@ class FragmentTransfers : Fragment() {
                                             jsonObject1.getString("timestamp")
                                         } else "no timestamp"
                                         transferRequest = TransferRequest(
-                                            id!!, walletfrom!!, walletto!!, fio!!, amount!!, title!!, type!!,
-                                            comment!!, status!!, date!!, timestamp!!, trdata!!
+                                            id!!, walletFrom!!, walletTo!!, fio!!, amount!!, title!!, type!!,
+                                            comment!!, status!!, date!!, timestamp!!, trData!!
                                         )
-                                        trarray!!.add(transferRequest!!)
-                                        trdata = ""
-                                                tradapter?.notifyDataSetChanged()
+                                        trArray!!.add(transferRequest!!)
+                                        trData = ""
+                                        traAapTer?.notifyDataSetChanged()
                                     }
                                 } catch (e: JSONException) {
                                     e.printStackTrace()
                                 }
                             }
                         }
-                        tradapter?.notifyDataSetChanged()
+                        traAapTer?.notifyDataSetChanged()
                         call.cancel()
                     } else page = 0
                 }

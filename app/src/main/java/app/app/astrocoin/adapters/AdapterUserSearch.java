@@ -484,7 +484,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.toString().length() > 29) {
                     CheckWallet checkWallet = new CheckWallet(s.toString());
-                    Call<Object> walletUserNameCall = ApiClient.INSTANCE.getUserService().userWalletname("Bearer " + sharedPreferences.getString("token", ""), checkWallet);
+                    Call<Object> walletUserNameCall = ApiClient.INSTANCE.getUserService().userWalletName("Bearer " + sharedPreferences.getString("token", ""), checkWallet);
                     walletUserNameCall.enqueue(new Callback<Object>() {
                         @Override
                         public void onResponse(@NonNull Call<Object> call, @NonNull Response<Object> response) {
