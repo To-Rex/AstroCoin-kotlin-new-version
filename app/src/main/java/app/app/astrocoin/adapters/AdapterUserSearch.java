@@ -256,6 +256,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
 
                         TextView qwText = dialog01.findViewById(R.id.textView901);
+                        qwText.setText(dataModal.getQwasar());
                         qwText.setOnLongClickListener(v23 -> {
                             downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
                             return false;
@@ -272,7 +273,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                             dataModal.getPhoto();
                             Glide.with(context).load("https://api.astrocoin.uz" + image).into(setshapimguser);
                         }
-                        qwText.setText(dataModal.getQwasar());
+
                         dialog01.show();
                     });
 
