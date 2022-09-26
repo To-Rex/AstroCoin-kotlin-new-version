@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
             android.view.WindowManager.LayoutParams.FLAG_SECURE
         )
         setContentView(R.layout.activity_main)
-        sharedPreferences = getSharedPreferences("astrocoin", MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(this.getString(R.string.astrocoin), MODE_PRIVATE)
         Handler(Looper.getMainLooper()).postDelayed({
             if (sharedPreferences!!.getString("token", "") != "") {
                 startActivity(Intent(this@MainActivity, Password::class.java))

@@ -22,14 +22,11 @@ import retrofit2.Response
 
 class SearchUserFragment : Fragment() {
 
-    private lateinit var searchUserViewModel: SearchUserViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        searchUserViewModel = ViewModelProvider(this)[SearchUserViewModel::class.java]
         return inflater.inflate(R.layout.fragment_searchuser, container, false)
     }
 

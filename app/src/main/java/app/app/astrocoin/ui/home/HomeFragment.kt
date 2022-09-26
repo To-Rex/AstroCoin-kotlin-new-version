@@ -250,7 +250,7 @@ class HomeFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().isNotEmpty() && s.toString().length > 29) {
                     val checkWallet = CheckWallet(s.toString())
-                    val walletUserNameCall = userService.userWalletname(
+                    val walletUserNameCall = userService.userWalletName(
                         "Bearer " + sharedPreferences?.getString(
                             "token",
                             ""

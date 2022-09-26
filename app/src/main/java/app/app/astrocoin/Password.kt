@@ -22,27 +22,27 @@ import java.util.concurrent.Executors
 
 class Password : AppCompatActivity() {
 
-    private var txtgetname: TextView? = null
-    private var txtpassword: TextView? = null
-    private var txtforgatpass: TextView? = null
-    private var viewone: View? = null
-    private var viewtwo: View? = null
-    private var viewthree: View? = null
-    private var viewfour: View? = null
+    private var txtGetName: TextView? = null
+    private var txtPassword: TextView? = null
+    private var txtForGatPass: TextView? = null
+    private var viewOne: View? = null
+    private var viewTwo: View? = null
+    private var viewThree: View? = null
+    private var viewFour: View? = null
 
-    private var txtpas1: TextView? = null
-    private var txtpas2: TextView? = null
-    private var txtpas3: TextView? = null
-    private var txtpas4: TextView? = null
-    private var txtpas5: TextView? = null
-    private var txtpas6: TextView? = null
-    private var txtpas7: TextView? = null
-    private var txtpas8: TextView? = null
-    private var txtpas9: TextView? = null
-    private var txtpas0: TextView? = null
+    private var txtPas1: TextView? = null
+    private var txtPas2: TextView? = null
+    private var txtPas3: TextView? = null
+    private var txtPas4: TextView? = null
+    private var txtPas5: TextView? = null
+    private var txtPas6: TextView? = null
+    private var txtPas7: TextView? = null
+    private var txtPas8: TextView? = null
+    private var txtPas9: TextView? = null
+    private var txtPas0: TextView? = null
 
-    private var imgfinger: ImageView? = null
-    private var imgback: ImageView? = null
+    private var imgFinGer: ImageView? = null
+    private var imgBack: ImageView? = null
     private var sharedPreferences: SharedPreferences? = null
     private var vibrator: Vibrator? = null
     private var promptInfo: BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
@@ -53,52 +53,51 @@ class Password : AppCompatActivity() {
 
     private var username = ""
     private var index = 0
-    private var pasindex = false
+    private var pasiIndex = false
     private var password = ""
-    private var writepass = ""
-    private var newpassword = ""
+    private var writePass = ""
+    private var newPassword = ""
     private var click = true
 
     @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        //screenshott disable
         window.setFlags(
             android.view.WindowManager.LayoutParams.FLAG_SECURE,
             android.view.WindowManager.LayoutParams.FLAG_SECURE
         )
         setContentView(R.layout.activity_password)
 
-        txtgetname = findViewById(R.id.txtlog_getname)
-        txtpassword = findViewById(R.id.txtlog_pass)
-        txtforgatpass = findViewById(R.id.txtlog_forgatpass)
+        txtGetName = findViewById(R.id.txtlog_getname)
+        txtPassword = findViewById(R.id.txtlog_pass)
+        txtForGatPass = findViewById(R.id.txtlog_forgatpass)
 
-        viewone = findViewById(R.id.viewlog_one)
-        viewtwo = findViewById(R.id.viewlog_two)
-        viewthree = findViewById(R.id.viewlog_three)
-        viewfour = findViewById(R.id.viewlog_four)
+        viewOne = findViewById(R.id.viewlog_one)
+        viewTwo = findViewById(R.id.viewlog_two)
+        viewThree = findViewById(R.id.viewlog_three)
+        viewFour = findViewById(R.id.viewlog_four)
 
-        txtpas1 = findViewById(R.id.txtlog_pas1)
-        txtpas2 = findViewById(R.id.txtlog_pas2)
-        txtpas3 = findViewById(R.id.txtlog_pas3)
-        txtpas4 = findViewById(R.id.txtlog_pas4)
-        txtpas5 = findViewById(R.id.txtlog_pas5)
-        txtpas6 = findViewById(R.id.txtlog_pas6)
-        txtpas7 = findViewById(R.id.txtlog_pas7)
-        txtpas8 = findViewById(R.id.txtlog_pas8)
-        txtpas9 = findViewById(R.id.txtlog_pas9)
-        txtpas0 = findViewById(R.id.txtlog_pas0)
+        txtPas1 = findViewById(R.id.txtlog_pas1)
+        txtPas2 = findViewById(R.id.txtlog_pas2)
+        txtPas3 = findViewById(R.id.txtlog_pas3)
+        txtPas4 = findViewById(R.id.txtlog_pas4)
+        txtPas5 = findViewById(R.id.txtlog_pas5)
+        txtPas6 = findViewById(R.id.txtlog_pas6)
+        txtPas7 = findViewById(R.id.txtlog_pas7)
+        txtPas8 = findViewById(R.id.txtlog_pas8)
+        txtPas9 = findViewById(R.id.txtlog_pas9)
+        txtPas0 = findViewById(R.id.txtlog_pas0)
 
-        imgfinger = findViewById(R.id.imglog_finger)
-        imgback = findViewById(R.id.imglog_back)
+        imgFinGer = findViewById(R.id.imglog_finger)
+        imgBack = findViewById(R.id.imglog_back)
 
-        sharedPreferences = getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences(this.getString(R.string.astrocoin), Context.MODE_PRIVATE)
         getUserData()
         if (password == "") {
-            txtpassword?.text = getString(R.string.create_password)
+            txtPassword?.text = getString(R.string.create_password)
         } else {
-            txtpassword?.text = getString(R.string.enter_password)
+            txtPassword?.text = getString(R.string.enter_password)
         }
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -116,10 +115,10 @@ class Password : AppCompatActivity() {
                             VibrationEffect.DEFAULT_AMPLITUDE
                         )
                     )
-                    viewone?.setBackgroundResource(R.drawable.passoucses)
-                    viewtwo?.setBackgroundResource(R.drawable.passoucses)
-                    viewthree?.setBackgroundResource(R.drawable.passoucses)
-                    viewfour?.setBackgroundResource(R.drawable.passoucses)
+                    viewOne?.setBackgroundResource(R.drawable.passoucses)
+                    viewTwo?.setBackgroundResource(R.drawable.passoucses)
+                    viewThree?.setBackgroundResource(R.drawable.passoucses)
+                    viewFour?.setBackgroundResource(R.drawable.passoucses)
                     Handler(Looper.getMainLooper()).postDelayed({
                         click = true
                         startActivity(Intent(applicationContext, Sample::class.java))
@@ -151,113 +150,113 @@ class Password : AppCompatActivity() {
                 biometricPrompt.authenticate(promptInfo)
             }
         }, 500)
-        imgfinger?.setOnClickListener {
+        imgFinGer?.setOnClickListener {
             if (password != "") {
                 biometricPrompt.authenticate(promptInfo)
             }
         }
-        txtforgatpass?.setOnClickListener {
+        txtForGatPass?.setOnClickListener {
             sharedPreferences?.edit()?.clear()?.apply()
             startActivity(Intent(this, Login::class.java))
             finish()
         }
-        txtpas1?.setOnClickListener {
+        txtPas1?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "1"
-                checkindex()
+                writePass += "1"
+                checkIndex()
             }
         }
-        txtpas2?.setOnClickListener {
+        txtPas2?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "2"
-                checkindex()
+                writePass += "2"
+                checkIndex()
             }
         }
-        txtpas3?.setOnClickListener {
+        txtPas3?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "3"
-                checkindex()
+                writePass += "3"
+                checkIndex()
             }
         }
-        txtpas4?.setOnClickListener {
+        txtPas4?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "4"
-                checkindex()
+                writePass += "4"
+                checkIndex()
             }
         }
-        txtpas5?.setOnClickListener {
+        txtPas5?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "5"
-                checkindex()
+                writePass += "5"
+                checkIndex()
             }
         }
-        txtpas6?.setOnClickListener {
+        txtPas6?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "6"
-                checkindex()
+                writePass += "6"
+                checkIndex()
             }
         }
-        txtpas7?.setOnClickListener {
+        txtPas7?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "7"
-                checkindex()
+                writePass += "7"
+                checkIndex()
             }
         }
-        txtpas8?.setOnClickListener {
+        txtPas8?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "8"
-                checkindex()
+                writePass += "8"
+                checkIndex()
             }
         }
-        txtpas9?.setOnClickListener {
+        txtPas9?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "9"
-                checkindex()
+                writePass += "9"
+                checkIndex()
             }
         }
-        txtpas0?.setOnClickListener {
+        txtPas0?.setOnClickListener {
             if (click) {
                 index++
-                writepass += "0"
-                checkindex()
+                writePass += "0"
+                checkIndex()
             }
         }
-        imgback?.setOnClickListener {
+        imgBack?.setOnClickListener {
             if (click) {
                 index--
-                checkindexback()
+                checkIndexBack()
             }
         }
     }
 
     @SuppressLint("NewApi")
-    private fun checkindex() {
+    private fun checkIndex() {
         if (index > 4) {
             index = 4
         }
         when (index) {
             1 -> {
-                viewone?.setBackgroundResource(R.drawable.pascheck)
+                viewOne?.setBackgroundResource(R.drawable.pascheck)
             }
             2 -> {
-                viewtwo?.setBackgroundResource(R.drawable.pascheck)
+                viewTwo?.setBackgroundResource(R.drawable.pascheck)
             }
             3 -> {
-                viewthree?.setBackgroundResource(R.drawable.pascheck)
+                viewThree?.setBackgroundResource(R.drawable.pascheck)
             }
             4 -> {
-                viewfour?.setBackgroundResource(R.drawable.pascheck)
-                if (password == "" && pasindex) {
-                    if (newpassword == writepass) {
+                viewFour?.setBackgroundResource(R.drawable.pascheck)
+                if (password == "" && pasiIndex) {
+                    if (newPassword == writePass) {
                         click = false
                         vibrator?.vibrate(
                             VibrationEffect.createOneShot(
@@ -265,15 +264,15 @@ class Password : AppCompatActivity() {
                                 VibrationEffect.DEFAULT_AMPLITUDE
                             )
                         )
-                        writepass = ""
+                        writePass = ""
                         index = 0
-                        viewone?.setBackgroundResource(R.drawable.passoucses)
-                        viewtwo?.setBackgroundResource(R.drawable.passoucses)
-                        viewthree?.setBackgroundResource(R.drawable.passoucses)
-                        viewfour?.setBackgroundResource(R.drawable.passoucses)
+                        viewOne?.setBackgroundResource(R.drawable.passoucses)
+                        viewTwo?.setBackgroundResource(R.drawable.passoucses)
+                        viewThree?.setBackgroundResource(R.drawable.passoucses)
+                        viewFour?.setBackgroundResource(R.drawable.passoucses)
                         Handler(Looper.getMainLooper()).postDelayed({
                             click = true
-                            sharedPreferences?.edit()?.putString("password", newpassword)?.apply()
+                            sharedPreferences?.edit()?.putString("password", newPassword)?.apply()
                             startActivity(Intent(this, Sample::class.java))
                             finish()
                         }, 500)
@@ -285,24 +284,24 @@ class Password : AppCompatActivity() {
                                 VibrationEffect.DEFAULT_AMPLITUDE
                             )
                         )
-                        writepass = ""
+                        writePass = ""
                         index = 0
-                        viewone?.setBackgroundResource(R.drawable.passerror)
-                        viewtwo?.setBackgroundResource(R.drawable.passerror)
-                        viewthree?.setBackgroundResource(R.drawable.passerror)
-                        viewfour?.setBackgroundResource(R.drawable.passerror)
+                        viewOne?.setBackgroundResource(R.drawable.passerror)
+                        viewTwo?.setBackgroundResource(R.drawable.passerror)
+                        viewThree?.setBackgroundResource(R.drawable.passerror)
+                        viewFour?.setBackgroundResource(R.drawable.passerror)
                         Handler(Looper.getMainLooper()).postDelayed({
                             click = true
-                            viewone?.setBackgroundResource(R.drawable.passsign)
-                            viewtwo?.setBackgroundResource(R.drawable.passsign)
-                            viewthree?.setBackgroundResource(R.drawable.passsign)
-                            viewfour?.setBackgroundResource(R.drawable.passsign)
-                            txtpassword?.text = getString(R.string.repat_password)
+                            viewOne?.setBackgroundResource(R.drawable.passsign)
+                            viewTwo?.setBackgroundResource(R.drawable.passsign)
+                            viewThree?.setBackgroundResource(R.drawable.passsign)
+                            viewFour?.setBackgroundResource(R.drawable.passsign)
+                            txtPassword?.text = getString(R.string.repat_password)
                         }, 500)
                         Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
                     }
                 }
-                if (password == "" && !pasindex) {
+                if (password == "" && !pasiIndex) {
                     click = false
                     vibrator?.vibrate(
                         VibrationEffect.createOneShot(
@@ -310,21 +309,21 @@ class Password : AppCompatActivity() {
                             VibrationEffect.DEFAULT_AMPLITUDE
                         )
                     )
-                    newpassword = writepass
-                    writepass = ""
+                    newPassword = writePass
+                    writePass = ""
                     index = 0
-                    pasindex = true
+                    pasiIndex = true
                     Handler(Looper.getMainLooper()).postDelayed({
                         click = true
-                        viewone?.setBackgroundResource(R.drawable.passsign)
-                        viewtwo?.setBackgroundResource(R.drawable.passsign)
-                        viewthree?.setBackgroundResource(R.drawable.passsign)
-                        viewfour?.setBackgroundResource(R.drawable.passsign)
-                        txtpassword?.text = getString(R.string.repat_password)
+                        viewOne?.setBackgroundResource(R.drawable.passsign)
+                        viewTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewThree?.setBackgroundResource(R.drawable.passsign)
+                        viewFour?.setBackgroundResource(R.drawable.passsign)
+                        txtPassword?.text = getString(R.string.repat_password)
                     }, 500)
                 }
-                if (password != "" && !pasindex) {
-                    if (writepass == password) {
+                if (password != "" && !pasiIndex) {
+                    if (writePass == password) {
                         click = false
                         vibrator?.vibrate(
                             VibrationEffect.createOneShot(
@@ -332,12 +331,12 @@ class Password : AppCompatActivity() {
                                 VibrationEffect.DEFAULT_AMPLITUDE
                             )
                         )
-                        writepass = ""
+                        writePass = ""
                         index = 0
-                        viewone?.setBackgroundResource(R.drawable.passoucses)
-                        viewtwo?.setBackgroundResource(R.drawable.passoucses)
-                        viewthree?.setBackgroundResource(R.drawable.passoucses)
-                        viewfour?.setBackgroundResource(R.drawable.passoucses)
+                        viewOne?.setBackgroundResource(R.drawable.passoucses)
+                        viewTwo?.setBackgroundResource(R.drawable.passoucses)
+                        viewThree?.setBackgroundResource(R.drawable.passoucses)
+                        viewFour?.setBackgroundResource(R.drawable.passoucses)
                         Handler(Looper.getMainLooper()).postDelayed({
                             click = true
                             startActivity(Intent(this, Sample::class.java))
@@ -345,7 +344,7 @@ class Password : AppCompatActivity() {
                         }, 500)
                     } else {
                         click = false
-                        writepass = ""
+                        writePass = ""
                         vibrator?.vibrate(
                             VibrationEffect.createOneShot(
                                 500,
@@ -353,16 +352,16 @@ class Password : AppCompatActivity() {
                             )
                         )
                         index = 0
-                        viewone?.setBackgroundResource(R.drawable.passerror)
-                        viewtwo?.setBackgroundResource(R.drawable.passerror)
-                        viewthree?.setBackgroundResource(R.drawable.passerror)
-                        viewfour?.setBackgroundResource(R.drawable.passerror)
+                        viewOne?.setBackgroundResource(R.drawable.passerror)
+                        viewTwo?.setBackgroundResource(R.drawable.passerror)
+                        viewThree?.setBackgroundResource(R.drawable.passerror)
+                        viewFour?.setBackgroundResource(R.drawable.passerror)
                         Handler(Looper.getMainLooper()).postDelayed({
                             click = true
-                            viewone?.setBackgroundResource(R.drawable.passsign)
-                            viewtwo?.setBackgroundResource(R.drawable.passsign)
-                            viewthree?.setBackgroundResource(R.drawable.passsign)
-                            viewfour?.setBackgroundResource(R.drawable.passsign)
+                            viewOne?.setBackgroundResource(R.drawable.passsign)
+                            viewTwo?.setBackgroundResource(R.drawable.passsign)
+                            viewThree?.setBackgroundResource(R.drawable.passsign)
+                            viewFour?.setBackgroundResource(R.drawable.passsign)
                         }, 500)
                         Toast.makeText(this, "Password not match", Toast.LENGTH_SHORT).show()
                     }
@@ -372,7 +371,7 @@ class Password : AppCompatActivity() {
         }
     }
 
-    private fun checkindexback() {
+    private fun checkIndexBack() {
         if (index > 4) {
             index = 4
         }
@@ -380,20 +379,20 @@ class Password : AppCompatActivity() {
             index = 0
         }
         if (index > 0) {
-            writepass = writepass.substring(0, writepass.length - 1)
+            writePass = writePass.substring(0, writePass.length - 1)
         }
         when (index) {
             0 -> {
-                viewone?.setBackgroundResource(R.drawable.passsign)
+                viewOne?.setBackgroundResource(R.drawable.passsign)
             }
             1 -> {
-                viewtwo?.setBackgroundResource(R.drawable.passsign)
+                viewTwo?.setBackgroundResource(R.drawable.passsign)
             }
             2 -> {
-                viewthree?.setBackgroundResource(R.drawable.passsign)
+                viewThree?.setBackgroundResource(R.drawable.passsign)
             }
             3 -> {
-                viewfour?.setBackgroundResource(R.drawable.passsign)
+                viewFour?.setBackgroundResource(R.drawable.passsign)
             }
         }
     }
@@ -405,7 +404,7 @@ class Password : AppCompatActivity() {
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
         username = user.name
-        txtgetname?.text = "Hello, $username"
+        txtGetName?.text = "Hello, $username"
     }
 
 }

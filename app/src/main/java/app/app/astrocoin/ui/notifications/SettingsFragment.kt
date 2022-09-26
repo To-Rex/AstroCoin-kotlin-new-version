@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import app.app.astrocoin.R
 import app.app.astrocoin.models.Getdata
 import app.app.astrocoin.models.TokenRequest
@@ -24,49 +23,44 @@ import retrofit2.Response
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: SettingsViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this)[SettingsViewModel::class.java]
-
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     private var sharedPreferences: SharedPreferences? = null
-    private var usimage: ShapeableImageView? = null
-    private var txtsetfullname: TextView? = null
-    private var txtsetemail: TextView? = null
-    private var txtsetqwasar: TextView? = null
-    private var txtsetstack: TextView? = null
-    private var txtsetwallets: TextView? = null
-    private var imgsetgall: ImageView? = null
+    private var usImage: ShapeableImageView? = null
+    private var txtSetFullName: TextView? = null
+    private var txtSetEmail: TextView? = null
+    private var txtSetQwaSar: TextView? = null
+    private var txtSetStack: TextView? = null
+    private var txtSetWallets: TextView? = null
+    private var imgSetGall: ImageView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         sharedPreferences =
-            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(requireContext().getString(R.string.astrocoin), Context.MODE_PRIVATE)
 
-        txtsetfullname = view.findViewById(R.id.txtsetfullname)
-        txtsetemail = view.findViewById(R.id.txtsetemail)
-        txtsetqwasar = view.findViewById(R.id.txtsetqwasar)
-        txtsetstack = view.findViewById(R.id.txtsetstack)
-        txtsetwallets = view.findViewById(R.id.txtsetwallets)
-        usimage = view.findViewById(R.id.usimage)
-        imgsetgall = view.findViewById(R.id.imgsetgall)
+        txtSetFullName = view.findViewById(R.id.txtsetfullname)
+        txtSetEmail = view.findViewById(R.id.txtsetemail)
+        txtSetQwaSar = view.findViewById(R.id.txtsetqwasar)
+        txtSetStack = view.findViewById(R.id.txtsetstack)
+        txtSetWallets = view.findViewById(R.id.txtsetwallets)
+        usImage = view.findViewById(R.id.usimage)
+        imgSetGall = view.findViewById(R.id.imgsetgall)
         getUserData()
         getUsers()
 
     }
     private fun getUsers() {
-        val tokenResponceCall = ApiClient.userService
+        val tokenResPonceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
-        tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+        tokenResPonceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
@@ -82,7 +76,7 @@ class SettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                showToast("Error")
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -92,20 +86,17 @@ class SettingsFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        txtsetfullname?.text = user.name+" "+user.last_name
-        txtsetemail?.text = user.email
-        txtsetqwasar?.text = user.qwasar
-        txtsetstack?.text = user.stack
-        txtsetwallets?.text = user.wallet
+        txtSetFullName?.text = user.name+" "+user.last_name
+        txtSetEmail?.text = user.email
+        txtSetQwaSar?.text = user.qwasar
+        txtSetStack?.text = user.stack
+        txtSetWallets?.text = user.wallet
         println(user.verify)
         if (user.verify == "1"){
-            imgsetgall?.visibility = View.VISIBLE
+            imgSetGall?.visibility = View.VISIBLE
         }else{
-            imgsetgall?.visibility = View.GONE
+            imgSetGall?.visibility = View.GONE
         }
-        Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usimage!!)
-    }
-    private fun showToast(message: String) {
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usImage!!)
     }
 }

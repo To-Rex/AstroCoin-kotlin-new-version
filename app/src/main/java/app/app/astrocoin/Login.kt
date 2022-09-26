@@ -19,11 +19,11 @@ import retrofit2.Response
 
 class Login : AppCompatActivity() {
 
-    private var ediloginemail: EditText? = null
-    private var ediloginpassword: EditText? = null
-    private var btnloginrecover: Button? = null
-    private var btnsignup: Button? = null
-    private var btnsignin: Button? = null
+    private var ediLoginEmail: EditText? = null
+    private var ediLoginPassword: EditText? = null
+    private var btnLoginRecover: Button? = null
+    private var btnSignup: Button? = null
+    private var btnSignIn: Button? = null
     private var vibrator: Vibrator? = null
     private var sharedPreferences: SharedPreferences? = null
 
@@ -38,30 +38,30 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        ediloginemail = findViewById(R.id.ediloginemail)
-        ediloginpassword = findViewById(R.id.ediloginpassword)
-        btnloginrecover = findViewById(R.id.btnloginrecover)
-        btnsignup = findViewById(R.id.btnsignup)
-        btnsignin = findViewById(R.id.btnsignin)
-        sharedPreferences = getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+        ediLoginEmail = findViewById(R.id.ediloginemail)
+        ediLoginPassword = findViewById(R.id.ediloginpassword)
+        btnLoginRecover = findViewById(R.id.btnloginrecover)
+        btnSignup = findViewById(R.id.btnsignup)
+        btnSignIn = findViewById(R.id.btnsignin)
+        sharedPreferences = getSharedPreferences(this.getString(R.string.astrocoin), Context.MODE_PRIVATE)
 
-        btnsignin?.setOnClickListener {
-            val email = ediloginemail?.text.toString()
-            val password = ediloginpassword?.text.toString()
+        btnSignIn?.setOnClickListener {
+            val email = ediLoginEmail?.text.toString()
+            val password = ediLoginPassword?.text.toString()
             if (email.isEmpty()) {
-                ediloginemail?.error = "Email is required"
+                ediLoginEmail?.error = "Email is required"
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
-                ediloginpassword?.error = "Password is required"
+                ediLoginPassword?.error = "Password is required"
                 return@setOnClickListener
             }
             if (password.length < 5) {
-                ediloginpassword?.error = "Password must be at least 5 characters"
+                ediLoginPassword?.error = "Password must be at least 5 characters"
                 return@setOnClickListener
             }
             if (email.length < 5) {
-                ediloginemail?.error = "Email must be at least 5 characters"
+                ediLoginEmail?.error = "Email must be at least 5 characters"
                 return@setOnClickListener
             }
             val loginRequest = LoginRequest()
@@ -88,11 +88,11 @@ class Login : AppCompatActivity() {
                         }
                     } else {
                         vibrator?.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE))
-                        ediloginemail?.error = "Email or password is incorrect"
-                        ediloginpassword?.error = "Email or password is incorrect"
+                        ediLoginEmail?.error = "Email or password is incorrect"
+                        ediLoginPassword?.error = "Email or password is incorrect"
                         Handler(Looper.getMainLooper()).postDelayed(
                             {
-                                ediloginpassword?.text?.clear()
+                                ediLoginPassword?.text?.clear()
                             }, 800
                         )
                     }
@@ -106,9 +106,9 @@ class Login : AppCompatActivity() {
     }
 
     private fun getUsers() {
-        val tokenResponceCall = ApiClient.userService
+        val tokenRespOnceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
-        tokenResponceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+        tokenRespOnceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
