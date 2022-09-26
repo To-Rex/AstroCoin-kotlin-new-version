@@ -14,6 +14,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -29,7 +30,9 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -43,6 +46,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import app.app.astrocoin.R;
 import app.app.astrocoin.models.CheckWallet;
 import app.app.astrocoin.models.SendTransferRequest;
@@ -72,6 +76,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     private final PointF mid = new PointF();
     float oldDist = 1f;
     private float xCoOrdinate, yCoOrdinate;
+    private int doubleclick = 0;
 
     public AdapterUserSearch(List<UserRequest> itemsModelsl, Context context) {
         this.itemsModelsl = itemsModelsl;
@@ -110,10 +115,17 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE);
 
         ShapeableImageView courseIV = listItemView.findViewById(R.id.usimage);
+        View viewSearchStatus = listItemView.findViewById(R.id.viewSearchStatus);
+
         if (dataModal.getVerify().equals("1.0")) {
             imgGall.setVisibility(View.VISIBLE);
         } else {
             imgGall.setVisibility(View.INVISIBLE);
+        }
+        if (!dataModal.getStatus().equals("verified")) {
+            viewSearchStatus.setBackgroundResource(R.drawable.passerror);
+        } else {
+            viewSearchStatus.setBackgroundResource(R.drawable.passsign);
         }
 
         courseIV.setOnClickListener(v -> {
@@ -127,7 +139,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
             TextView qwText = dialog01.findViewById(R.id.textView901);
             qwText.setOnLongClickListener(v23 -> {
-                downloadImageNew("temp", "https://api.astrocoin.uz" + dataModal.getPhoto());
+                downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
                 return false;
             });
             setshapimguser.setOnTouchListener((v22, event) -> {
@@ -178,9 +190,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             dataModal.getPhoto();
             Glide.with(context).load("https://api.astrocoin.uz" + image).into(courseIV);
         }
-
-        //user sellected bottom sheet
-
         listItemView.setOnLongClickListener(v -> {
             try {
                 showBottomSheetDialogReadQr(dataModal.getWallet());
@@ -191,88 +200,91 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         });
 
         listItemView.setOnClickListener(v -> {
-            bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
-            @SuppressLint("InflateParams")
-            View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
-            bottomSheetDialogCamQr.setContentView(view);
-            //your code here
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
-                    txtSetStack = view.findViewById(R.id.txtSeaStack),
-                    txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
-                    txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
-                    txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+            doubleclick++;
+            new Handler().postDelayed(() -> {
+                if (doubleclick == 1) {
+                    bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
+                    @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
+                    bottomSheetDialogCamQr.setContentView(view);
+                    //your code here
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView txtSetFio = view.findViewById(R.id.txtSeaFio), txtSetStack = view.findViewById(R.id.txtSeaStack), txtSeaCoins = view.findViewById(R.id.txtSeaCoins), txtSeaQwName = view.findViewById(R.id.txtSeaQwName), txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
 
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
 
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
 
-            @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-            View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin);
 
-            if (dataModal.getVerify().equals("1.0")) {
-                imgSeaGalley.setVisibility(View.VISIBLE);
-            } else {
-                imgSeaGalley.setVisibility(View.INVISIBLE);
-            }
-            if (!dataModal.getPhoto().equals("")) {
-                Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(imgShapeSea);
-            }
-            txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
-            txtSetStack.setText(dataModal.getStack());
-            txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");
-            txtSeaQwName.setText(dataModal.getQwasar());
-            txtSeaWallets.setText(dataModal.getWallet());
+                    if (dataModal.getVerify().equals("1.0")) {
+                        imgSeaGalley.setVisibility(View.VISIBLE);
+                    } else {
+                        imgSeaGalley.setVisibility(View.INVISIBLE);
+                    }
+                    if (!dataModal.getPhoto().equals("")) {
+                        Glide.with(context).load("https://api.astrocoin.uz" + dataModal.getPhoto()).into(imgShapeSea);
+                    }
+                    txtSetFio.setText(dataModal.getName() + " " + dataModal.getLast_name());
+                    txtSetStack.setText(dataModal.getStack());
+                    txtSeaCoins.setText(dataModal.getBalance().split("\\.0")[0] + " ASC");
+                    txtSeaQwName.setText(dataModal.getQwasar());
+                    txtSeaWallets.setText(dataModal.getWallet());
 
-            imgShapeSea.setOnClickListener(v1 -> {
-                Dialog dialog01 = new Dialog(context);
-                dialog01.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog01.setContentView(R.layout.pop_up_search);
-                dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog01.setCancelable(true);
+                    imgShapeSea.setOnClickListener(v1 -> {
+                        Dialog dialog01 = new Dialog(context);
+                        dialog01.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog01.setContentView(R.layout.pop_up_search);
+                        dialog01.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        dialog01.setCancelable(true);
 
-                ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
+                        ShapeableImageView setshapimguser = dialog01.findViewById(R.id.setshapimguser01);
 
-                TextView qwText = dialog01.findViewById(R.id.textView901);
-                qwText.setOnLongClickListener(v23 -> {
-                    downloadImageNew("temp", "https://api.astrocoin.uz" + dataModal.getPhoto());
-                    return false;
-                });
-                setshapimguser.setOnTouchListener((v22, event) -> {
-                    ImageView view1 = (ImageView) v22;
-                    view1.bringToFront();
-                    viewTransformation(view1, event);
-                    return true;
-                });
-                if (Objects.equals(dataModal.getPhoto(), "")) {
-                    setshapimguser.setImageResource(R.drawable.usericons);
+                        TextView qwText = dialog01.findViewById(R.id.textView901);
+                        qwText.setOnLongClickListener(v23 -> {
+                            downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
+                            return false;
+                        });
+                        setshapimguser.setOnTouchListener((v22, event) -> {
+                            ImageView view1 = (ImageView) v22;
+                            view1.bringToFront();
+                            viewTransformation(view1, event);
+                            return true;
+                        });
+                        if (Objects.equals(dataModal.getPhoto(), "")) {
+                            setshapimguser.setImageResource(R.drawable.usericons);
+                        } else {
+                            dataModal.getPhoto();
+                            Glide.with(context).load("https://api.astrocoin.uz" + image).into(setshapimguser);
+                        }
+                        qwText.setText(dataModal.getQwasar());
+                        dialog01.show();
+                    });
+
+                    viewSeaSendCoin.setOnClickListener(v2 -> showBottomSheetDialogSend(dataModal.getWallet()));
+                    txtSeaWallets.setOnLongClickListener(v1 -> {
+                        clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("label", txtSeaWallets.getText().toString());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(context, "copy wallet id", Toast.LENGTH_SHORT).show();
+                        return false;
+                    });
+                    txtSeaWallets.setOnClickListener(v1 -> {
+                        try {
+                            showBottomSheetDialogReadQr(dataModal.getWallet());
+                        } catch (WriterException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    bottomSheetDialogCamQr.show();
+                    doubleclick = 0;
                 } else {
-                    dataModal.getPhoto();
-                    Glide.with(context).load("https://api.astrocoin.uz" + image).into(setshapimguser);
-                }
-                qwText.setText(dataModal.getQwasar());
-                dialog01.show();
-            });
+                    if (doubleclick >= 2) {
+                        doubleclick = 0;
+                        showBottomSheetDialogSend(dataModal.getWallet());
+                    }
 
-            viewSeaSendCoin.setOnClickListener(v2-> showBottomSheetDialogSend(dataModal.getWallet()));
-            txtSeaWallets.setOnLongClickListener(v1 -> {
-                clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("label", txtSeaWallets.getText().toString());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(context, "copy wallet id", Toast.LENGTH_SHORT).show();
-                return false;
-            });
-            txtSeaWallets.setOnClickListener(v1 -> {
-                try {
-                    showBottomSheetDialogReadQr(dataModal.getWallet());
-                } catch (WriterException e) {
-                    e.printStackTrace();
                 }
-            });
+            }, 200);
 
-            bottomSheetDialogCamQr.show();
         });
         return listItemView;
     }
@@ -288,12 +300,12 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 } else {
                     List<UserRequest> filteredList = new ArrayList<>();
                     for (UserRequest row : itemsModelsl) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getStack().toLowerCase().contains(charString.toLowerCase())
-                                || row.getQwasar().toLowerCase().contains(charString.toLowerCase())
-                                || row.getStatus().toLowerCase().contains(charString.toLowerCase())
-                                || row.getVerify().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getStack().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getQwasar().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getStatus().toLowerCase().contains(charString.toLowerCase()) ||
+                                row.getVerify().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -312,17 +324,15 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         };
     }
 
-    private void downloadImageNew(String filename, String downloadUrlOfImage) {
+    private void downloadImageNew(String downloadUrlOfImage) {
         try {
             DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             Uri downloadUri = Uri.parse(downloadUrlOfImage);
             DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-                    .setAllowedOverRoaming(false)
-                    .setTitle(filename)
-                    .setMimeType("image/jpeg") // Your file type. You can use this code to download other file types also.
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                    .setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + filename + ".jpg");
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
+                            DownloadManager.Request.NETWORK_MOBILE).setAllowedOverRoaming(false).setTitle("o`qimang").
+                    setMimeType("image/jpeg").setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).
+                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + "o`qimang" + ".jpg");
             dm.enqueue(request);
             Toast.makeText(context, "Image download started.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
@@ -356,7 +366,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 d = rotation(event);
                 break;
             case MotionEvent.ACTION_UP:
-                boolean isZoomAndRotate = false;
                 if (mode == DRAG) {
                     if (isOutSide) {
                         view.setX(0);
@@ -372,7 +381,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             case MotionEvent.ACTION_MOVE:
                 if (!isOutSide) {
                     if (mode == DRAG) {
-                        isZoomAndRotate = false;
                         view.animate().x(event.getRawX() + xCoOrdinate).y(event.getRawY() + yCoOrdinate).setDuration(0).start();
                     }
                     if (mode == ZOOM && event.getPointerCount() == 2) {
@@ -394,8 +402,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
     private void showBottomSheetDialogReadQr(String wallet) throws WriterException {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.custombottomsheet);
-        @SuppressLint("InflateParams")
-        View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_qrcode, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_qrcode, null);
         bottomSheetDialog.setContentView(view);
         ImageView imgReadQrBottom = view.findViewById(R.id.imgreadqrbottom);
         TextView txtReadQrBottom = view.findViewById(R.id.txtreadqrbottom);
@@ -419,19 +426,10 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             });
 
             QRCodeWriter writTer = new QRCodeWriter();
-            BitMatrix bitMatrix = writTer.encode(
-                    wallet,
-                    BarcodeFormat.QR_CODE,
-                    512,
-                    512
-            );
+            BitMatrix bitMatrix = writTer.encode(wallet, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
-            Bitmap bmp = Bitmap.createBitmap(
-                    width,
-                    height,
-                    Bitmap.Config.RGB_565
-            );
+            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
@@ -449,8 +447,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
     private void showBottomSheetDialogSend(String wallet) {
         bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
-        @SuppressLint("InflateParams")
-        View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_send, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_send, null);
         bottomSheetDialogCamQr.setContentView(view);
 
         EditText ediBotSendWalAdrEss = view.findViewById(R.id.edibotsendwaladress);
@@ -480,6 +477,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                                 }
                             }
                         }
+
                         @Override
                         public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                             if (s.toString().length() > 31) {
@@ -489,6 +487,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     });
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -535,6 +534,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
@@ -563,5 +563,4 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         float y = event.getY(0) + event.getY(1);
         point.set(x / 2, y / 2);
     }
-
 }

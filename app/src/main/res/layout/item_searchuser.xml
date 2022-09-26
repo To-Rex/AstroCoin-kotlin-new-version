@@ -12,6 +12,7 @@
         app:cardElevation="0dp"
         android:layout_height="@dimen/dp_75"
         tools:ignore="MissingConstraints">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -32,9 +33,9 @@
                 android:id="@+id/ustransfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/fredoka_fonts"
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/fredoka_fonts"
                 android:text="@string/connect"
                 android:textColor="@color/black"
                 android:textSize="18sp"
@@ -59,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.03"/>
+                app:layout_constraintGuide_percent="0.03" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline37"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5"/>
+                app:layout_constraintGuide_percent="0.5" />
 
             <ImageView
                 android:id="@+id/imggall"
@@ -77,6 +78,16 @@
                 app:layout_constraintStart_toEndOf="@+id/ustransfer"
                 app:layout_constraintTop_toTopOf="@+id/ustransfer"
                 app:srcCompat="@drawable/icongal" />
+
+            <View
+                android:id="@+id/viewSearchStatus"
+                android:layout_width="@dimen/dp_13"
+                android:layout_height="@dimen/dp_13"
+                android:layout_marginTop="@dimen/dp_3"
+                android:layout_marginEnd="@dimen/dp_3"
+                android:background="@color/transparent"
+                app:layout_constraintEnd_toEndOf="@+id/usimage"
+                app:layout_constraintTop_toTopOf="@+id/usimage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
