@@ -9,8 +9,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 
 class Sample : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         setContentView(R.layout.sample)
@@ -19,10 +19,11 @@ class Sample : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_sample)
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-        )
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home,
+            R.id.navigation_dashboard, R.id.navigation_notifications))
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
 }

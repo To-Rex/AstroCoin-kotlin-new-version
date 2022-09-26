@@ -125,7 +125,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         if (!dataModal.getStatus().equals("verified")) {
             viewSearchStatus.setBackgroundResource(R.drawable.passerror);
         } else {
-            viewSearchStatus.setBackgroundResource(R.drawable.passsign);
+            //viewSearchStatus setBackgroundColor transparent
+            viewSearchStatus.setBackgroundColor(Color.TRANSPARENT);
         }
 
         courseIV.setOnClickListener(v -> {
@@ -207,29 +208,19 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
                     bottomSheetDialogCamQr.setContentView(view);
                     //your code here
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-                    TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
-                            txtSetStack = view.findViewById(R.id.txtSeaStack),
-                            txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
-                            txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
-                            txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView txtSetFio = view.findViewById(R.id.txtSeaFio), txtSetStack = view.findViewById(R.id.txtSeaStack), txtSeaCoins = view.findViewById(R.id.txtSeaCoins), txtSeaQwName = view.findViewById(R.id.txtSeaQwName), txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-                    ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-                    ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
 
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
-                    View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin),
-                            viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin), viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus);
 
                     if (!dataModal.getStatus().equals("verified")) {
                         viewSeaSendStatus.setBackgroundResource(R.drawable.passerror);
                     } else {
-                        viewSeaSendStatus.setBackgroundResource(R.drawable.passsign);
+                        viewSeaSendStatus.setBackgroundColor(Color.TRANSPARENT);
                     }
-
                     if (dataModal.getVerify().equals("1.0")) {
                         imgSeaGalley.setVisibility(View.VISIBLE);
                     } else {
@@ -318,12 +309,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                 } else {
                     List<UserRequest> filteredList = new ArrayList<>();
                     for (UserRequest row : itemsModelSl) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getLast_name().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getStack().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getQwasar().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getStatus().toLowerCase().contains(charString.toLowerCase()) ||
-                                row.getVerify().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()) || row.getLast_name().toLowerCase().contains(charString.toLowerCase()) || row.getStack().toLowerCase().contains(charString.toLowerCase()) || row.getQwasar().toLowerCase().contains(charString.toLowerCase()) || row.getStatus().toLowerCase().contains(charString.toLowerCase()) || row.getVerify().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -347,10 +333,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
             Uri downloadUri = Uri.parse(downloadUrlOfImage);
             DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI |
-                            DownloadManager.Request.NETWORK_MOBILE).setAllowedOverRoaming(false).setTitle(context.getString(R.string.astrocoin)).
-                    setMimeType("image/jpeg").setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).
-                    setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + context.getString(R.string.astrocoin) + ".jpg");
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE).setAllowedOverRoaming(false).setTitle(context.getString(R.string.astrocoin)).setMimeType("image/jpeg").setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED).setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + context.getString(R.string.astrocoin) + ".jpg");
             dm.enqueue(request);
             Toast.makeText(context, "Image download started.", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
