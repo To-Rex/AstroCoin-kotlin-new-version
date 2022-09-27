@@ -51,6 +51,7 @@ class SettingsFragment : Fragment() {
     private var viewChPass: View? = null
     private var viewApPas: View? = null
     private var viewLogout: View? = null
+    
 
     //BotOomSheet change password
     private var ediBotCurPass: EditText? = null
