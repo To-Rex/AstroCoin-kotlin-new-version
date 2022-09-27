@@ -17,6 +17,11 @@
     <string name="_8">8</string>
     <string name="_9">9</string>
     <string name="_0">0</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="current_password">Current password</string>
+    <string name="re_enter_new_password">Re-enter new password</string>
+    <string name="enter_new_password_for_your_account">Enter new password for your account</string>
     <string name="forgot_password">Forgot password</string>
     <string name="create_password">Create password</string>
     <string name="repat_password">Repat password</string>
@@ -52,4 +57,5 @@
     <string name="status">Status</string>
     <string name="service">Service</string>
     <string name="send_coin">Send Coin</string>
+    <string name="submit">Submit</string>
 </resources>

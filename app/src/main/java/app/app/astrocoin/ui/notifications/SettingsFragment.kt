@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -41,6 +40,7 @@ class SettingsFragment : Fragment() {
     }
 
     private var bottomSheetDialogCamQr: BottomSheetDialog? = null
+    private var bottomSheetChangePass: BottomSheetDialog? = null
     private var sharedPreferences: SharedPreferences? = null
     private var usImage: ShapeableImageView? = null
     private var txtSetFullName: TextView? = null
@@ -140,10 +140,11 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun  bottomSheetChangePassword() {
-        val view = layoutInflater.inflate(R.layout.fragment_home, null)
+        val view = layoutInflater.inflate(R.layout.settings_bottom_changep, null)
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)
         bottomSheetDialogCamQr?.show()
+
     }
     @SuppressLint("InflateParams")
     private fun  bottomSheetAppPassword() {
