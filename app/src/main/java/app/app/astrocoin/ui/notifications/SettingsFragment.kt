@@ -152,7 +152,7 @@ class SettingsFragment : Fragment() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_changep, null)
         bottomSheetDialogCamQr?.setContentView(view)
-
+        //your code
         ediBotCurPass = view.findViewById(R.id.ediBotCurPass)
         ediBotNewPass = view.findViewById(R.id.ediBotNewPass)
         ediBotRePass = view.findViewById(R.id.ediBotRePass)
@@ -180,19 +180,22 @@ class SettingsFragment : Fragment() {
     }
 
 
-
     @SuppressLint("InflateParams")
     private fun bottomSheetAppPassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
-        val view = layoutInflater.inflate(R.layout.fragment_home, null)
+        val view = layoutInflater.inflate(R.layout.settings_bottom_changeapp, null)
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)
+        //your code
+
         bottomSheetDialogCamQr?.show()
     }
 
     private fun logOut() {
-        val logOutResPonceCall =
-            ApiClient.userService.userLogOut("Bearer " + sharedPreferences?.getString("token", ""))
+        //your code
+        val logOutResPonceCall = ApiClient.userService.userLogOut(
+            "Bearer " + sharedPreferences?.getString("token", "")
+        )
         logOutResPonceCall.enqueue(object : retrofit2.Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 sharedPreferences?.edit()?.clear()?.apply()
@@ -209,12 +212,14 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("InflateParams", "SetJavaScriptEnabled", "MissingInflatedId")
     private fun bottomSheetRanks(link: String) {
+        //your code
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_renks, null)
         bottomSheetDialogCamQr?.setContentView(view)
+        //your code
         val progressRank = view.findViewById<ProgressBar>(R.id.progressRank)
-
         val webViewSetRank = view.findViewById<WebView>(R.id.webViewsetRank)
+
         webViewSetRank.loadUrl(link)
         webViewSetRank.settings.javaScriptEnabled = true
         webViewSetRank.settings.domStorageEnabled = true
@@ -240,8 +245,10 @@ class SettingsFragment : Fragment() {
     }
 
     private fun changePassword(setPassword: SetPassword) {
-        val tokenResPonceCall = ApiClient.userService
-            .userChangePassword("Bearer " + sharedPreferences?.getString("token", ""), setPassword)
+        //your code
+        val tokenResPonceCall = ApiClient.userService.userChangePassword(
+            "Bearer " + sharedPreferences?.getString("token", ""), setPassword
+        )
         tokenResPonceCall.enqueue(object : retrofit2.Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 if (response.isSuccessful) {

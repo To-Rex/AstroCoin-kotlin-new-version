@@ -58,4 +58,5 @@
     <string name="service">Service</string>
     <string name="send_coin">Send Coin</string>
     <string name="submit">Submit</string>
+    <string name="your_password">Your password</string>
 </resources>
