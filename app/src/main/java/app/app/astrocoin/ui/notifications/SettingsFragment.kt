@@ -2,17 +2,23 @@ package app.app.astrocoin.ui.notifications
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.models.Getdata
 import app.app.astrocoin.models.TokenRequest
@@ -45,6 +51,10 @@ class SettingsFragment : Fragment() {
     private var imgSetGall: ImageView? = null
 
     private var viewRanks: View? = null
+    private var viewstore: View? = null
+    private var viewchpass: View? = null
+    private var viewappas: View? = null
+    private var viewlogout: View? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,12 +70,29 @@ class SettingsFragment : Fragment() {
         imgSetGall = view.findViewById(R.id.imgsetgall)
 
         viewRanks = view.findViewById(R.id.viewranks)
+        viewstore = view.findViewById(R.id.viewstore)
+        viewchpass = view.findViewById(R.id.viewchpass)
+        viewappas = view.findViewById(R.id.viewappas)
+        viewlogout = view.findViewById(R.id.viewlogout)
         getUserData()
         getUsers()
 
 
         viewRanks?.setOnClickListener {
-            bottomSheetRanks()
+            bottomSheetRanks("https://astrocoin.uz/ranks")
+        }
+        viewstore?.setOnClickListener {
+            bottomSheetRanks("https://store.astrocoin.uz/")
+        }
+        viewchpass?.setOnClickListener {
+            bottomSheetChangePassword()
+        }
+        viewappas?.setOnClickListener {
+            bottomSheetAppPassword()
+        }
+        viewlogout?.setOnClickListener {
+            Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
+            logOut()
         }
 
     }
@@ -103,7 +130,6 @@ class SettingsFragment : Fragment() {
         txtSetQwaSar?.text = user.qwasar
         txtSetStack?.text = user.stack
         txtSetWallets?.text = user.wallet
-        println(user.verify)
         if (user.verify == "1"){
             imgSetGall?.visibility = View.VISIBLE
         }else{
@@ -111,14 +137,46 @@ class SettingsFragment : Fragment() {
         }
         Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usImage!!)
     }
-    @SuppressLint("InflateParams", "SetJavaScriptEnabled")
-    private fun bottomSheetRanks(){
+
+    @SuppressLint("InflateParams")
+    private fun  bottomSheetChangePassword() {
+        val view = layoutInflater.inflate(R.layout.fragment_home, null)
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
+        bottomSheetDialogCamQr?.setContentView(view)
+        bottomSheetDialogCamQr?.show()
+    }
+    @SuppressLint("InflateParams")
+    private fun  bottomSheetAppPassword() {
+        val view = layoutInflater.inflate(R.layout.fragment_home, null)
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
+        bottomSheetDialogCamQr?.setContentView(view)
+        bottomSheetDialogCamQr?.show()
+    }
+
+    private fun  logOut() {
+        val logOutResPonceCall = ApiClient.userService.userLogOut("Bearer " + sharedPreferences?.getString("token", ""))
+        logOutResPonceCall.enqueue(object : retrofit2.Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                sharedPreferences?.edit()?.clear()?.apply()
+                startActivity(Intent(requireContext(), Login::class.java))
+                activity?.finish()
+            }
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+    }
+
+    @SuppressLint("InflateParams", "SetJavaScriptEnabled", "MissingInflatedId")
+    private fun bottomSheetRanks(link : String){
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_renks, null)
         bottomSheetDialogCamQr?.setContentView(view)
+        val progressRank = view.findViewById<ProgressBar>(R.id.progressRank)
 
         val webViewSetRank = view.findViewById<WebView>(R.id.webViewsetRank)
-        webViewSetRank.loadUrl("https://astrocoin.uz/ranks")
+        webViewSetRank.loadUrl(link)
         webViewSetRank.settings.javaScriptEnabled = true
         webViewSetRank.settings.domStorageEnabled = true
         webViewSetRank.settings.databaseEnabled = true
@@ -137,7 +195,8 @@ class SettingsFragment : Fragment() {
         webViewSetRank.settings.setNeedInitialFocus(true)
 
         bottomSheetDialogCamQr?.show()
-
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            progressRank.visibility = View.GONE
+        }, 3000)
     }
 }

@@ -24,7 +24,7 @@ public interface UserService {
     Call<TokenRequest> userTokenRequest(@Header("Authorization") String token);
 
     @GET("orders")
-    Call<Object> userOrderRequest(@Query("page") int param,@Header("Authorization") String orders);
+    Call<Object> userOrderRequest(@Query("page") int param, @Header("Authorization") String orders);
 
     @GET("users")
     Call<Object> userSearchRequest(@Header("Authorization") String users);
@@ -40,8 +40,11 @@ public interface UserService {
     Call<ImgUpload> userSetPhoto(@Header("Authorization") String token, @Part MultipartBody.Part photo);
 
     @POST("user/password")
-    Call<Object> userChangePassword(@Header("Authorization") String token,@Body SetPassword setPassword);
+    Call<Object> userChangePassword(@Header("Authorization") String token, @Body SetPassword setPassword);
 
     @POST("wallet")
     Call<Object> userWalletName(@Header("Authorization") String token, @Body CheckWallet checkWallet);
+
+    @POST("logout")
+    Call<Object> userLogOut(@Header("Authorization") String token);
 }
