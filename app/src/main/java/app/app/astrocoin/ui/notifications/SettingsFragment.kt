@@ -12,14 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.SetPassword
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
 import com.bumptech.glide.Glide
@@ -40,7 +38,6 @@ class SettingsFragment : Fragment() {
     }
 
     private var bottomSheetDialogCamQr: BottomSheetDialog? = null
-    private var bottomSheetChangePass: BottomSheetDialog? = null
     private var sharedPreferences: SharedPreferences? = null
     private var usImage: ShapeableImageView? = null
     private var txtSetFullName: TextView? = null
@@ -50,16 +47,28 @@ class SettingsFragment : Fragment() {
     private var txtSetWallets: TextView? = null
     private var imgSetGall: ImageView? = null
 
+    //settings view elements
     private var viewRanks: View? = null
     private var viewstore: View? = null
     private var viewchpass: View? = null
     private var viewappas: View? = null
     private var viewlogout: View? = null
 
+    //botoomsheet change password
+    private var ediBotCurPass: EditText? = null
+    private var ediBotNewPass: EditText? = null
+    private var ediBotRePass: EditText? = null
+    private var btnBotSubPass: Button? = null
+
+    //botoomsheet change app password
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireActivity().getSharedPreferences(requireContext().getString(R.string.astrocoin), Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences(
+            requireContext().getString(R.string.astrocoin),
+            Context.MODE_PRIVATE
+        )
 
         txtSetFullName = view.findViewById(R.id.txtsetfullname)
         txtSetEmail = view.findViewById(R.id.txtsetemail)
@@ -95,6 +104,7 @@ class SettingsFragment : Fragment() {
         }
 
     }
+
     private fun getUsers() {
         val tokenResPonceCall = ApiClient.userService
             .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
@@ -124,29 +134,55 @@ class SettingsFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
-        txtSetFullName?.text = user.name+" "+user.last_name
+        txtSetFullName?.text = user.name + " " + user.last_name
         txtSetEmail?.text = user.email
         txtSetQwaSar?.text = user.qwasar
         txtSetStack?.text = user.stack
         txtSetWallets?.text = user.wallet
-        if (user.verify == "1"){
+        if (user.verify == "1") {
             imgSetGall?.visibility = View.VISIBLE
-        }else{
+        } else {
             imgSetGall?.visibility = View.GONE
         }
         Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usImage!!)
     }
 
     @SuppressLint("InflateParams")
-    private fun  bottomSheetChangePassword() {
+    private fun bottomSheetChangePassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_changep, null)
         bottomSheetDialogCamQr?.setContentView(view)
+
+        ediBotCurPass = view.findViewById(R.id.ediBotCurPass)
+        ediBotNewPass = view.findViewById(R.id.ediBotNewPass)
+        ediBotRePass = view.findViewById(R.id.ediBotRePass)
+        btnBotSubPass = view.findViewById(R.id.btnBotSubPass)
+
+        btnBotSubPass?.setOnClickListener {
+            val password = ediBotCurPass?.text.toString()
+            val newpassword = ediBotNewPass?.text.toString()
+            val repassword = ediBotRePass?.text.toString()
+            if (password.isEmpty() || password.length < 7) {
+                ediBotCurPass?.error = "Password is empty"
+            } else if (newpassword.isEmpty() || newpassword.length < 7) {
+                ediBotNewPass?.error = "New password is empty"
+            } else if (repassword.isEmpty() || repassword.length < 7) {
+                ediBotRePass?.error = "Re password is empty"
+            } else if (newpassword != repassword) {
+                ediBotRePass?.error = "Re password is not match"
+            } else {
+                changePassword(SetPassword(password, newpassword, repassword))
+            }
+        }
+
         bottomSheetDialogCamQr?.show()
 
     }
+
+
+
     @SuppressLint("InflateParams")
-    private fun  bottomSheetAppPassword() {
+    private fun bottomSheetAppPassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.fragment_home, null)
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
@@ -154,14 +190,16 @@ class SettingsFragment : Fragment() {
         bottomSheetDialogCamQr?.show()
     }
 
-    private fun  logOut() {
-        val logOutResPonceCall = ApiClient.userService.userLogOut("Bearer " + sharedPreferences?.getString("token", ""))
+    private fun logOut() {
+        val logOutResPonceCall =
+            ApiClient.userService.userLogOut("Bearer " + sharedPreferences?.getString("token", ""))
         logOutResPonceCall.enqueue(object : retrofit2.Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 sharedPreferences?.edit()?.clear()?.apply()
                 startActivity(Intent(requireContext(), Login::class.java))
                 activity?.finish()
             }
+
             override fun onFailure(call: Call<Any>, t: Throwable) {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
             }
@@ -170,7 +208,7 @@ class SettingsFragment : Fragment() {
     }
 
     @SuppressLint("InflateParams", "SetJavaScriptEnabled", "MissingInflatedId")
-    private fun bottomSheetRanks(link : String){
+    private fun bottomSheetRanks(link: String) {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_renks, null)
         bottomSheetDialogCamQr?.setContentView(view)
@@ -199,5 +237,54 @@ class SettingsFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             progressRank.visibility = View.GONE
         }, 3000)
+    }
+
+    private fun changePassword(setPassword: SetPassword) {
+        val tokenResPonceCall = ApiClient.userService
+            .userChangePassword("Bearer " + sharedPreferences?.getString("token", ""), setPassword)
+        tokenResPonceCall.enqueue(object : retrofit2.Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Toast.makeText(requireContext(), "Password changed", Toast.LENGTH_SHORT)
+                            .show()
+                        bottomSheetDialogCamQr?.dismiss()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error password not changed",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        ediBotCurPass?.error = "Password is not correct"
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            {
+                                ediBotCurPass?.error = null
+                                ediBotNewPass?.text?.clear()
+                                ediBotRePass?.text?.clear()
+                            }, 2000
+                        )
+                    }
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error password not changed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    ediBotCurPass?.error = "Password is not correct"
+                    Handler(Looper.getMainLooper()).postDelayed(
+                        {
+                            ediBotCurPass?.error = null
+                            ediBotNewPass?.text?.clear()
+                            ediBotRePass?.text?.clear()
+                        }, 2000
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
