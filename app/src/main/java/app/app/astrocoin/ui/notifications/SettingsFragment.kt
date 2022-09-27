@@ -1,18 +1,15 @@
 package app.app.astrocoin.ui.notifications
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
@@ -135,9 +132,9 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
         }
+
         igmSetCam?.setOnClickListener {
-            activity
-            startActivity(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+            //CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE.activity().start(requireContext(), this)
         }
 
 
@@ -579,6 +576,5 @@ class SettingsFragment : Fragment() {
             }
         })
     }
-
 
 }
