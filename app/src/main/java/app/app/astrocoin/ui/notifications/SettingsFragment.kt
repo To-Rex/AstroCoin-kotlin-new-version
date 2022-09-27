@@ -30,9 +30,7 @@ import retrofit2.Response
 class SettingsFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
@@ -49,25 +47,49 @@ class SettingsFragment : Fragment() {
 
     //settings view elements
     private var viewRanks: View? = null
-    private var viewstore: View? = null
-    private var viewchpass: View? = null
-    private var viewappas: View? = null
-    private var viewlogout: View? = null
+    private var viewStore: View? = null
+    private var viewChPass: View? = null
+    private var viewApPas: View? = null
+    private var viewLogout: View? = null
 
-    //botoomsheet change password
+    //BotOomSheet change password
     private var ediBotCurPass: EditText? = null
     private var ediBotNewPass: EditText? = null
     private var ediBotRePass: EditText? = null
     private var btnBotSubPass: Button? = null
 
-    //botoomsheet change app password
+    //BotOomSheet change app password
+    private var txtBotLogName: TextView? = null
+    private var txtBotLogPas1: TextView? = null
+    private var txtBotLogPas2: TextView? = null
+    private var txtBotLogPas3: TextView? = null
+    private var txtBotLogPas4: TextView? = null
+    private var txtBotLogPas5: TextView? = null
+    private var txtBotLogPas6: TextView? = null
+    private var txtBotLogPas7: TextView? = null
+    private var txtBotLogPas8: TextView? = null
+    private var txtBotLogPas9: TextView? = null
+    private var txtBotLogPas0: TextView? = null
+
+    private var viewBotLogOne: View? = null
+    private var viewBotLogTwo: View? = null
+    private var viewBotLogThree: View? = null
+    private var viewBotLogFour: View? = null
+
+    private var imgBotLogBack: ImageView? = null
+
+    private var index = 0
+    private var password = ""
+    private var savePassword = ""
+    private var writePassword = ""
+    private var checkNewPass = false
+    private var click = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         sharedPreferences = requireActivity().getSharedPreferences(
-            requireContext().getString(R.string.astrocoin),
-            Context.MODE_PRIVATE
+            requireContext().getString(R.string.astrocoin), Context.MODE_PRIVATE
         )
 
         txtSetFullName = view.findViewById(R.id.txtsetfullname)
@@ -79,26 +101,26 @@ class SettingsFragment : Fragment() {
         imgSetGall = view.findViewById(R.id.imgsetgall)
 
         viewRanks = view.findViewById(R.id.viewranks)
-        viewstore = view.findViewById(R.id.viewstore)
-        viewchpass = view.findViewById(R.id.viewchpass)
-        viewappas = view.findViewById(R.id.viewappas)
-        viewlogout = view.findViewById(R.id.viewlogout)
+        viewStore = view.findViewById(R.id.viewstore)
+        viewChPass = view.findViewById(R.id.viewchpass)
+        viewApPas = view.findViewById(R.id.viewappas)
+        viewLogout = view.findViewById(R.id.viewlogout)
         getUserData()
         getUsers()
 
         viewRanks?.setOnClickListener {
             bottomSheetRanks("https://astrocoin.uz/ranks")
         }
-        viewstore?.setOnClickListener {
+        viewStore?.setOnClickListener {
             bottomSheetRanks("https://store.astrocoin.uz/")
         }
-        viewchpass?.setOnClickListener {
+        viewChPass?.setOnClickListener {
             bottomSheetChangePassword()
         }
-        viewappas?.setOnClickListener {
+        viewApPas?.setOnClickListener {
             bottomSheetAppPassword()
         }
-        viewlogout?.setOnClickListener {
+        viewLogout?.setOnClickListener {
             Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
         }
@@ -106,8 +128,12 @@ class SettingsFragment : Fragment() {
     }
 
     private fun getUsers() {
-        val tokenResPonceCall = ApiClient.userService
-            .userTokenRequest("Bearer " + sharedPreferences?.getString("token", ""))
+        val tokenResPonceCall = ApiClient.userService.userTokenRequest(
+            "Bearer " + sharedPreferences?.getString(
+                "token",
+                ""
+            )
+        )
         tokenResPonceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
@@ -134,6 +160,7 @@ class SettingsFragment : Fragment() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
         val user = gson.fromJson(json, Getdata::class.java)
+        password = sharedPreferences?.getString("password", "")!!
         txtSetFullName?.text = user.name + " " + user.last_name
         txtSetEmail?.text = user.email
         txtSetQwaSar?.text = user.qwasar
@@ -160,18 +187,18 @@ class SettingsFragment : Fragment() {
 
         btnBotSubPass?.setOnClickListener {
             val password = ediBotCurPass?.text.toString()
-            val newpassword = ediBotNewPass?.text.toString()
-            val repassword = ediBotRePass?.text.toString()
+            val newPassword = ediBotNewPass?.text.toString()
+            val rePassword = ediBotRePass?.text.toString()
             if (password.isEmpty() || password.length < 7) {
                 ediBotCurPass?.error = "Password is empty"
-            } else if (newpassword.isEmpty() || newpassword.length < 7) {
+            } else if (newPassword.isEmpty() || newPassword.length < 7) {
                 ediBotNewPass?.error = "New password is empty"
-            } else if (repassword.isEmpty() || repassword.length < 7) {
+            } else if (rePassword.isEmpty() || rePassword.length < 7) {
                 ediBotRePass?.error = "Re password is empty"
-            } else if (newpassword != repassword) {
+            } else if (newPassword != rePassword) {
                 ediBotRePass?.error = "Re password is not match"
             } else {
-                changePassword(SetPassword(password, newpassword, repassword))
+                changePassword(SetPassword(password, newPassword, rePassword))
             }
         }
 
@@ -180,15 +207,260 @@ class SettingsFragment : Fragment() {
     }
 
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "MissingInflatedId")
     private fun bottomSheetAppPassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_changeapp, null)
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)
         //your code
+        txtBotLogName = view.findViewById(R.id.txtBotLog_Name)
+        txtBotLogPas1 = view.findViewById(R.id.txtBotLog_Pas1)
+        txtBotLogPas2 = view.findViewById(R.id.txtBotLog_Pas2)
+        txtBotLogPas3 = view.findViewById(R.id.txtBotLog_Pas3)
+        txtBotLogPas4 = view.findViewById(R.id.txtBotLog_Pas4)
+        txtBotLogPas5 = view.findViewById(R.id.txtBotLog_Pas5)
+        txtBotLogPas6 = view.findViewById(R.id.txtBotLog_Pas6)
+        txtBotLogPas7 = view.findViewById(R.id.txtBotLog_Pas7)
+        txtBotLogPas8 = view.findViewById(R.id.txtBotLog_Pas8)
+        txtBotLogPas9 = view.findViewById(R.id.txtBotLog_Pas9)
+        txtBotLogPas0 = view.findViewById(R.id.txtBotLog_Pas0)
+
+        viewBotLogOne = view.findViewById(R.id.viewBotLog_One)
+        viewBotLogTwo = view.findViewById(R.id.viewBotLog_Two)
+        viewBotLogThree = view.findViewById(R.id.viewBotLog_Three)
+        viewBotLogFour = view.findViewById(R.id.viewBotLog_Four)
+
+        imgBotLogBack = view.findViewById(R.id.imgBotLog_Back)
+
+        //if txtBotLogPas1 to txtBotLogPas9 is clicked writePassword
+        txtBotLogPas1?.setOnClickListener {
+            if (click) {
+                writePassword += "1"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas2?.setOnClickListener {
+            if (click) {
+                writePassword += "2"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas3?.setOnClickListener {
+            if (click) {
+                writePassword += "3"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas4?.setOnClickListener {
+            if (click) {
+                writePassword += "4"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas5?.setOnClickListener {
+            if (click) {
+                writePassword += "5"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas6?.setOnClickListener {
+            if (click) {
+                writePassword += "6"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas7?.setOnClickListener {
+            if (click) {
+                writePassword += "7"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas8?.setOnClickListener {
+            if (click) {
+                writePassword += "8"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas9?.setOnClickListener {
+            if (click) {
+                writePassword += "9"
+                index++
+                cheSkPassword()
+            }
+        }
+        txtBotLogPas0?.setOnClickListener {
+            if (click) {
+                writePassword += "0"
+                index++
+                cheSkPassword()
+            }
+        }
+
+        imgBotLogBack?.setOnClickListener {
+            if (click) {
+                index--
+                checkIndexBack()
+            }
+        }
 
         bottomSheetDialogCamQr?.show()
+    }
+
+    private fun cheSkPassword() {
+        if (index > 4) {
+            index = 4
+        }
+        when (index) {
+            1 -> {
+                viewBotLogOne?.setBackgroundResource(R.drawable.pascheck)
+            }
+            2 -> {
+                viewBotLogTwo?.setBackgroundResource(R.drawable.pascheck)
+            }
+            3 -> {
+                viewBotLogThree?.setBackgroundResource(R.drawable.pascheck)
+            }
+            4 -> {
+                viewBotLogFour?.setBackgroundResource(R.drawable.pascheck)
+                //your code
+                if (password == writePassword && !checkNewPass) {
+                    click = false
+                    viewBotLogOne?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogTwo?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogThree?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogFour?.setBackgroundResource(R.drawable.passoucses)
+                    index = 0
+                    writePassword = ""
+                    checkNewPass = true
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+                        writePassword = ""
+                        index = 0
+                        txtBotLogName?.text = getString(R.string.new_password)
+                        click = true
+                    }, 800)
+                    return
+                } else if (password != writePassword && !checkNewPass){
+                    click = false
+                    viewBotLogOne?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogTwo?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogThree?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogFour?.setBackgroundResource(R.drawable.passerror)
+                    index = 0
+                    writePassword = ""
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+                        writePassword = ""
+                        index = 0
+                        click = true
+                    }, 800)
+                }
+                if (checkNewPass && savePassword.isEmpty()) {
+                    click = false
+                    index = 0
+                    savePassword = writePassword
+                    writePassword = ""
+                    viewBotLogOne?.setBackgroundResource(R.drawable.homecardfon)
+                    viewBotLogTwo?.setBackgroundResource(R.drawable.homecardfon)
+                    viewBotLogThree?.setBackgroundResource(R.drawable.homecardfon)
+                    viewBotLogFour?.setBackgroundResource(R.drawable.homecardfon)
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        txtBotLogName?.text = getString(R.string.confirm_password)
+                        viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+                        writePassword = ""
+                        index = 0
+                        click = true
+                    }, 800)
+                    return
+                }
+                if (savePassword.isNotEmpty() && checkNewPass && savePassword == writePassword) {
+                    click = false
+                    viewBotLogOne?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogTwo?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogThree?.setBackgroundResource(R.drawable.passoucses)
+                    viewBotLogFour?.setBackgroundResource(R.drawable.passoucses)
+                    index = 0
+                    writePassword = ""
+                    checkNewPass = false
+                    sharedPreferences?.edit()?.putString("password", savePassword)?.apply()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+                        writePassword = ""
+                        index = 0
+                        click = true
+                        savePassword = ""
+                        checkNewPass = false
+                        bottomSheetDialogCamQr?.dismiss()
+                        getUsers()
+                        getUserData()
+                    }, 800)
+                }else if (savePassword.isNotEmpty() && checkNewPass && savePassword != writePassword) {
+                    click = false
+                    viewBotLogOne?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogTwo?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogThree?.setBackgroundResource(R.drawable.passerror)
+                    viewBotLogFour?.setBackgroundResource(R.drawable.passerror)
+                    index = 0
+                    writePassword = ""
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+                        viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+                        writePassword = ""
+                        index = 0
+                        click = true
+                    }, 800)
+                }
+            }
+        }
+    }
+
+    private fun checkIndexBack() {
+        if (index > 4) {
+            index = 4
+        }
+        if (index < 0) {
+            index = 0
+        }
+        if (index > 0) {
+            writePassword = writePassword.substring(0, writePassword.length - 1)
+        }
+        when (index) {
+            0 -> {
+                viewBotLogOne?.setBackgroundResource(R.drawable.passsign)
+            }
+            1 -> {
+                viewBotLogTwo?.setBackgroundResource(R.drawable.passsign)
+            }
+            2 -> {
+                viewBotLogThree?.setBackgroundResource(R.drawable.passsign)
+            }
+            3 -> {
+                viewBotLogFour?.setBackgroundResource(R.drawable.passsign)
+            }
+        }
     }
 
     private fun logOut() {
@@ -259,9 +531,7 @@ class SettingsFragment : Fragment() {
                         bottomSheetDialogCamQr?.dismiss()
                     } else {
                         Toast.makeText(
-                            requireContext(),
-                            "Error password not changed",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Error password not changed", Toast.LENGTH_SHORT
                         ).show()
                         ediBotCurPass?.error = "Password is not correct"
                         Handler(Looper.getMainLooper()).postDelayed(
@@ -274,9 +544,7 @@ class SettingsFragment : Fragment() {
                     }
                 } else {
                     Toast.makeText(
-                        requireContext(),
-                        "Error password not changed",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Error password not changed", Toast.LENGTH_SHORT
                     ).show()
                     ediBotCurPass?.error = "Password is not correct"
                     Handler(Looper.getMainLooper()).postDelayed(
@@ -294,4 +562,5 @@ class SettingsFragment : Fragment() {
             }
         })
     }
+
 }

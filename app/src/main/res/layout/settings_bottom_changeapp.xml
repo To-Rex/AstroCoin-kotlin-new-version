@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/viewBotLog_Name"
+                    android:id="@+id/txtBotLog_Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_60"
@@ -110,7 +110,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline61"
                     app:layout_constraintStart_toStartOf="@+id/guideline59"
-                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Name" />
 
                 <View
                     android:id="@+id/view21"
@@ -120,7 +120,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline58"
                     app:layout_constraintStart_toStartOf="@+id/guideline61"
-                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Name" />
 
                 <View
                     android:id="@+id/view22"
@@ -130,7 +130,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline62"
                     app:layout_constraintStart_toStartOf="@+id/guideline58"
-                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Name" />
 
                 <View
                     android:id="@+id/view23"
@@ -140,7 +140,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline60"
                     app:layout_constraintStart_toStartOf="@+id/guideline62"
-                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Name" />
 
                 <View
                     android:id="@+id/viewBotLog_One"
@@ -339,6 +339,16 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas0" />
+
+                <ImageView
+                    android:id="@+id/imgBotLog_Back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtBotLog_Pas0"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline60"
+                    app:layout_constraintStart_toStartOf="@+id/guideline60"
+                    app:layout_constraintTop_toTopOf="@+id/txtBotLog_Pas0"
+                    app:srcCompat="@drawable/passback" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
