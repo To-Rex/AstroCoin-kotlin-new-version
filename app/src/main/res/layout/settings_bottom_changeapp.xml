@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottomsheetback">
 
         <View
             android:id="@+id/view20"
@@ -25,7 +26,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:fillViewport="true"
             app:behavior_hideable="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,13 +36,13 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/viewBotLog_Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_60"
                     android:layout_weight="1"
                     android:fontFamily="@font/fredoka_fonts"
                     android:text="@string/your_password"
@@ -102,13 +103,14 @@
                     app:layout_constraintGuide_percent="0.625" />
 
                 <View
+                    android:id="@+id/view24"
                     android:layout_width="@dimen/dp_35"
                     android:layout_height="@dimen/dp_45"
-                    android:background="@drawable/homecard"
                     android:layout_marginTop="@dimen/dp_25"
+                    android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline61"
                     app:layout_constraintStart_toStartOf="@+id/guideline59"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
 
                 <View
                     android:id="@+id/view21"
@@ -118,7 +120,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline58"
                     app:layout_constraintStart_toStartOf="@+id/guideline61"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
 
                 <View
                     android:id="@+id/view22"
@@ -128,7 +130,7 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline62"
                     app:layout_constraintStart_toStartOf="@+id/guideline58"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
 
                 <View
                     android:id="@+id/view23"
@@ -138,7 +140,205 @@
                     android:background="@drawable/homecard"
                     app:layout_constraintEnd_toStartOf="@+id/guideline60"
                     app:layout_constraintStart_toStartOf="@+id/guideline62"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/viewBotLog_Name" />
+
+                <View
+                    android:id="@+id/viewBotLog_One"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:background="@drawable/passsign"
+                    app:layout_constraintBottom_toBottomOf="@+id/view24"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline61"
+                    app:layout_constraintStart_toStartOf="@+id/guideline59"
+                    app:layout_constraintTop_toTopOf="@+id/view24" />
+
+                <View
+                    android:id="@+id/viewBotLog_Two"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:background="@drawable/passsign"
+                    app:layout_constraintBottom_toBottomOf="@+id/view21"
+                    app:layout_constraintEnd_toEndOf="@+id/view21"
+                    app:layout_constraintStart_toStartOf="@+id/view21"
+                    app:layout_constraintTop_toTopOf="@+id/view21" />
+
+                <View
+                    android:id="@+id/viewBotLog_Three"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:background="@drawable/passsign"
+                    app:layout_constraintBottom_toBottomOf="@+id/view22"
+                    app:layout_constraintEnd_toEndOf="@+id/view22"
+                    app:layout_constraintStart_toStartOf="@+id/view22"
+                    app:layout_constraintTop_toTopOf="@+id/view22" />
+
+                <View
+                    android:id="@+id/viewBotLog_Four"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:background="@drawable/passsign"
+                    app:layout_constraintBottom_toBottomOf="@+id/view23"
+                    app:layout_constraintEnd_toEndOf="@+id/view23"
+                    app:layout_constraintStart_toStartOf="@+id/view23"
+                    app:layout_constraintTop_toTopOf="@+id/view23" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas1"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline59"
+                    app:layout_constraintStart_toStartOf="@+id/guideline59"
+                    app:layout_constraintTop_toBottomOf="@+id/view24"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas2"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline58"
+                    app:layout_constraintStart_toStartOf="@+id/guideline58"
+                    app:layout_constraintTop_toBottomOf="@+id/view21"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas3"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_3"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline60"
+                    app:layout_constraintStart_toStartOf="@+id/guideline60"
+                    app:layout_constraintTop_toBottomOf="@+id/view23"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas4"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_4"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline59"
+                    app:layout_constraintStart_toStartOf="@+id/guideline59"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas1"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas5"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_5"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline58"
+                    app:layout_constraintStart_toStartOf="@+id/guideline58"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas2"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas6"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_6"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline60"
+                    app:layout_constraintStart_toStartOf="@+id/guideline60"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas3"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas7"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_7"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline59"
+                    app:layout_constraintStart_toStartOf="@+id/guideline59"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas4"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas8"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_8"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline58"
+                    app:layout_constraintStart_toStartOf="@+id/guideline58"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas5"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas9"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_9"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline60"
+                    app:layout_constraintStart_toStartOf="@+id/guideline60"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas6"
+                    tools:ignore="SpUsage" />
+
+                <TextView
+                    android:id="@+id/txtBotLog_Pas0"
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_55"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:fontFamily="@font/fredoka_fonts"
+                    android:gravity="center"
+                    android:text="@string/_0"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/dp_30"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline58"
+                    app:layout_constraintStart_toStartOf="@+id/guideline58"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas8"
+                    tools:ignore="SpUsage" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_250"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtBotLog_Pas0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
