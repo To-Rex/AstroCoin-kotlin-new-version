@@ -1,6 +1,7 @@
 package app.app.astrocoin.ui.notifications
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,6 +11,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
@@ -51,7 +53,7 @@ class SettingsFragment : Fragment() {
     private var viewChPass: View? = null
     private var viewApPas: View? = null
     private var viewLogout: View? = null
-    
+
 
     //BotOomSheet change password
     private var ediBotCurPass: EditText? = null
@@ -124,6 +126,16 @@ class SettingsFragment : Fragment() {
         viewLogout?.setOnClickListener {
             Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
+        }
+        imgSetGall?.setOnClickListener {
+            Toast.makeText(requireContext(), "Gallery", Toast.LENGTH_SHORT).show()
+            val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.custom_dialog)
+            var imgDiCam = dialog.findViewById(R.id.imgDiCam) as ImageView
+            var imgDiGall = dialog.findViewById(R.id.imgDiGall) as ImageView
+            dialog.show()
         }
 
     }
@@ -353,7 +365,7 @@ class SettingsFragment : Fragment() {
                         click = true
                     }, 800)
                     return
-                } else if (password != writePassword && !checkNewPass){
+                } else if (password != writePassword && !checkNewPass) {
                     click = false
                     viewBotLogOne?.setBackgroundResource(R.drawable.passerror)
                     viewBotLogTwo?.setBackgroundResource(R.drawable.passerror)
@@ -416,7 +428,7 @@ class SettingsFragment : Fragment() {
                         getUsers()
                         getUserData()
                     }, 800)
-                }else if (savePassword.isNotEmpty() && checkNewPass && savePassword != writePassword) {
+                } else if (savePassword.isNotEmpty() && checkNewPass && savePassword != writePassword) {
                     click = false
                     viewBotLogOne?.setBackgroundResource(R.drawable.passerror)
                     viewBotLogTwo?.setBackgroundResource(R.drawable.passerror)
