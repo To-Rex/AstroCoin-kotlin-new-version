@@ -77,7 +77,6 @@ class SettingsFragment : Fragment() {
         getUserData()
         getUsers()
 
-
         viewRanks?.setOnClickListener {
             bottomSheetRanks("https://astrocoin.uz/ranks")
         }
@@ -140,14 +139,15 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("InflateParams")
     private fun  bottomSheetChangePassword() {
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_changep, null)
-        bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)
         bottomSheetDialogCamQr?.show()
 
     }
     @SuppressLint("InflateParams")
     private fun  bottomSheetAppPassword() {
+        bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.fragment_home, null)
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)

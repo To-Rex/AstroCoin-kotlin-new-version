@@ -2,17 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:background="@drawable/bottomsheetback"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottomsheetback"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <View
@@ -63,9 +58,12 @@
         <EditText
             android:id="@+id/editText"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_50"
+            android:layout_height="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_5"
             android:background="@drawable/homecard"
+            android:inputType="textPassword"
+            android:maxLength="15"
+            android:maxLines="1"
             app:layout_constraintEnd_toStartOf="@+id/guideline57"
             app:layout_constraintStart_toStartOf="@+id/guideline56"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
@@ -85,8 +83,11 @@
         <EditText
             android:id="@+id/editText2"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_50"
+            android:layout_height="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_5"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:inputType="textPassword"
             android:background="@drawable/homecard"
             app:layout_constraintEnd_toStartOf="@+id/guideline57"
             app:layout_constraintStart_toStartOf="@+id/guideline56"
@@ -107,8 +108,11 @@
         <EditText
             android:id="@+id/editText3"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_50"
+            android:layout_height="@dimen/dp_45"
             android:layout_marginTop="@dimen/dp_5"
+            android:maxLength="15"
+            android:maxLines="1"
+            android:inputType="textPassword"
             android:background="@drawable/homecard"
             app:layout_constraintEnd_toStartOf="@+id/guideline57"
             app:layout_constraintStart_toStartOf="@+id/guideline56"
@@ -142,14 +146,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05" />
+            app:layout_constraintGuide_percent="0.06" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline57"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95" />
+            app:layout_constraintGuide_percent="0.94" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
