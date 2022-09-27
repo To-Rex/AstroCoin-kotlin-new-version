@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import android.view.Window
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
@@ -23,11 +25,13 @@ import app.app.astrocoin.models.SetPassword
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
 import com.bumptech.glide.Glide
+import com.canhub.cropper.CropImage
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
+
 
 class SettingsFragment : Fragment() {
 
@@ -46,6 +50,9 @@ class SettingsFragment : Fragment() {
     private var txtSetStack: TextView? = null
     private var txtSetWallets: TextView? = null
     private var imgSetGall: ImageView? = null
+    private var igmSetCam: ImageView? = null
+
+    private var mGetContent: ActivityResultLauncher<String>? = null
 
     //settings view elements
     private var viewRanks: View? = null
@@ -102,6 +109,7 @@ class SettingsFragment : Fragment() {
         txtSetWallets = view.findViewById(R.id.txtsetwallets)
         usImage = view.findViewById(R.id.usimage)
         imgSetGall = view.findViewById(R.id.imgsetgall)
+        igmSetCam = view.findViewById(R.id.igmsetcam)
 
         viewRanks = view.findViewById(R.id.viewranks)
         viewStore = view.findViewById(R.id.viewstore)
@@ -127,18 +135,14 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
         }
-        imgSetGall?.setOnClickListener {
-            Toast.makeText(requireContext(), "Gallery", Toast.LENGTH_SHORT).show()
-            val dialog = Dialog(requireContext())
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(false)
-            dialog.setContentView(R.layout.custom_dialog)
-            var imgDiCam = dialog.findViewById(R.id.imgDiCam) as ImageView
-            var imgDiGall = dialog.findViewById(R.id.imgDiGall) as ImageView
-            dialog.show()
+        igmSetCam?.setOnClickListener {
+            activity
+            startActivity(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
         }
 
+
     }
+    //onActivityResult
 
     private fun getUsers() {
         val tokenResPonceCall = ApiClient.userService.userTokenRequest(
@@ -575,5 +579,6 @@ class SettingsFragment : Fragment() {
             }
         })
     }
+
 
 }
