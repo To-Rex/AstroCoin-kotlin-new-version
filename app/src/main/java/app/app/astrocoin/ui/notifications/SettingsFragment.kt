@@ -22,7 +22,6 @@ import app.app.astrocoin.models.SetPassword
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
 import com.bumptech.glide.Glide
-import com.canhub.cropper.CropImage
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
@@ -134,7 +133,7 @@ class SettingsFragment : Fragment() {
         }
 
         igmSetCam?.setOnClickListener {
-            //CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE.activity().start(requireContext(), this)
+
         }
 
 
