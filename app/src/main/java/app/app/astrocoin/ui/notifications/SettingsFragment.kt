@@ -17,7 +17,6 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -179,7 +178,7 @@ class SettingsFragment : Fragment() {
             dialog.setCancelable(true)
             val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setSHapImgUser)
 
-            val width: Int = Resources.getSystem().displayMetrics.widthPixels
+            //val width: Int = Resources.getSystem().displayMetrics.widthPixels
             val height: Int = Resources.getSystem().displayMetrics.heightPixels
 
             setSHapImgUser.layoutParams.height = height
