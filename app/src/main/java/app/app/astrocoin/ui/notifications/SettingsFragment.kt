@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -15,8 +16,8 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
@@ -44,6 +45,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 
 class SettingsFragment : Fragment() {
@@ -67,6 +70,18 @@ class SettingsFragment : Fragment() {
 
     private var imageUri: Uri? = null
     private var photo = ""
+
+    private var lastEvent: FloatArray? = null
+    private var d = 0f
+    private var newRot = 0f
+    private var isOutSide = false
+    private var mode = 0
+    private val start = PointF()
+    private val mid = PointF()
+    private var oldDist = 1f
+    private var xCoOrdinate = 0f
+    private  var yCoOrdinate: Float = 0f
+    private val doubleClick = 0
 
     //settings view elements
     private var viewRanks: View? = null
@@ -109,6 +124,7 @@ class SettingsFragment : Fragment() {
     private var checkNewPass = false
     private var click = true
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -159,21 +175,27 @@ class SettingsFragment : Fragment() {
             dialog.setContentView(R.layout.settings_user_photo)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.setCancelable(true)
-            val setSHapImgUser: ImageView = dialog.findViewById(R.id.setSHapImgUser)
+            val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setSHapImgUser)
 
             //get display size
-            val displayMetrics = DisplayMetrics()
+            /*val displayMetrics = DisplayMetrics()
             requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
             val height = displayMetrics.heightPixels
             val width = displayMetrics.widthPixels
             setSHapImgUser.layoutParams.height = height
-            setSHapImgUser.layoutParams.width = width
+            setSHapImgUser.layoutParams.width = width*/
 
             if (photo.isEmpty()) {
                 setSHapImgUser.setImageResource(R.drawable.usericons)
             } else {
                 Glide.with(requireContext()).load("https://api.astrocoin.uz$photo")
                     .into(setSHapImgUser)
+            }
+            setSHapImgUser.setOnTouchListener { v22: View, event: MotionEvent? ->
+                val view1 = v22 as ImageView
+                view1.bringToFront()
+                viewTransformation(view1, event!!)
+                true
             }
             /*setSHapImgUser.setOnLongClickListener {
                 downloadImageNew("temp", "https://api.astrocoin.uz$photo")
@@ -703,5 +725,86 @@ class SettingsFragment : Fragment() {
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Image download failed.", Toast.LENGTH_SHORT).show()
         }
+    }
+    private fun viewTransformation(view: View, event: MotionEvent) {
+        when (event.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                xCoOrdinate = view.x - event.rawX
+                yCoOrdinate = view.y - event.rawY
+                start[event.x] = event.y
+                isOutSide = false
+                mode = 1
+                lastEvent = null
+            }
+            MotionEvent.ACTION_POINTER_DOWN -> {
+                oldDist = spacing(event)
+                if (oldDist > 10f) {
+                    midPoint(mid, event)
+                    mode = 2
+                }
+                lastEvent = FloatArray(4)
+                lastEvent!![0] = event.getX(0)
+                lastEvent!![1] = event.getX(1)
+                lastEvent!![2] = event.getY(0)
+                lastEvent!![3] = event.getY(1)
+                d = rotation(event)
+            }
+            MotionEvent.ACTION_UP -> {
+                if (mode == 1) {
+                    if (isOutSide) {
+                        view.x = 0f
+                        view.y = 0f
+                    }
+                }
+                isOutSide = true
+                mode = 0
+                lastEvent = null
+            }
+            MotionEvent.ACTION_OUTSIDE -> {
+                isOutSide = true
+                mode = 0
+                lastEvent = null
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+                mode = 0
+                lastEvent = null
+            }
+            MotionEvent.ACTION_MOVE -> if (!isOutSide) {
+                if (mode == 1) {
+                    view.animate().x(event.rawX + xCoOrdinate).y(event.rawY + yCoOrdinate)
+                        .setDuration(0).start()
+                }
+                if (mode == 2 && event.pointerCount == 2) {
+                    val newDist1 = spacing(event)
+                    if (newDist1 > 10f) {
+                        val scale = newDist1 / oldDist * view.scaleX
+                        view.scaleX = scale
+                        view.scaleY = scale
+                    }
+                    if (lastEvent != null) {
+                        newRot = rotation(event)
+                        view.rotation = view.rotation + (newRot - d)
+                    }
+                }
+            }
+        }
+    }
+    private fun rotation(event: MotionEvent): Float {
+        val deltaX = (event.getX(0) - event.getX(1)).toDouble()
+        val deltaY = (event.getY(0) - event.getY(1)).toDouble()
+        val radians = atan2(deltaY, deltaX)
+        return Math.toDegrees(radians).toFloat()
+    }
+
+    private fun spacing(event: MotionEvent): Float {
+        val x = event.getX(0) - event.getX(1)
+        val y = event.getY(0) - event.getY(1)
+        return sqrt((x * x + y * y).toDouble()).toInt().toFloat()
+    }
+
+    private fun midPoint(point: PointF, event: MotionEvent) {
+        val x = event.getX(0) + event.getX(1)
+        val y = event.getY(0) + event.getY(1)
+        point[x / 2] = y / 2
     }
 }
