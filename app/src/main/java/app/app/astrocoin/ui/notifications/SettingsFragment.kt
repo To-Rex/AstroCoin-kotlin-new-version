@@ -81,8 +81,8 @@ class SettingsFragment : Fragment() {
     private val mid = PointF()
     private var oldDist = 1f
     private var xCoOrdinate = 0f
-    private  var yCoOrdinate: Float = 0f
-    private val doubleClick = 0
+    private var yCoOrdinate: Float = 0f
+    private var doubleClick = 0
 
     //settings view elements
     private var viewRanks: View? = null
@@ -177,12 +177,17 @@ class SettingsFragment : Fragment() {
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.setCancelable(true)
             val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setSHapImgUser)
+            val view30: View = dialog.findViewById(R.id.view30)
 
-            //val width: Int = Resources.getSystem().displayMetrics.widthPixels
+
+            val width: Int = Resources.getSystem().displayMetrics.widthPixels
             val height: Int = Resources.getSystem().displayMetrics.heightPixels
+            view30.layoutParams.height = height
+            view30.layoutParams.width = width
 
-            setSHapImgUser.layoutParams.height = height
-            setSHapImgUser.layoutParams.width = height
+            view30.setOnClickListener {
+                dialog.dismiss()
+            }
 
             if (photo.isEmpty()) {
                 setSHapImgUser.setImageResource(R.drawable.usericons)
@@ -196,10 +201,25 @@ class SettingsFragment : Fragment() {
                 viewTransformation(view1, event!!)
                 true
             }
-            /*setSHapImgUser.setOnLongClickListener {
-                downloadImageNew("temp", "https://api.astrocoin.uz$photo")
+            setSHapImgUser.setOnLongClickListener {
+                dialog.dismiss()
+                dialog.show()
                 true
-            }*/
+            }
+            view30.setOnClickListener {
+                doubleClick++
+                Handler(Looper.getMainLooper()).postDelayed({
+                    if (doubleClick == 1) {
+                        doubleClick = 0
+                    } else {
+                        if (doubleClick >= 2) {
+                            doubleClick = 0
+                            downloadImageNew("temp", "https://api.astrocoin.uz$photo")
+                        }
+                    }
+                }, 1000)
+            }
+
             dialog.show()
         }
 
@@ -725,6 +745,7 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Image download failed.", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun viewTransformation(view: View, event: MotionEvent) {
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
@@ -788,6 +809,7 @@ class SettingsFragment : Fragment() {
             }
         }
     }
+
     private fun rotation(event: MotionEvent): Float {
         val deltaX = (event.getX(0) - event.getX(1)).toDouble()
         val deltaY = (event.getY(0) - event.getY(1)).toDouble()
