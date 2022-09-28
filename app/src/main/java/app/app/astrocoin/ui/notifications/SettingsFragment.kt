@@ -15,6 +15,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -158,17 +159,26 @@ class SettingsFragment : Fragment() {
             dialog.setContentView(R.layout.settings_user_photo)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.setCancelable(true)
-            val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setshapimguser)
+            val setSHapImgUser: ImageView = dialog.findViewById(R.id.setSHapImgUser)
+
+            //get display size
+            val displayMetrics = DisplayMetrics()
+            requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+            val height = displayMetrics.heightPixels
+            val width = displayMetrics.widthPixels
+            setSHapImgUser.layoutParams.height = height
+            setSHapImgUser.layoutParams.width = width
+
             if (photo.isEmpty()) {
                 setSHapImgUser.setImageResource(R.drawable.usericons)
             } else {
                 Glide.with(requireContext()).load("https://api.astrocoin.uz$photo")
                     .into(setSHapImgUser)
             }
-            setSHapImgUser.setOnLongClickListener {
+            /*setSHapImgUser.setOnLongClickListener {
                 downloadImageNew("temp", "https://api.astrocoin.uz$photo")
                 true
-            }
+            }*/
             dialog.show()
         }
 

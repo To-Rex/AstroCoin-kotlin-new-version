@@ -4,16 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/setshapimguser"
+    <ImageView
+        android:id="@+id/setSHapImgUser"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_400"
-        android:padding="3dp"
-        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:src="@drawable/usericons"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/shapeAppearanceOverlay.App.CornerSize50Percent"
-        app:srcCompat="@drawable/usericons"/>
+        app:srcCompat="@drawable/usericons" />
 </androidx.constraintlayout.widget.ConstraintLayout>
