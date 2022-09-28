@@ -6,6 +6,9 @@
     <style name="shapeAppearanceOverlay.App.CornerSize50Percent" parent="">
         <item name="cornerSize">15%</item>
     </style>
+    <style name="shapeAppearanceOverlay.App.CornerSize50Percent1" parent="">
+        <item name="cornerSize">5%</item>
+    </style>
     <style name="shapess" parent="">
         <item name="cornerSize">10%</item>
         <item name="android:fontFamily">@font/fredoka_fonts</item>

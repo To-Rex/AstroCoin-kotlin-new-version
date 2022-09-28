@@ -7,6 +7,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.drawable.ColorDrawable
@@ -16,6 +17,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -177,13 +179,11 @@ class SettingsFragment : Fragment() {
             dialog.setCancelable(true)
             val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setSHapImgUser)
 
-            //get display size
-            /*val displayMetrics = DisplayMetrics()
-            requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
-            val height = displayMetrics.heightPixels
-            val width = displayMetrics.widthPixels
+            val width: Int = Resources.getSystem().displayMetrics.widthPixels
+            val height: Int = Resources.getSystem().displayMetrics.heightPixels
+
             setSHapImgUser.layoutParams.height = height
-            setSHapImgUser.layoutParams.width = width*/
+            setSHapImgUser.layoutParams.width = height
 
             if (photo.isEmpty()) {
                 setSHapImgUser.setImageResource(R.drawable.usericons)
