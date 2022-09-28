@@ -1,33 +1,43 @@
 package app.app.astrocoin.ui.notifications
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
-import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.models.Getdata
+import app.app.astrocoin.models.ImgUpload
 import app.app.astrocoin.models.SetPassword
 import app.app.astrocoin.models.TokenRequest
-import app.app.astrocoin.sampleclass.ApiClient
+import app.app.astrocoin.sampleclass.ApiClient.userService
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-
+import java.io.File
+import java.io.IOException
 
 class SettingsFragment : Fragment() {
 
@@ -48,7 +58,7 @@ class SettingsFragment : Fragment() {
     private var imgSetGall: ImageView? = null
     private var igmSetCam: ImageView? = null
 
-    private var mGetContent: ActivityResultLauncher<String>? = null
+    private var imageUri: Uri? = null
 
     //settings view elements
     private var viewRanks: View? = null
@@ -133,21 +143,22 @@ class SettingsFragment : Fragment() {
         }
 
         igmSetCam?.setOnClickListener {
-
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(requireContext(), this)
         }
-
 
     }
     //onActivityResult
 
     private fun getUsers() {
-        val tokenResPonceCall = ApiClient.userService.userTokenRequest(
+        val tokenResPonceCall = userService.userTokenRequest(
             "Bearer " + sharedPreferences?.getString(
                 "token",
                 ""
             )
         )
-        tokenResPonceCall.enqueue(object : retrofit2.Callback<TokenRequest> {
+        tokenResPonceCall.enqueue(object : Callback<TokenRequest> {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
@@ -478,10 +489,10 @@ class SettingsFragment : Fragment() {
 
     private fun logOut() {
         //your code
-        val logOutResPonceCall = ApiClient.userService.userLogOut(
+        val logOutResPonceCall = userService.userLogOut(
             "Bearer " + sharedPreferences?.getString("token", "")
         )
-        logOutResPonceCall.enqueue(object : retrofit2.Callback<Any> {
+        logOutResPonceCall.enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 sharedPreferences?.edit()?.clear()?.apply()
                 startActivity(Intent(requireContext(), Login::class.java))
@@ -531,10 +542,10 @@ class SettingsFragment : Fragment() {
 
     private fun changePassword(setPassword: SetPassword) {
         //your code
-        val tokenResPonceCall = ApiClient.userService.userChangePassword(
+        val tokenResPonceCall = userService.userChangePassword(
             "Bearer " + sharedPreferences?.getString("token", ""), setPassword
         )
-        tokenResPonceCall.enqueue(object : retrofit2.Callback<Any> {
+        tokenResPonceCall.enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
@@ -576,4 +587,66 @@ class SettingsFragment : Fragment() {
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            imageUri = data.data
+            CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setAspectRatio(1, 1)
+                .start(requireContext(), this)
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == RESULT_OK) {
+                val resultUri: Uri = result.uri
+                try {
+                    /*val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        resultUri
+                    )*/
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        resultUri
+                    )
+                    usImage?.setImageBitmap(bitmap)
+                    val file = File(Uri.parse(resultUri.toString()).path.toString())
+                    val filePart = MultipartBody.Part.createFormData(
+                        "photo",
+                        file.name,
+                        RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+                    )
+                    val call = userService.userSetPhoto("Bearer "+
+                            sharedPreferences?.getString("token", ""), filePart)
+                    call.enqueue(object : Callback<ImgUpload?> {
+                        override fun onResponse(call: Call<ImgUpload?>, response: Response<ImgUpload?>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT)
+                                    .show()
+                                getUsers()
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    getUserData()
+                                }, 1500)
+                                call.cancel()
+                            } else {
+                                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT)
+                                    .show()
+                                call.cancel()
+                            }
+                        }
+                        override fun onFailure(call: Call<ImgUpload?>, t: Throwable) {
+                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                            call.cancel()
+                        }
+                    })
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

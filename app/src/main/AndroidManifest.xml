@@ -40,10 +40,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".CaptureAct"
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name=".CaptureAct"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"/>
+            android:theme="@style/zxing_CaptureTheme" />
         <activity
             android:name=".Password"
             android:exported="false">
@@ -71,10 +74,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="fullSensor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>
