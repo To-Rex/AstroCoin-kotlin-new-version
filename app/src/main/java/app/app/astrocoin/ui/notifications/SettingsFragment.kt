@@ -143,8 +143,7 @@ class SettingsFragment : Fragment() {
         }
 
         igmSetCam?.setOnClickListener {
-            CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
                 .start(requireContext(), this)
         }
 
@@ -154,8 +153,7 @@ class SettingsFragment : Fragment() {
     private fun getUsers() {
         val tokenResPonceCall = userService.userTokenRequest(
             "Bearer " + sharedPreferences?.getString(
-                "token",
-                ""
+                "token", ""
             )
         )
         tokenResPonceCall.enqueue(object : Callback<TokenRequest> {
@@ -508,11 +506,9 @@ class SettingsFragment : Fragment() {
 
     @SuppressLint("InflateParams", "SetJavaScriptEnabled", "MissingInflatedId")
     private fun bottomSheetRanks(link: String) {
-        //your code
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_renks, null)
         bottomSheetDialogCamQr?.setContentView(view)
-        //your code
         val progressRank = view.findViewById<ProgressBar>(R.id.progressRank)
         val webViewSetRank = view.findViewById<WebView>(R.id.webViewsetRank)
 
@@ -589,12 +585,9 @@ class SettingsFragment : Fragment() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.data
-            CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1, 1)
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1, 1)
                 .start(requireContext(), this)
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -602,13 +595,8 @@ class SettingsFragment : Fragment() {
             if (resultCode == RESULT_OK) {
                 val resultUri: Uri = result.uri
                 try {
-                    /*val bitmap = MediaStore.Images.Media.getBitmap(
-                        requireContext().contentResolver,
-                        resultUri
-                    )*/
                     val bitmap = MediaStore.Images.Media.getBitmap(
-                        requireContext().contentResolver,
-                        resultUri
+                        requireContext().contentResolver, resultUri
                     )
                     usImage?.setImageBitmap(bitmap)
                     val file = File(Uri.parse(resultUri.toString()).path.toString())
@@ -617,10 +605,13 @@ class SettingsFragment : Fragment() {
                         file.name,
                         RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
                     )
-                    val call = userService.userSetPhoto("Bearer "+
-                            sharedPreferences?.getString("token", ""), filePart)
+                    val call = userService.userSetPhoto(
+                        "Bearer " + sharedPreferences?.getString("token", ""), filePart
+                    )
                     call.enqueue(object : Callback<ImgUpload?> {
-                        override fun onResponse(call: Call<ImgUpload?>, response: Response<ImgUpload?>) {
+                        override fun onResponse(
+                            call: Call<ImgUpload?>, response: Response<ImgUpload?>
+                        ) {
                             if (response.isSuccessful) {
                                 Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT)
                                     .show()
@@ -635,6 +626,7 @@ class SettingsFragment : Fragment() {
                                 call.cancel()
                             }
                         }
+
                         override fun onFailure(call: Call<ImgUpload?>, t: Throwable) {
                             Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                             call.cancel()
