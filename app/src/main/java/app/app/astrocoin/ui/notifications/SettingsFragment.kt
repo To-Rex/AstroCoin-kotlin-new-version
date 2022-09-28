@@ -2,11 +2,16 @@ package app.app.astrocoin.ui.notifications
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.app.Dialog
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
@@ -39,6 +44,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.IOException
 
+
 class SettingsFragment : Fragment() {
 
     override fun onCreateView(
@@ -59,6 +65,7 @@ class SettingsFragment : Fragment() {
     private var igmSetCam: ImageView? = null
 
     private var imageUri: Uri? = null
+    private var photo = ""
 
     //settings view elements
     private var viewRanks: View? = null
@@ -146,6 +153,25 @@ class SettingsFragment : Fragment() {
             CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
                 .start(requireContext(), this)
         }
+        usImage?.setOnClickListener {
+            val dialog = Dialog(requireContext())
+            dialog.setContentView(R.layout.settings_user_photo)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.setCancelable(true)
+            val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setshapimguser)
+            if (photo.isEmpty()) {
+                setSHapImgUser.setImageResource(R.drawable.usericons)
+            } else {
+                Glide.with(requireContext()).load("https://api.astrocoin.uz$photo")
+                    .into(setSHapImgUser)
+            }
+            setSHapImgUser.setOnLongClickListener {
+                downloadImageNew("temp", "https://api.astrocoin.uz$photo")
+                true
+            }
+            dialog.show()
+        }
+
 
     }
     //onActivityResult
@@ -188,12 +214,18 @@ class SettingsFragment : Fragment() {
         txtSetQwaSar?.text = user.qwasar
         txtSetStack?.text = user.stack
         txtSetWallets?.text = user.wallet
+        photo = user.photo
         if (user.verify == "1") {
             imgSetGall?.visibility = View.VISIBLE
         } else {
             imgSetGall?.visibility = View.GONE
         }
-        Glide.with(requireContext()).load("https://api.astrocoin.uz" + user.photo).into(usImage!!)
+        if (photo.isEmpty()) {
+            usImage?.setImageResource(R.drawable.usericons)
+        } else {
+            Glide.with(requireContext()).load("https://api.astrocoin.uz$photo")
+                .into(usImage!!)
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -639,6 +671,27 @@ class SettingsFragment : Fragment() {
                 val error = result.error
                 Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun downloadImageNew(fileName: String, downloadUrlOfImage: String) {
+        try {
+            val dm = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val downloadUri = Uri.parse(downloadUrlOfImage)
+            val request = DownloadManager.Request(downloadUri)
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedOverRoaming(false)
+                .setTitle(fileName)
+                .setMimeType("image/jpeg")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_PICTURES,
+                    File.separator + fileName + ".jpg"
+                )
+            dm.enqueue(request)
+            Toast.makeText(requireContext(), "Image download started.", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Image download failed.", Toast.LENGTH_SHORT).show()
         }
     }
 }
