@@ -273,7 +273,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("label", txtSeaWallets.getText().toString());
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(context, "copy wallet id", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getText(R.string.coPi), Toast.LENGTH_SHORT).show();
                         return false;
                     });
                     txtSeaWallets.setOnClickListener(v1 -> {

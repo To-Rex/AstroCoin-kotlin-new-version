@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.app.DownloadManager
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PointF
@@ -89,6 +87,7 @@ class SettingsFragment : Fragment() {
     private var viewStore: View? = null
     private var viewChPass: View? = null
     private var viewApPas: View? = null
+    private var viewWallet: View? = null
     private var viewLogout: View? = null
 
 
@@ -146,6 +145,7 @@ class SettingsFragment : Fragment() {
         viewStore = view.findViewById(R.id.viewstore)
         viewChPass = view.findViewById(R.id.viewchpass)
         viewApPas = view.findViewById(R.id.viewappas)
+        viewWallet = view.findViewById(R.id.viewwallet)
         viewLogout = view.findViewById(R.id.viewlogout)
         getUserData()
         getUsers()
@@ -162,6 +162,14 @@ class SettingsFragment : Fragment() {
         viewApPas?.setOnClickListener {
             bottomSheetAppPassword()
         }
+        
+        viewWallet?.setOnClickListener {
+            val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("label", txtSetWallets?.text.toString())
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(requireContext(), requireContext().getText(R.string.coPi), Toast.LENGTH_SHORT).show()
+        }
+
         viewLogout?.setOnClickListener {
             Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
@@ -214,7 +222,7 @@ class SettingsFragment : Fragment() {
                     } else {
                         if (doubleClick >= 2) {
                             doubleClick = 0
-                            downloadImageNew("temp", "https://api.astrocoin.uz$photo")
+                            downloadImageNew("https://api.astrocoin.uz$photo")
                         }
                     }
                 }, 1000)
@@ -724,28 +732,19 @@ class SettingsFragment : Fragment() {
             }
         }
     }
-
-    private fun downloadImageNew(fileName: String, downloadUrlOfImage: String) {
-        try {
-            val dm = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val downloadUri = Uri.parse(downloadUrlOfImage)
-            val request = DownloadManager.Request(downloadUri)
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false)
-                .setTitle(fileName)
-                .setMimeType("image/jpeg")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_PICTURES,
-                    File.separator + fileName + ".jpg"
-                )
-            dm.enqueue(request)
-            Toast.makeText(requireContext(), "Image download started.", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Image download failed.", Toast.LENGTH_SHORT).show()
-        }
+    private fun downloadImageNew(url: String) {
+        val request = DownloadManager.Request(Uri.parse(url))
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+        request.setTitle("Download")
+        request.setDescription("The file is downloading...")
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setDestinationInExternalPublicDir(
+            Environment.DIRECTORY_DOWNLOADS,
+            System.currentTimeMillis().toString() + ".png"
+        )
+        val manager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        manager.enqueue(request)
     }
-
     private fun viewTransformation(view: View, event: MotionEvent) {
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
