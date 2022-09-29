@@ -57,6 +57,9 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    private var width: Int = 0
+    private var height: Int = 0
+
     private var bottomSheetDialogCamQr: BottomSheetDialog? = null
     private var sharedPreferences: SharedPreferences? = null
     private var usImage: ShapeableImageView? = null
@@ -200,9 +203,8 @@ class SettingsFragment : Fragment() {
             val setSHapImgUser: ShapeableImageView = dialog.findViewById(R.id.setSHapImgUser)
             val view30: View = dialog.findViewById(R.id.view30)
 
-
-            val width: Int = Resources.getSystem().displayMetrics.widthPixels
-            val height: Int = Resources.getSystem().displayMetrics.heightPixels
+            width = Resources.getSystem().displayMetrics.widthPixels
+            height = Resources.getSystem().displayMetrics.heightPixels
             view30.layoutParams.height = height
             view30.layoutParams.width = width
 
@@ -244,8 +246,6 @@ class SettingsFragment : Fragment() {
 
             dialog.show()
         }
-
-
     }
     //onActivityResult
 

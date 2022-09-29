@@ -290,10 +290,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                         doubleClick = 0;
                         showBottomSheetDialogSend(dataModal.getWallet());
                     }
-
                 }
             }, 200);
-
         });
         return listItemView;
     }
