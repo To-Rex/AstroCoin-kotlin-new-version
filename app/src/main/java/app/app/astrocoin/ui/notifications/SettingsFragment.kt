@@ -15,10 +15,7 @@ import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
@@ -173,10 +170,15 @@ class SettingsFragment : Fragment() {
             doubleClick++
             Handler(Looper.getMainLooper()).postDelayed({
                 if (doubleClick == 1) {
-                    val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipboard =
+                        requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip = ClipData.newPlainText("label", txtSetWallets?.text.toString())
                     clipboard.setPrimaryClip(clip)
-                    Toast.makeText(requireContext(), requireContext().getText(R.string.coPi), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        requireContext().getText(R.string.coPi),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     doubleClick = 0
                 } else {
                     if (doubleClick >= 2) {
@@ -278,7 +280,7 @@ class SettingsFragment : Fragment() {
         })
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ShowToast", "RtlHardcoded")
     private fun getUserData() {
         val gson = Gson()
         val json = sharedPreferences?.getString("user", "")
@@ -290,10 +292,11 @@ class SettingsFragment : Fragment() {
         txtSetStack?.text = user.stack
         txtSetWallets?.text = user.wallet
         photo = user.photo
-        if(user.status == "1"){
+        if (user.status == "verified") {
             viewSetBlock?.visibility = View.GONE
-        }else{
+        } else {
             viewSetBlock?.visibility = View.VISIBLE
+            showToast()
         }
         if (user.verify == "1") {
             imgSetGall?.visibility = View.VISIBLE
@@ -306,6 +309,17 @@ class SettingsFragment : Fragment() {
             Glide.with(requireContext()).load("https://api.astrocoin.uz$photo")
                 .into(usImage!!)
         }
+    }
+
+    @SuppressLint("RtlHardcoded")
+    private fun showToast() {
+        val toast = Toast.makeText(
+            requireContext(),
+            requireContext().getText(R.string.blocked),
+            Toast.LENGTH_SHORT
+        )
+        toast.setGravity(Gravity.CENTER or Gravity.TOP, 0, 400)
+        toast.show()
     }
 
     @SuppressLint("InflateParams", "MissingInflatedId")
@@ -358,11 +372,16 @@ class SettingsFragment : Fragment() {
             bottomSheetDialog.show()
 
         } else {
-            Toast.makeText(requireContext(), requireContext().getString(R.string.coPi), Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                requireContext().getString(R.string.coPi),
+                Toast.LENGTH_SHORT
+            ).show()
             bottomSheetDialog.dismiss()
         }
 
     }
+
     @SuppressLint("InflateParams")
     private fun bottomSheetChangePassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
@@ -808,6 +827,7 @@ class SettingsFragment : Fragment() {
             }
         }
     }
+
     private fun downloadImageNew(url: String) {
         val request = DownloadManager.Request(Uri.parse(url))
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
@@ -821,6 +841,7 @@ class SettingsFragment : Fragment() {
         val manager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         manager.enqueue(request)
     }
+
     private fun viewTransformation(view: View, event: MotionEvent) {
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
