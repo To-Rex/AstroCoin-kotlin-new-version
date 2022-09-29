@@ -40,7 +40,7 @@ class Sample : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
     override fun onStop() {
-        handler.postDelayed(10000) {
+        handler.postDelayed(4000) {
             finish()
         }
         super.onStop()
