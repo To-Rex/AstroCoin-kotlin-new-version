@@ -3,10 +3,13 @@ package app.app.astrocoin.ui.dashboard
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import app.app.astrocoin.R
@@ -30,6 +33,7 @@ class SearchUserFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_searchuser, container, false)
     }
 
+    private var handler = Handler(Looper.getMainLooper())
     private var sharedPreferences: SharedPreferences? = null
     var token: String? = null
     var dataModalArrayList: ArrayList<UserRequest>? = null
@@ -119,5 +123,15 @@ class SearchUserFragment : Fragment() {
             }
         })
     }
+    override fun onStop() {
+        handler.postDelayed(10000) {
+            activity?.finish()
+        }
+        super.onStop()
+    }
 
+    override fun onStart() {
+        handler.removeCallbacksAndMessages(null)
+        super.onStart()
+    }
 }

@@ -19,6 +19,7 @@ import android.view.*
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
@@ -56,6 +57,9 @@ class SettingsFragment : Fragment() {
 
     private var width: Int = 0
     private var height: Int = 0
+
+    private var handler = Handler(Looper.getMainLooper())
+    var finishShed = true
 
     private var bottomSheetDialogCamQr: BottomSheetDialog? = null
     private var sharedPreferences: SharedPreferences? = null
@@ -196,6 +200,7 @@ class SettingsFragment : Fragment() {
         }
 
         igmSetCam?.setOnClickListener {
+            finishShed = false
             CropImage.activity().setGuidelines(CropImageView.Guidelines.ON)
                 .start(requireContext(), this)
         }
@@ -799,6 +804,7 @@ class SettingsFragment : Fragment() {
                             call: Call<ImgUpload?>, response: Response<ImgUpload?>
                         ) {
                             if (response.isSuccessful) {
+                                finishShed = true
                                 Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT)
                                     .show()
                                 getUsers()
@@ -807,6 +813,7 @@ class SettingsFragment : Fragment() {
                                 }, 1500)
                                 call.cancel()
                             } else {
+                                finishShed = true
                                 Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT)
                                     .show()
                                 call.cancel()
@@ -923,5 +930,20 @@ class SettingsFragment : Fragment() {
         val x = event.getX(0) + event.getX(1)
         val y = event.getY(0) + event.getY(1)
         point[x / 2] = y / 2
+    }
+    override fun onStop() {
+        if (finishShed){
+            handler.postDelayed(3000) {
+                activity?.finish()
+            }
+        }
+        super.onStop()
+    }
+
+    override fun onStart() {
+        if (finishShed){
+            handler.removeCallbacksAndMessages(null)
+        }
+        super.onStart()
     }
 }

@@ -18,7 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 
 class Sample : AppCompatActivity() {
-    private var handler = Handler(Looper.getMainLooper())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +38,6 @@ class Sample : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
-
-    override fun onStop() {
-        handler.postDelayed(3000) {
-            finish()
-        }
-        super.onStop()
-    }
-
-    override fun onStart() {
-        handler.removeCallbacksAndMessages(null)
-        super.onStart()
     }
 
 }

@@ -16,6 +16,7 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -47,6 +48,7 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var bottomSheetDialogCamQr: BottomSheetDialog? = null
+    private var handler = Handler(Looper.getMainLooper())
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -446,5 +448,16 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+    override fun onStop() {
+        handler.postDelayed(10000) {
+            activity?.finish()
+        }
+        super.onStop()
+    }
+
+    override fun onStart() {
+        handler.removeCallbacksAndMessages(null)
+        super.onStart()
     }
 }
