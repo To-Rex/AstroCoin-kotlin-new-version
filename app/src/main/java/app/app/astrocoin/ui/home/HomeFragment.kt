@@ -48,7 +48,6 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var bottomSheetDialogCamQr: BottomSheetDialog? = null
-    private var handler = Handler(Looper.getMainLooper())
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -448,16 +447,5 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-    }
-    override fun onStop() {
-        handler.postDelayed(10000) {
-            activity?.finish()
-        }
-        super.onStop()
-    }
-
-    override fun onStart() {
-        handler.removeCallbacksAndMessages(null)
-        super.onStart()
     }
 }

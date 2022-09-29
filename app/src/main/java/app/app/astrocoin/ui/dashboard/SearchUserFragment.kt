@@ -33,7 +33,6 @@ class SearchUserFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_searchuser, container, false)
     }
 
-    private var handler = Handler(Looper.getMainLooper())
     private var sharedPreferences: SharedPreferences? = null
     var token: String? = null
     var dataModalArrayList: ArrayList<UserRequest>? = null
@@ -122,16 +121,5 @@ class SearchUserFragment : Fragment() {
                 call.cancel()
             }
         })
-    }
-    override fun onStop() {
-        handler.postDelayed(10000) {
-            activity?.finish()
-        }
-        super.onStop()
-    }
-
-    override fun onStart() {
-        handler.removeCallbacksAndMessages(null)
-        super.onStart()
     }
 }
