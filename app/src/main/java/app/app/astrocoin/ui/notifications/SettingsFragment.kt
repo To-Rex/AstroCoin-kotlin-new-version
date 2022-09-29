@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.gson.Gson
+import com.google.zxing.qrcode.QRCodeWriter
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -162,12 +163,24 @@ class SettingsFragment : Fragment() {
         viewApPas?.setOnClickListener {
             bottomSheetAppPassword()
         }
-        
+
         viewWallet?.setOnClickListener {
-            val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip = ClipData.newPlainText("label", txtSetWallets?.text.toString())
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(requireContext(), requireContext().getText(R.string.coPi), Toast.LENGTH_SHORT).show()
+            doubleClick++
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (doubleClick == 1) {
+                    val clipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("label", txtSetWallets?.text.toString())
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(requireContext(), requireContext().getText(R.string.coPi), Toast.LENGTH_SHORT).show()
+                    doubleClick = 0
+                } else {
+                    if (doubleClick >= 2) {
+                        doubleClick = 0
+                        showBottomSheetDialogReadQr()
+                    }
+                }
+            }, 200)
+
         }
 
         viewLogout?.setOnClickListener {
@@ -219,13 +232,14 @@ class SettingsFragment : Fragment() {
                 Handler(Looper.getMainLooper()).postDelayed({
                     if (doubleClick == 1) {
                         doubleClick = 0
+                        dialog.dismiss()
                     } else {
                         if (doubleClick >= 2) {
                             doubleClick = 0
                             downloadImageNew("https://api.astrocoin.uz$photo")
                         }
                     }
-                }, 1000)
+                }, 200)
             }
 
             dialog.show()
@@ -287,6 +301,61 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams", "MissingInflatedId")
+    private fun showBottomSheetDialogReadQr() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.home_bottom_qrcode, null)
+        bottomSheetDialog.setContentView(view)
+        val imgReadQrBottom = view.findViewById<ImageView>(R.id.imgreadqrbottom)
+        val txtReadQrBottom = view.findViewById<TextView>(R.id.txtreadqrbottom)
+        val imgReadQrBottomIcon = view.findViewById<ImageView>(R.id.imgreadqrbottomicon)
+        val btnReadQrBottom = view.findViewById<Button>(R.id.btnreadqrbottom)
+        if (txtSetWallets?.text.toString().isNotEmpty()) {
+            txtReadQrBottom.text = txtSetWallets?.text.toString()
+
+            imgReadQrBottomIcon.setOnClickListener {
+                val clipboard =
+                    requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("label", txtSetWallets?.text.toString())
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "Copied", Toast.LENGTH_SHORT).show()
+            }
+
+            btnReadQrBottom.setOnClickListener {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_TEXT, txtSetWallets?.text.toString())
+                startActivity(Intent.createChooser(intent, "Share via"))
+            }
+
+            val writTer = QRCodeWriter()
+            val bitMatrix = writTer.encode(
+                txtSetWallets?.text.toString(),
+                com.google.zxing.BarcodeFormat.QR_CODE,
+                512,
+                512
+            )
+            val width = bitMatrix.width
+            val height = bitMatrix.height
+            val bmp = android.graphics.Bitmap.createBitmap(
+                width,
+                height,
+                android.graphics.Bitmap.Config.RGB_565
+            )
+            for (x in 0 until width) {
+                for (y in 0 until height) {
+                    bmp.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+                }
+            }
+            imgReadQrBottom.setImageBitmap(bmp)
+            bottomSheetDialog.show()
+
+        } else {
+            Toast.makeText(requireContext(), requireContext().getString(R.string.coPi), Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
+        }
+
+    }
     @SuppressLint("InflateParams")
     private fun bottomSheetChangePassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
