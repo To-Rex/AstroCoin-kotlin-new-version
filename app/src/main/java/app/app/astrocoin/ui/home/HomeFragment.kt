@@ -16,7 +16,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
@@ -92,7 +91,7 @@ class HomeFragment : Fragment() {
             getUsers()
 
         }
-        swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY,Color.RED,Color.BLACK);
+        swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY,Color.RED,Color.BLACK)
         toLsAllFun()
 
         imgHomeReadQr!!.setOnClickListener {
