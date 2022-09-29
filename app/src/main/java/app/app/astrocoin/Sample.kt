@@ -47,7 +47,6 @@ class Sample : AppCompatActivity() {
         super.onStop()
     }
 
-    @RequiresApi(Build.VERSION_CODES.P)
     override fun onStart() {
         handler.removeCallbacksAndMessages(null)
         super.onStart()
