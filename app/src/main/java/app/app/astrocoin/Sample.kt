@@ -1,6 +1,8 @@
 package app.app.astrocoin
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,7 +11,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 
 class Sample : AppCompatActivity() {
-    
+    var resume = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -25,6 +28,21 @@ class Sample : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onStop() {
+        resume = false
+        Handler(Looper.getMainLooper()).postDelayed(
+            {
+                finish()
+            }, 15000
+        )
+        super.onStop()
+    }
+
+    override fun onStart() {
+        resume = true
+        super.onStart()
     }
 
 }
