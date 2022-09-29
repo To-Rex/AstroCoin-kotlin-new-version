@@ -4,21 +4,28 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.os.*
+import android.view.View
 import android.view.WindowManager
+import android.webkit.WebSettings
+import android.webkit.WebView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.app.astrocoin.models.LoginRequest
 import app.app.astrocoin.models.TokenRequest
 import app.app.astrocoin.sampleclass.ApiClient
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
 
 class Login : AppCompatActivity() {
 
+    private var bottomSheetDialogCamQr: BottomSheetDialog? = null
     private var ediLoginEmail: EditText? = null
     private var ediLoginPassword: EditText? = null
     private var btnLoginRecover: Button? = null
@@ -26,6 +33,8 @@ class Login : AppCompatActivity() {
     private var btnSignIn: Button? = null
     private var vibrator: Vibrator? = null
     private var sharedPreferences: SharedPreferences? = null
+    var width: Int = 0
+    var height: Int = 0
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +54,12 @@ class Login : AppCompatActivity() {
         btnSignIn = findViewById(R.id.btnsignin)
         sharedPreferences = getSharedPreferences(this.getString(R.string.astrocoin), Context.MODE_PRIVATE)
 
+        btnSignup?.setOnClickListener {
+            bottomSheetRanks("https://astrocoin.uz/qwasar-check")
+        }
+        btnLoginRecover?.setOnClickListener {
+            bottomSheetRanks("https://astrocoin.uz/recover")
+        }
         btnSignIn?.setOnClickListener {
             val email = ediLoginEmail?.text.toString()
             val password = ediLoginPassword?.text.toString()
@@ -128,5 +143,40 @@ class Login : AppCompatActivity() {
                 Toast.makeText(this@Login, "Error", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+    @SuppressLint("SetJavaScriptEnabled", "InflateParams", "MissingInflatedId")
+    private fun bottomSheetRanks(link: String) {
+        bottomSheetDialogCamQr = BottomSheetDialog(this, R.style.custombottomsheet)
+        val view = layoutInflater.inflate(R.layout.settings_bottom_renks, null)
+        bottomSheetDialogCamQr?.setContentView(view)
+        val progressRank = view.findViewById<ProgressBar>(R.id.progressRank)
+        val webViewSetRank = view.findViewById<WebView>(R.id.webViewsetRank)
+        val viewWebSize = view.findViewById<View>(R.id.viewWebSize)
+        width = Resources.getSystem().displayMetrics.widthPixels
+        height = Resources.getSystem().displayMetrics.heightPixels
+
+        viewWebSize.layoutParams.height = (height * 0.8).toInt()
+        webViewSetRank.loadUrl(link)
+        webViewSetRank.settings.javaScriptEnabled = true
+        webViewSetRank.settings.domStorageEnabled = true
+        webViewSetRank.settings.databaseEnabled = true
+        webViewSetRank.settings.setSupportZoom(true)
+        webViewSetRank.settings.builtInZoomControls = true
+        webViewSetRank.settings.displayZoomControls = false
+        webViewSetRank.settings.useWideViewPort = true
+        webViewSetRank.settings.loadWithOverviewMode = true
+        webViewSetRank.settings.setSupportMultipleWindows(true)
+        webViewSetRank.settings.allowFileAccess = true
+        webViewSetRank.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        webViewSetRank.settings.setGeolocationEnabled(true)
+        webViewSetRank.settings.loadsImagesAutomatically = true
+        webViewSetRank.settings.defaultTextEncodingName = "utf-8"
+        webViewSetRank.settings.defaultFontSize = 16
+        webViewSetRank.settings.setNeedInitialFocus(true)
+
+        bottomSheetDialogCamQr?.show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            progressRank.visibility = View.GONE
+        }, 3000)
     }
 }

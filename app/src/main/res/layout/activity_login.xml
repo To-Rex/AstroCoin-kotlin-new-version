@@ -8,96 +8,76 @@
 
     <EditText
         android:id="@+id/ediloginemail"
-        android:layout_width="@dimen/dp_300"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_30"
         android:background="@drawable/backedittext"
-        android:fontFamily="@font/fredoka_fonts"
         android:ems="10"
+        android:fontFamily="@font/fredoka_fonts"
         android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
-        android:paddingStart="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_15"
         android:paddingEnd="@dimen/dp_15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline65"
+        app:layout_constraintStart_toStartOf="@+id/guideline64"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/ediloginpassword"
-        android:layout_width="@dimen/dp_300"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_40"
         android:background="@drawable/backedittext"
         android:ems="10"
-        android:hint="@string/password"
         android:fontFamily="@font/fredoka_fonts"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingStart="@dimen/dp_15"
         android:paddingEnd="@dimen/dp_15"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline65"
+        app:layout_constraintStart_toStartOf="@+id/guideline64"
+        app:layout_constraintTop_toBottomOf="@+id/ediloginemail"
         tools:ignore="Autofill,TextFields" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.43" />
 
     <Button
         android:id="@+id/btnloginrecover"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
-        android:fontFamily="@font/fredoka_fonts"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_15"
+        android:fontFamily="@font/fredoka_fonts"
         android:text="@string/recover"
         android:textColor="@color/blue"
-        app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toStartOf="@+id/ediloginpassword" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.58" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.68" />
+        app:layout_constraintStart_toStartOf="@+id/guideline64"
+        app:layout_constraintTop_toBottomOf="@+id/ediloginpassword" />
 
     <Button
         android:id="@+id/btnsignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/fredoka_fonts"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_20"
         android:background="@drawable/backsignup"
+        android:fontFamily="@font/fredoka_fonts"
         android:text="@string/sign_up"
         android:textColor="@color/purple_500"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintStart_toStartOf="@+id/btnloginrecover" />
+        app:layout_constraintStart_toStartOf="@+id/guideline64"
+        app:layout_constraintTop_toBottomOf="@+id/btnloginrecover" />
 
     <Button
         android:id="@+id/btnsignin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
         android:background="@drawable/backsignin"
-        android:text="@string/sign_in"
         android:fontFamily="@font/fredoka_fonts"
+        android:text="@string/sign_in"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="@+id/ediloginpassword" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline65"
+        app:layout_constraintTop_toBottomOf="@+id/btnloginrecover" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -114,5 +94,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25"/>
+        app:layout_constraintGuide_percent="0.23" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline64"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline65"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
 </androidx.constraintlayout.widget.ConstraintLayout>
