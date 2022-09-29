@@ -93,6 +93,7 @@ class SettingsFragment : Fragment() {
     private var viewApPas: View? = null
     private var viewWallet: View? = null
     private var viewLogout: View? = null
+    private var viewSetBlock: View? = null
 
 
     //BotOomSheet change password
@@ -151,6 +152,7 @@ class SettingsFragment : Fragment() {
         viewApPas = view.findViewById(R.id.viewappas)
         viewWallet = view.findViewById(R.id.viewwallet)
         viewLogout = view.findViewById(R.id.viewlogout)
+        viewSetBlock = view.findViewById(R.id.viewSetBlock)
         getUserData()
         getUsers()
 
@@ -288,6 +290,11 @@ class SettingsFragment : Fragment() {
         txtSetStack?.text = user.stack
         txtSetWallets?.text = user.wallet
         photo = user.photo
+        if(user.status == "1"){
+            viewSetBlock?.visibility = View.GONE
+        }else{
+            viewSetBlock?.visibility = View.VISIBLE
+        }
         if (user.verify == "1") {
             imgSetGall?.visibility = View.VISIBLE
         } else {

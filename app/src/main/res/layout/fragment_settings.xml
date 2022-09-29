@@ -382,6 +382,14 @@
                 app:layout_constraintTop_toTopOf="@+id/txtsetfullname"
                 tools:ignore="ContentDescription" />
 
+            <View
+                android:id="@+id/viewSetBlock"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:background="@drawable/passerror"
+                app:layout_constraintEnd_toEndOf="@+id/usimage"
+                app:layout_constraintTop_toTopOf="@+id/guideline41" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
