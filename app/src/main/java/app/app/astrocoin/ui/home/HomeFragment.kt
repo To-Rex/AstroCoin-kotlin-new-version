@@ -513,7 +513,6 @@ class HomeFragment : Fragment() {
     }
     private fun checkInternet(){
         if (!checkInternetConnection()) {
-            Toast.makeText(requireContext(), "Internet Not Connected", Toast.LENGTH_SHORT).show()
             val dialog = Dialog(requireContext())
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setCancelable(false)
