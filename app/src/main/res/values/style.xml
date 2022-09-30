@@ -19,9 +19,9 @@
         <item name="color">@color/white</item>
         <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
-    <style name="AlertDialog">
+    <style name="AlertDialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:fontFamily">@font/fredoka_fonts</item>
-        <item name="android:background">@drawable/homecard</item>
+        <item name="background">@drawable/bottomsheetback</item>
         <item name="android:colorAccent">@color/black</item>
     </style>
     <style name="radiused">

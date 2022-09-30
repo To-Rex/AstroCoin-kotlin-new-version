@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -482,13 +483,11 @@ class HomeFragment : Fragment() {
         cld = ConnectionLiveData(application = requireActivity().application)
         cld.observe(viewLifecycleOwner) { isConnected ->
             if (!isConnected) {
-                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialog)
-                builder.setTitle("No Internet Connection")
-                builder.setMessage("Please check your internet connection")
-                builder.setPositiveButton("Ok") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                builder.show()
+                val builder = AlertDialog.Builder(context)
+                builder.setView(R.layout.alert_item)
+                val dialog = builder.create()
+                dialog.window?.decorView?.setBackgroundResource(R.drawable.homecard) // setting the background
+                dialog.show()
             }
         }
     }
