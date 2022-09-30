@@ -672,9 +672,7 @@ class SettingsFragment : Fragment() {
 
     private fun logOut() {
         //your code
-        val logOutResPonceCall = userService.userLogOut(
-            "Bearer " + sharedPreferences?.getString("token", "")
-        )
+        val logOutResPonceCall = userService.userLogOut("Bearer " + sharedPreferences?.getString("token", ""))
         logOutResPonceCall.enqueue(object : Callback<Any> {
             override fun onResponse(call: Call<Any>, response: Response<Any>) {
                 sharedPreferences?.edit()?.clear()?.apply()
