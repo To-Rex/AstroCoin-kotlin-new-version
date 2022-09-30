@@ -417,12 +417,16 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
     private void showBottomSheetDialogReadQr(String wallet) throws WriterException {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(context, R.style.custombottomsheet);
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_qrcode, null);
+        @SuppressLint("InflateParams")
+        View view = LayoutInflater.from(context).inflate(R.layout.home_bottom_qrcode, null);
         bottomSheetDialog.setContentView(view);
         ImageView imgReadQrBottom = view.findViewById(R.id.imgreadqrbottom);
         TextView txtReadQrBottom = view.findViewById(R.id.txtreadqrbottom);
         ImageView imgReadQrBottomIcon = view.findViewById(R.id.imgreadqrbottomicon);
         Button btnReadQrBottom = view.findViewById(R.id.btnreadqrbottom);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        View viewScanQrSend = view.findViewById(R.id.viewScanQrSsend);
+        viewScanQrSend.getLayoutParams().height = (int) (height * 0.25);
         if (!wallet.isEmpty()) {
             txtReadQrBottom.setText(wallet);
 
@@ -471,6 +475,10 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         TextInputEditText ediBotEndComEnt = view.findViewById(R.id.edibotdendcoment);
         Button btnBotSend = view.findViewById(R.id.btnbotsend);
         ImageView imgBotSendPaste = view.findViewById(R.id.imgbotsendpast);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        View viewSendBottom = view.findViewById(R.id.viewSendBottom);
+
+        viewSendBottom.getLayoutParams().height = (int) (height * 0.35);
 
         ediBotSendWalAdrEss.addTextChangedListener(new TextWatcher() {
             @Override

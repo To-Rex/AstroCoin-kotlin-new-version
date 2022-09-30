@@ -50,6 +50,7 @@
             app:layout_constraintGuide_percent="0.95" />
 
         <View
+            android:id="@+id/viewHomeBotQr"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_150"
             app:layout_constraintEnd_toEndOf="parent"

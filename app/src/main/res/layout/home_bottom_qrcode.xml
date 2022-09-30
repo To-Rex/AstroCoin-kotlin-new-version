@@ -124,6 +124,7 @@
                 app:layout_constraintGuide_begin="239dp" />
 
             <View
+                android:id="@+id/viewScanQrSsend"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_50"
                 app:layout_constraintEnd_toEndOf="parent"
