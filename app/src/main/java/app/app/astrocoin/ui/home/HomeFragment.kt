@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
     var bottomSheetDialogCamQr: BottomSheetDialog? = null
     var width: Int = 0
     var height: Int = 0
-    private lateinit var cld : ConnectionLiveData
+    private lateinit var cld: ConnectionLiveData
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -97,14 +97,17 @@ class HomeFragment : Fragment() {
         width = Resources.getSystem().displayMetrics.widthPixels
         height = Resources.getSystem().displayMetrics.heightPixels
 
-        sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences(
+            getString(R.string.astrocoin),
+            Context.MODE_PRIVATE
+        )
         checkInternet()
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
         }
 
-        swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY,Color.RED,Color.BLACK)
+        swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY, Color.RED, Color.BLACK)
         toLsAllFun()
 
         imgHomeReadQr!!.setOnClickListener {
@@ -145,6 +148,7 @@ class HomeFragment : Fragment() {
 
         getUserData()
     }
+
     private fun setTabTypeface(tab: TabLayout.Tab, typeface: Typeface) {
         for (i in 0 until tab.view.childCount) {
             val tabViewChild = tab.view.getChildAt(i)
@@ -178,10 +182,10 @@ class HomeFragment : Fragment() {
                         editor?.putString("user", json)
                         editor?.apply()
                         getUserData()
-                    }else{
+                    } else {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
-                }else{
+                } else {
                     Toast.makeText(requireContext(), "user not found", Toast.LENGTH_SHORT).show()
                     sharedPreferences?.edit()?.clear()?.apply()
                     startActivity(Intent(requireContext(), Login::class.java))
@@ -332,7 +336,6 @@ class HomeFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
             }
 
         })
@@ -467,6 +470,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
     private fun checkInternetConnection(): Boolean {
         val connectivityManager =
             requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -483,6 +487,7 @@ class HomeFragment : Fragment() {
         }
         return false
     }
+
     private fun checkNetworkConnection() {
         cld = ConnectionLiveData(application = requireActivity().application)
         cld.observe(viewLifecycleOwner) { isConnected ->
@@ -497,12 +502,13 @@ class HomeFragment : Fragment() {
                     dialog.dismiss()
                 }
                 dialog.show()
-            }else{
+            } else {
                 checkInternet()
             }
         }
     }
-    private fun checkInternet(){
+
+    private fun checkInternet() {
         if (!checkInternetConnection()) {
             val dialog = Dialog(requireContext())
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
