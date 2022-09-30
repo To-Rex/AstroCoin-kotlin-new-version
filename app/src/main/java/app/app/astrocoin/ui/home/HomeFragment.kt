@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -47,6 +48,8 @@ class HomeFragment : Fragment() {
     private var sharedPreferences: SharedPreferences? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     var bottomSheetDialogCamQr: BottomSheetDialog? = null
+    var width: Int = 0
+    var height: Int = 0
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -84,13 +87,16 @@ class HomeFragment : Fragment() {
         imgHomeSendWallet = view.findViewById(R.id.imghomesendwallet)
         imgHomeScanQr = view.findViewById(R.id.imghomescanqr)
 
+        width = Resources.getSystem().displayMetrics.widthPixels
+        height = Resources.getSystem().displayMetrics.heightPixels
+
         sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
 
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
-
         }
+
         swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY,Color.RED,Color.BLACK)
         toLsAllFun()
 
@@ -189,6 +195,11 @@ class HomeFragment : Fragment() {
         val txtReadQrBottom = view.findViewById<TextView>(R.id.txtreadqrbottom)
         val imgReadQrBottomIcon = view.findViewById<ImageView>(R.id.imgreadqrbottomicon)
         val btnReadQrBottom = view.findViewById<Button>(R.id.btnreadqrbottom)
+
+
+        val viewScanQrSend = view.findViewById<View>(R.id.viewScanQrSsend)
+        viewScanQrSend.layoutParams.height = (height * 0.40).toInt()
+
         if (wallet.isNotEmpty()) {
             txtReadQrBottom.text = wallet
 
@@ -256,7 +267,7 @@ class HomeFragment : Fragment() {
         bottomSheetDialogCamQr?.show()
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "MissingInflatedId")
     private fun showBottomSheetDialogSend(wallet: String) {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.home_bottom_send, null)
