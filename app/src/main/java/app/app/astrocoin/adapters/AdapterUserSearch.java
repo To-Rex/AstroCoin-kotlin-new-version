@@ -212,17 +212,24 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             new Handler().postDelayed(() -> {
                 if (doubleClick == 1) {
                     bottomSheetDialogCamQr = new BottomSheetDialog(context, R.style.custombottomsheet);
-                    @SuppressLint("InflateParams") View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
+                    @SuppressLint("InflateParams")
+                    View view = LayoutInflater.from(context).inflate(R.layout.search_bottom_sheet, null);
                     bottomSheetDialogCamQr.setContentView(view);
                     //your code here
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView txtSetFio = view.findViewById(R.id.txtSeaFio), txtSetStack = view.findViewById(R.id.txtSeaStack), txtSeaCoins = view.findViewById(R.id.txtSeaCoins), txtSeaQwName = view.findViewById(R.id.txtSeaQwName), txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
-
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
-
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
-
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin), viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus);
-                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View botPopUp = view.findViewById(R.id.botPopUp);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    TextView txtSetFio = view.findViewById(R.id.txtSeaFio),
+                            txtSetStack = view.findViewById(R.id.txtSeaStack),
+                            txtSeaCoins = view.findViewById(R.id.txtSeaCoins),
+                            txtSeaQwName = view.findViewById(R.id.txtSeaQwName),
+                            txtSeaWallets = view.findViewById(R.id.txtSeaWallets);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    ShapeableImageView imgShapeSea = view.findViewById(R.id.imgShapeSea);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+                    View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin),
+                            viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus),
+                            botPopUp = view.findViewById(R.id.botPopUp);
                     botPopUp.getLayoutParams().height = (int) (height * 0.30);
 
                     if (!dataModal.getStatus().equals("verified")) {
