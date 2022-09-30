@@ -280,6 +280,9 @@ class HomeFragment : Fragment() {
         val btnBotSend = view.findViewById<Button>(R.id.btnbotsend)
         val imgBotSendPaste = view.findViewById<ImageView>(R.id.imgbotsendpast)
 
+        val viewSendBottom = view.findViewById<View>(R.id.viewSendBottom)
+
+        viewSendBottom.layoutParams.height = (height * 0.35).toInt()
         ediBotSendWalAdrEss.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
