@@ -19,6 +19,11 @@
         <item name="color">@color/white</item>
         <item name="android:fontFamily">@font/fredoka_fonts</item>
     </style>
+    <style name="AlertDialog">
+        <item name="android:fontFamily">@font/fredoka_fonts</item>
+        <item name="android:background">@drawable/homecard</item>
+        <item name="android:colorAccent">@color/black</item>
+    </style>
     <style name="radiused">
         <item name="cornerSize">30%</item>
         <item name="android:fontFamily">@font/fredoka_fonts</item>

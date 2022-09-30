@@ -2,14 +2,18 @@ package app.app.astrocoin.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -20,6 +24,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
+import app.app.astrocoin.ConnectionLiveData
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
@@ -51,6 +56,7 @@ class HomeFragment : Fragment() {
     var bottomSheetDialogCamQr: BottomSheetDialog? = null
     var width: Int = 0
     var height: Int = 0
+    private lateinit var cld : ConnectionLiveData
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -74,6 +80,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        checkNetworkConnection()
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -92,7 +99,7 @@ class HomeFragment : Fragment() {
         height = Resources.getSystem().displayMetrics.heightPixels
 
         sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
-
+        //checkNetworkConnection()
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
@@ -467,6 +474,21 @@ class HomeFragment : Fragment() {
                         cHsk = false
                     }, 500)
                 }
+            }
+        }
+    }
+    //fun check internet connection real time
+    private fun checkNetworkConnection() {
+        cld = ConnectionLiveData(application = requireActivity().application)
+        cld.observe(viewLifecycleOwner) { isConnected ->
+            if (!isConnected) {
+                val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialog)
+                builder.setTitle("No Internet Connection")
+                builder.setMessage("Please check your internet connection")
+                builder.setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                builder.show()
             }
         }
     }
