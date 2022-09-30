@@ -19,7 +19,6 @@ import android.view.*
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.*
-import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import app.app.astrocoin.Login
 import app.app.astrocoin.R
@@ -876,15 +875,18 @@ class SettingsFragment : Fragment() {
                 mode = 0
                 lastEvent = null
             }
+
             MotionEvent.ACTION_OUTSIDE -> {
                 isOutSide = true
                 mode = 0
                 lastEvent = null
             }
+
             MotionEvent.ACTION_POINTER_UP -> {
                 mode = 0
                 lastEvent = null
             }
+
             MotionEvent.ACTION_MOVE -> if (!isOutSide) {
                 if (mode == 1) {
                     view.animate().x(event.rawX + xCoOrdinate).y(event.rawY + yCoOrdinate)

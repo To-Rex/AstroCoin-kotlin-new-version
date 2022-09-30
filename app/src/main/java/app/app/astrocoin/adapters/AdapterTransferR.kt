@@ -54,16 +54,6 @@ class AdapterTransferR(
         )
         getUserData()
 
-        if (transferRequest.status == "returned") {
-            if (transferRequest.amount == "") {
-                holder.trCoin.visibility = View.VISIBLE
-            } else {
-                imgIndex = 1
-                holder.trCoin.text = transferRequest.amount.replace(".0", "") + " ASC"
-                holder.trImage.setImageResource(R.drawable.transactionsend)
-            }
-        }
-
         if (transferRequest.status == "failed" && transferRequest.wallet_to != wallet) {
             if (transferRequest.amount == "") {
                 holder.trCoin.visibility = View.VISIBLE
@@ -72,27 +62,46 @@ class AdapterTransferR(
                 holder.trCoin.text = transferRequest.amount.replace(".0", "")  + " ASC"
                 holder.trImage.setImageResource(R.drawable.transactionfeild)
             }
-        }
+        }else{
+            if (transferRequest.status == "success" && transferRequest.wallet_to == wallet) {
+                if (transferRequest.amount == "") {
+                    holder.trCoin.visibility = View.VISIBLE
+                } else {
+                    imgIndex = 3
+                    holder.trCoin.text = "+"+transferRequest.amount.replace(".0", "")  + " ASC"
+                    holder.trImage.setImageResource(R.drawable.transactionsoucses)
+                }
 
-        if (transferRequest.status == "success" && transferRequest.wallet_to == wallet) {
-            if (transferRequest.amount == "") {
-                holder.trCoin.visibility = View.VISIBLE
-            } else {
-                imgIndex = 3
-                holder.trCoin.text = "+"+transferRequest.amount.replace(".0", "")  + " ASC"
-                holder.trImage.setImageResource(R.drawable.transactionsoucses)
+            }else{
+                if (transferRequest.status == "success" && transferRequest.wallet_to != wallet) {
+                    if (transferRequest.amount == "") {
+                        holder.trCoin.visibility = View.VISIBLE
+                    } else {
+                        imgIndex = 4
+                        holder.trCoin.text = "-"+transferRequest.amount.replace(".0", "")  + " ASC"
+                        holder.trImage.setImageResource(R.drawable.transferfeilde)
+                    }
+                }else{
+                    if (transferRequest.status == "returned") {
+                        if (transferRequest.amount == "") {
+                            holder.trCoin.visibility = View.VISIBLE
+                        } else {
+                            imgIndex = 1
+                            holder.trCoin.text = transferRequest.amount.replace(".0", "") + " ASC"
+                            holder.trImage.setImageResource(R.drawable.transactionsend)
+                        }
+                    }else{
+                        if (transferRequest.amount == "") {
+                            holder.trCoin.visibility = View.VISIBLE
+                        } else {
+                            imgIndex = 0
+                            holder.trCoin.text = transferRequest.amount.replace(".0", "") + " ASC"
+                            holder.trImage.setImageResource(R.drawable.transactionfeild)
+                        }
+                    }
+                }
             }
 
-        }
-
-        if (transferRequest.status == "success" && transferRequest.wallet_to != wallet) {
-            if (transferRequest.amount == "") {
-                holder.trCoin.visibility = View.VISIBLE
-            } else {
-                imgIndex = 4
-                holder.trCoin.text = "-"+transferRequest.amount.replace(".0", "")  + " ASC"
-                holder.trImage.setImageResource(R.drawable.transferfeilde)
-            }
         }
 
         holder.itemView.setOnClickListener {
@@ -135,8 +144,10 @@ class AdapterTransferR(
             } else {
                 txtOtTrStatus.setTextColor(Color.parseColor("#FF0000"))
             }
+            if (transferRequest.status == "returned") {
+                txtOtTrStatus.setTextColor(Color.parseColor("#FF6200EE"))
+            }
             txtOtTrStatus.text = transferRequest.status
-
 
             bottomSheetDialog.show()
         }
