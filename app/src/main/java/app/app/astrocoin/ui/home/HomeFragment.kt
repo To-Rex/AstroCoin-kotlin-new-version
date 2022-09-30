@@ -155,6 +155,7 @@ class HomeFragment : Fragment() {
         wallet = user.wallet
         balance = user.balance
         swipeRefreshLayout!!.isRefreshing = false
+        getUsers()
     }
 
     private fun getUsers() {
@@ -164,7 +165,6 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
-                    Toast.makeText(requireContext(),  response.body().toString(), Toast.LENGTH_SHORT).show()
                     if (loginResponse != null) {
                         val gson = Gson()
                         val json = gson.toJson(loginResponse)
@@ -176,7 +176,7 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
                 }else{
-                    Toast.makeText(requireContext(), "Error1", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "user not found", Toast.LENGTH_SHORT).show()
                     sharedPreferences?.edit()?.clear()?.apply()
                     startActivity(Intent(requireContext(), Login::class.java))
                     activity?.finish()
