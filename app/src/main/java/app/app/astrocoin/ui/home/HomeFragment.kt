@@ -20,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
+import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
 import app.app.astrocoin.fragments.FragmentOrder
@@ -163,6 +164,7 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call<TokenRequest>, response: Response<TokenRequest>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
+                    Toast.makeText(requireContext(),  response.body().toString(), Toast.LENGTH_SHORT).show()
                     if (loginResponse != null) {
                         val gson = Gson()
                         val json = gson.toJson(loginResponse)
@@ -170,7 +172,14 @@ class HomeFragment : Fragment() {
                         editor?.putString("user", json)
                         editor?.apply()
                         getUserData()
+                    }else{
+                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
+                }else{
+                    Toast.makeText(requireContext(), "Error1", Toast.LENGTH_SHORT).show()
+                    sharedPreferences?.edit()?.clear()?.apply()
+                    startActivity(Intent(requireContext(), Login::class.java))
+                    activity?.finish()
                 }
             }
 
