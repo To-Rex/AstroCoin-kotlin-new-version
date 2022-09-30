@@ -2,19 +2,17 @@ package app.app.astrocoin.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
+import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
@@ -100,7 +98,7 @@ class HomeFragment : Fragment() {
         height = Resources.getSystem().displayMetrics.heightPixels
 
         sharedPreferences = requireActivity().getSharedPreferences(getString(R.string.astrocoin), Context.MODE_PRIVATE)
-        //checkNetworkConnection()
+        checkInternet()
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
             getUsers()
@@ -478,17 +476,54 @@ class HomeFragment : Fragment() {
             }
         }
     }
-    //fun check internet connection real time
+    private fun checkInternetConnection(): Boolean {
+        val connectivityManager =
+            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                return true
+            }
+        }
+        return false
+    }
     private fun checkNetworkConnection() {
         cld = ConnectionLiveData(application = requireActivity().application)
         cld.observe(viewLifecycleOwner) { isConnected ->
             if (!isConnected) {
-                val builder = AlertDialog.Builder(context)
-                builder.setView(R.layout.alert_item)
-                val dialog = builder.create()
-                dialog.window?.decorView?.setBackgroundResource(R.drawable.homecard) // setting the background
+                val dialog = Dialog(requireContext())
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setCancelable(false)
+                dialog.setContentView(R.layout.alert_item)
+                val btnTryAgain = dialog.findViewById<Button>(R.id.btnAlertItemY)
+                btnTryAgain.setOnClickListener {
+                    checkInternet()
+                    dialog.dismiss()
+                }
                 dialog.show()
+            }else{
+                checkInternet()
             }
+        }
+    }
+    private fun checkInternet(){
+        if (!checkInternetConnection()) {
+            Toast.makeText(requireContext(), "Internet Not Connected", Toast.LENGTH_SHORT).show()
+            val dialog = Dialog(requireContext())
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setCancelable(false)
+            dialog.setContentView(R.layout.alert_item)
+            val btnTryAgain = dialog.findViewById<Button>(R.id.btnAlertItemY)
+            btnTryAgain.setOnClickListener {
+                checkInternet()
+                dialog.dismiss()
+            }
+            dialog.show()
         }
     }
 }

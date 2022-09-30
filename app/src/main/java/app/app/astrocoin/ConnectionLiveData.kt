@@ -23,14 +23,20 @@ class ConnectionLiveData(private val connectivityManager: ConnectivityManager) :
 
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
+            checkNetworkStatus()
             postValue(true)
         }
 
         override fun onLost(network: Network) {
             super.onLost(network)
+            checkNetworkStatus()
             postValue(false)
         }
 
+    }
+    private fun checkNetworkStatus(){
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        postValue(activeNetwork?.isConnected == true)
     }
 
     @SuppressLint("ObsoleteSdkInt")
