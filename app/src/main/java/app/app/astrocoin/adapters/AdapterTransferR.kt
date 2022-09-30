@@ -54,7 +54,7 @@ class AdapterTransferR(
         )
         getUserData()
 
-        if (transferRequest.status == "failed" && transferRequest.wallet_to == wallet) {
+        if (transferRequest.status == "returned") {
             if (transferRequest.amount == "") {
                 holder.trCoin.visibility = View.VISIBLE
             } else {

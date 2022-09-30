@@ -192,7 +192,6 @@ class SettingsFragment : Fragment() {
         }
 
         viewLogout?.setOnClickListener {
-            Toast.makeText(requireContext(), "Logout", Toast.LENGTH_SHORT).show()
             logOut()
         }
 
