@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -77,6 +78,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
     float oldDist = 1f;
     private float xCoOrdinate, yCoOrdinate;
     private int doubleClick = 0;
+    int width, height;
+
 
     public AdapterUserSearch(List<UserRequest> itemsModelSl, Context context) {
         this.itemsModelSl = itemsModelSl;
@@ -112,6 +115,9 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         TextView idTxt = listItemView.findViewById(R.id.uscoin);
         imgGall = listItemView.findViewById(R.id.imggall);
 
+        width = Resources.getSystem().getDisplayMetrics().widthPixels;
+        height = Resources.getSystem().getDisplayMetrics().heightPixels;
+
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE);
 
         ShapeableImageView courseIV = listItemView.findViewById(R.id.usimage);
@@ -139,6 +145,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             ShapeableImageView setSHapImgUser = dialog01.findViewById(R.id.setShapImgUser01);
 
             TextView qwText = dialog01.findViewById(R.id.textView901);
+            //botViewSearch.getLayoutParams().height = height / 2;
             qwText.setOnLongClickListener(v23 -> {
                 downloadImageNew("https://api.astrocoin.uz" + dataModal.getPhoto());
                 return false;
@@ -215,6 +222,8 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView imgSeaGalley = view.findViewById(R.id.imgSeaGall);
 
                     @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View viewSeaSendCoin = view.findViewById(R.id.viewSeaSendCoin), viewSeaSendStatus = view.findViewById(R.id.viewSeaSendStatus);
+                    @SuppressLint({"MissingInflatedId", "LocalSuppress"}) View botPopUp = view.findViewById(R.id.botPopUp);
+                    botPopUp.getLayoutParams().height = (int) (height * 0.30);
 
                     if (!dataModal.getStatus().equals("verified")) {
                         viewSeaSendStatus.setBackgroundResource(R.drawable.passerror);
@@ -476,7 +485,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                                 }
                             }
                         }
-
                         @Override
                         public void onFailure(@NonNull Call<Object> call, @NonNull Throwable t) {
                             if (s.toString().length() > 31) {
@@ -486,7 +494,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
                     });
                 }
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
