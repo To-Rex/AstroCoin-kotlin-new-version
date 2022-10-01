@@ -24,7 +24,6 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import app.app.astrocoin.ConnectionLiveData
-import app.app.astrocoin.Login
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.TabAdapters
 import app.app.astrocoin.fragments.FragmentOrder
@@ -185,15 +184,12 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(requireContext(), "user not found", Toast.LENGTH_SHORT).show()
-                    /*sharedPreferences?.edit()?.clear()?.apply()
-                    startActivity(Intent(requireContext(), Login::class.java))
-                    activity?.finish()*/
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error" + t.message, Toast.LENGTH_SHORT).show()
                 Handler(Looper.getMainLooper()).postDelayed(
                     {
                         swipeRefreshLayout!!.isRefreshing = false
