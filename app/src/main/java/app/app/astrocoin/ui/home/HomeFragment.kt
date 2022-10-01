@@ -186,9 +186,9 @@ class HomeFragment : Fragment() {
                     }
                 } else {
                     Toast.makeText(requireContext(), "user not found", Toast.LENGTH_SHORT).show()
-                    sharedPreferences?.edit()?.clear()?.apply()
+                    /*sharedPreferences?.edit()?.clear()?.apply()
                     startActivity(Intent(requireContext(), Login::class.java))
-                    activity?.finish()
+                    activity?.finish()*/
                 }
             }
 
