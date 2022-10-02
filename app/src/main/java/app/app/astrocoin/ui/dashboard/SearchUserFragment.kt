@@ -3,15 +3,11 @@ package app.app.astrocoin.ui.dashboard
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import app.app.astrocoin.R
 import app.app.astrocoin.adapters.AdapterUserSearch
 import app.app.astrocoin.models.UserRequest
@@ -37,16 +33,16 @@ class SearchUserFragment : Fragment() {
     var token: String? = null
     var dataModalArrayList: ArrayList<UserRequest>? = null
     var adapter: AdapterUserSearch? = null
-    var listViewsearch: ListView? = null
+    var listViewSearch: ListView? = null
     var searchProgressBar: ProgressBar? = null
-    private var usersearchView: SearchView? = null
+    private var userSearchView: SearchView? = null
     var id =
         ""
     var name: String? = ""
     var lastname: String? = ""
     var stack: String? = ""
     var photo: String? = ""
-    var qwasar: String? = ""
+    var qwaSar: String? = ""
     var status: String? = ""
     var verify: String? = ""
     var balance: String? = ""
@@ -55,17 +51,20 @@ class SearchUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences =
-            requireActivity().getSharedPreferences("astrocoin", Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(
+                requireContext().getString(R.string.astrocoin),
+                Context.MODE_PRIVATE
+            )
         dataModalArrayList = ArrayList()
-        listViewsearch = view.findViewById(R.id.listViewsearch)
-        listViewsearch?.divider = null
-        listViewsearch?.dividerHeight = 20
+        listViewSearch = view.findViewById(R.id.listViewsearch)
+        listViewSearch?.divider = null
+        listViewSearch?.dividerHeight = 20
         searchProgressBar = view.findViewById(R.id.searchprogressBar)
         adapter = AdapterUserSearch(dataModalArrayList!!, requireActivity())
         getUserData()
-        listViewsearch?.adapter = adapter
-        usersearchView = view.findViewById(R.id.usersearchView)
-        usersearchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        listViewSearch?.adapter = adapter
+        userSearchView = view.findViewById(R.id.usersearchView)
+        userSearchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
@@ -77,10 +76,12 @@ class SearchUserFragment : Fragment() {
         })
 
     }
+
     private fun getUserData() {
         token = sharedPreferences?.getString("token", "")
         getData()
     }
+
     private fun getData() {
         searchProgressBar!!.visibility = View.VISIBLE
         val call: Call<Any> = ApiClient.userService.userSearchRequest("Bearer $token")
@@ -102,16 +103,19 @@ class SearchUserFragment : Fragment() {
                         } else {
                             ""
                         }
-                        qwasar = `object`["qwasar"].asString
+                        qwaSar = `object`[requireContext().getString(R.string.qwasar)].asString
                         status = `object`["status"].asString
                         verify = `object`["verify"].asString
                         balance = `object`["balance"].asString
                         wallet = `object`["wallet"].asString
-                        dataModalArrayList!!.add(UserRequest(id, name!!, lastname!!, stack!!,
-                            photo!!, qwasar!!, status!!,verify!!, balance!!, wallet!!)
+                        dataModalArrayList!!.add(
+                            UserRequest(
+                                id, name!!, lastname!!, stack!!,
+                                photo!!, qwaSar!!, status!!, verify!!, balance!!, wallet!!
+                            )
                         )
                     }
-                    listViewsearch!!.adapter = adapter
+                    listViewSearch!!.adapter = adapter
                     searchProgressBar!!.visibility = View.GONE
                 }
             }

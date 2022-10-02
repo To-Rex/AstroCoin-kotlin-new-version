@@ -189,7 +189,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error" + t.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error connection", Toast.LENGTH_SHORT).show()
                 Handler(Looper.getMainLooper()).postDelayed(
                     {
                         swipeRefreshLayout!!.isRefreshing = false
@@ -376,12 +376,12 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
                         bottomSheetDialogCamQr?.dismiss()
                     } else {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Error connection", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<Any>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Error connection problem", Toast.LENGTH_SHORT).show()
                 }
             })
         }
