@@ -274,7 +274,7 @@ class SettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<TokenRequest>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error connection", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -761,7 +761,8 @@ class SettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Any>, t: Throwable) {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error password not changed", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
@@ -796,7 +797,7 @@ class SettingsFragment : Fragment() {
                             call: Call<ImgUpload?>, response: Response<ImgUpload?>
                         ) {
                             if (response.isSuccessful) {
-                                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(), "Image uploaded", Toast.LENGTH_SHORT)
                                     .show()
                                 getUsers()
                                 Handler(Looper.getMainLooper()).postDelayed({
@@ -804,14 +805,15 @@ class SettingsFragment : Fragment() {
                                 }, 1500)
                                 call.cancel()
                             } else {
-                                Toast.makeText(requireContext(), "Failed", Toast.LENGTH_SHORT)
+                                Toast.makeText(requireContext(), "image not uploaded", Toast.LENGTH_SHORT)
                                     .show()
                                 call.cancel()
                             }
                         }
 
                         override fun onFailure(call: Call<ImgUpload?>, t: Throwable) {
-                            Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "image not uploaded", Toast.LENGTH_SHORT)
+                                .show()
                             call.cancel()
                         }
                     })
