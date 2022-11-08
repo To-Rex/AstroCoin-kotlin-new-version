@@ -117,7 +117,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
 
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
-
         sharedPreferences = context.getSharedPreferences(context.getString(R.string.astrocoin), Context.MODE_PRIVATE);
 
         ShapeableImageView courseIV = listItemView.findViewById(R.id.usimage);
@@ -201,7 +200,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             try {
                 showBottomSheetDialogReadQr(dataModal.getWallet());
             } catch (WriterException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             }
             return false;
         });
