@@ -1,4 +1,5 @@
 package app.app.astrocoin
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,16 +30,11 @@ class Sample : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
-    /*override fun onStop() {
-        handler.postDelayed(3000) {
-            finish()
-        }
+    override fun onStop() {
+        startActivity(Intent(this, Password::class.java))
+        finish()
         super.onStop()
     }
 
-    override fun onStart() {
-        handler.removeCallbacksAndMessages(null)
-        super.onStart()
-    }*/
 
 }
