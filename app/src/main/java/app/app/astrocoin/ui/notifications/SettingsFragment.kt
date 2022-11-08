@@ -418,7 +418,7 @@ class SettingsFragment : Fragment() {
     private fun bottomSheetAppPassword() {
         bottomSheetDialogCamQr = BottomSheetDialog(requireContext(), R.style.custombottomsheet)
         val view = layoutInflater.inflate(R.layout.settings_bottom_changeapp, null)
-        bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
+        //bottomSheetDialogCamQr = BottomSheetDialog(requireContext())
         bottomSheetDialogCamQr?.setContentView(view)
         //your code
         txtBotLogName = view.findViewById(R.id.txtBotLog_Name)
