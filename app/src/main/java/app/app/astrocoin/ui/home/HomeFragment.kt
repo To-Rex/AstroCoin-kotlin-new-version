@@ -101,6 +101,7 @@ class HomeFragment : Fragment() {
         )
         checkInternet()
         swipeRefreshLayout!!.setOnRefreshListener {
+            getUsers()
             toLsAllFun()
             //getUsers()
         }
