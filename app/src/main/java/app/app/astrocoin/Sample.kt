@@ -10,7 +10,6 @@ import androidx.navigation.ui.setupWithNavController
 
 class Sample : AppCompatActivity() {
 
-    //private var handler = Handler(Looper.getMainLooper())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -35,6 +34,5 @@ class Sample : AppCompatActivity() {
         finish()
         super.onStop()
     }
-
-
+    
 }
