@@ -102,7 +102,7 @@ class HomeFragment : Fragment() {
         checkInternet()
         swipeRefreshLayout!!.setOnRefreshListener {
             toLsAllFun()
-            getUsers()
+            //getUsers()
         }
 
         swipeRefreshLayout?.setColorSchemeColors(Color.DKGRAY, Color.RED, Color.BLACK)
@@ -117,6 +117,9 @@ class HomeFragment : Fragment() {
         imgHomeScanQr!!.setOnClickListener {
             showBottomSheetDialogCamQr()
         }
+
+        getUsers()
+
     }
 
     private fun toLsAllFun() {
@@ -163,7 +166,7 @@ class HomeFragment : Fragment() {
         wallet = user.wallet
         balance = user.balance
         swipeRefreshLayout!!.isRefreshing = false
-        getUsers()
+
     }
 
     private fun getUsers() {
