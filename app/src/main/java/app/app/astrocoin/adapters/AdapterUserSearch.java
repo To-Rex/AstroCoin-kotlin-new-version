@@ -131,7 +131,6 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
         if (!dataModal.getStatus().equals("verified")) {
             viewSearchStatus.setBackgroundResource(R.drawable.passerror);
         } else {
-            //viewSearchStatus setBackgroundColor transparent
             viewSearchStatus.setBackgroundColor(Color.TRANSPARENT);
         }
 
