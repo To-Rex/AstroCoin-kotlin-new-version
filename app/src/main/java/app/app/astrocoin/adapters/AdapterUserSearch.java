@@ -201,7 +201,7 @@ public class AdapterUserSearch extends BaseAdapter implements Filterable {
             try {
                 showBottomSheetDialogReadQr(dataModal.getWallet());
             } catch (WriterException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             return false;
         });
